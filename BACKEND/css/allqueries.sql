@@ -8,6 +8,12 @@ CREATE TABLE IF NOT EXISTS Activity_coordinator (
     passwords VARCHAR(20)
 );
 
+CREATE TABLE users(
+    user_id VARCHAR(15) PRIMARY KEY,
+    email VARCHAR(30),
+    passwd VARCHAR(20)
+);
+
 -- Drop the events table if it exists
 DROP TABLE IF EXISTS events;
 

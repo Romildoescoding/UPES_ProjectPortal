@@ -8,8 +8,8 @@ const port = 3000;
 const db = new pg.Client({
   user: "postgres",
   host: "localhost",
-  database: "secrets",
-  password: "Tanishq@0512",
+  database: "login",
+  password: "ROMIL2004",
   port: 5432,
 });
 db.connect();
@@ -54,6 +54,7 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
+  console.log(req.body);
   const email = req.body.email;
   const password = req.body.password;
 
@@ -66,7 +67,7 @@ app.post("/login", async (req, res) => {
       const storedPassword = user.password;
 
       if (password === storedPassword) {
-        res.render("secrets.ejs");
+        res.json(result.rows[0]);
       } else {
         res.send("Incorrect Password");
       }
