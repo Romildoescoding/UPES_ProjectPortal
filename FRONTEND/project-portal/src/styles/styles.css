@@ -1,8 +1,6 @@
 .main {
   height: calc(100vh - 65px);
   width: 100vw;
-  background: url("/images/gradient.png");
-  background-size: cover;
   display: grid;
   place-items: center;
   z-index: -1;
@@ -25,6 +23,14 @@
   line-height: 24.2px;
   text-shadow: 0px 3px 4px #002548ab;
   /* box-shadow: 0px 4px 4px 0px #00000040; */
+}
+
+.header-span-dashboard {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 30px;
+  letter-spacing: 0.005em;
+  text-align: left;
 }
 
 .username-pill {

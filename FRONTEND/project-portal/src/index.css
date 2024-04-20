@@ -6,3 +6,60 @@
   box-sizing: border-box;
   font-family: "Inter", sans-serif;
 }
+
+body {
+  background: url("/images/gradient.png");
+  background-size: cover;
+  overflow-x: hidden;
+}
+
+.pill {
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  /* padding: 5px; */
+  max-width: 100px;
+  width: 85px;
+  border-radius: 20px;
+  /* font-family: Poppins; */
+  font-weight: 300;
+}
+
+.danger-pill {
+  color: #ee201c;
+  background: #ee201c2e;
+}
+
+.normal-pill {
+  color: #dfa510;
+  background: #e2b1332e;
+}
+
+.safe-pill {
+  color: #1a932e;
+  background: #1a932e2e;
+}
+
+/* Styles for the custom scrollbar */
+::-webkit-scrollbar {
+  width: 7.5px; /* Width of the scrollbar */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent; /* Transparent background */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  background: #0000001a; /* Color of the scrollbar handle */
+  border-radius: 5px; /* Border radius of the scrollbar handle */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #00000030; /* Color of the scrollbar handle on hover */
+}

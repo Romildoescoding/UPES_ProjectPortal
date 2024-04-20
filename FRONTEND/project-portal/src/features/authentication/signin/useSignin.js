@@ -11,10 +11,24 @@ export default function useSignin() {
       console.log("Error during Signin :==== ", err.message);
     },
     onSuccess: (user) => {
+      console.log(user);
       if (user.authenticated) {
+        // document.cookie =
+        //   "remember_email=" +
+        //   user.email +
+        //   "; expires=Sun, 1 Jan 2023 00:00:00 UTC; path=/";
+        // document.cookie =
+        //   "remember_password=" +
+        //   user.password +
+        //   "; expires=Sun, 1 Jan 2023 00:00:00 UTC; path=/";
         console.log("USER AUTHENTICATED");
         queryClient.setQueryData(["currentUser"], user);
-        navigate("/");
+        if (user.role === "student") {
+          navigate("/student");
+        }
+        if (user.role === "faculty") {
+          navigate("/faculty");
+        }
       } else {
         console.log("ACCESS DENIED!");
       }

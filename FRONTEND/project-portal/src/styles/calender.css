@@ -1,0 +1,64 @@
+.calender {
+  /* height: auto; */
+  width: calc(100%);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dashboard-heading {
+  /* font-family: Poppins; */
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.calender-days-container {
+  height: 100%;
+  width: 100%;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.calender-days-container > ul > li {
+  height: 20px;
+  width: 20px;
+  display: grid;
+  place-items: center;
+}
+
+.weeks {
+  margin-bottom: 15px;
+  color: rgba(33, 33, 33, 0.75);
+}
+
+.calender-days-container > ul {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.not-current-day {
+  color: rgba(33, 33, 33, 0.25);
+  cursor: not-allowed;
+}
+
+.current-day {
+  color: #333333;
+  cursor: pointer;
+}
+
+.today {
+  backdrop-filter: blur(20px);
+  /* border-radius: 9.75px; */
+  border-bottom: 1px solid #333;
+}
+
+.active-date {
+  background-color: #017bed;
+
+  color: white;
+  border-radius: 9.75px;
+  border-bottom: none;
+}

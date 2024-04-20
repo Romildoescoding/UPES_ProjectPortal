@@ -104,11 +104,12 @@ app.post("/login", async (req, res) => {
       const userPassword = user.passwd;
       const userEmail = user.email;
       const userId = user.user_id;
+      const role = user.role;
 
       if (password === userPassword) {
         res
           .status(200)
-          .json({ userId, userEmail, userPassword, authenticated: true });
+          .json({ userId, userEmail, userPassword, role, authenticated: true });
       } else {
         res
           .status(401)

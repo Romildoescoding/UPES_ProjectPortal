@@ -1,0 +1,63 @@
+.feedback {
+  height: 100%;
+  width: 100%;
+}
+
+.feedback-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 400;
+  color: #060606;
+}
+
+.feedback-table {
+  table-layout: fixed;
+  height: 70%;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.feedback-table thead {
+  border-bottom: 1px solid #0000001a;
+  display: block;
+  position: relative;
+  width: 100%;
+}
+
+.feedback-container {
+  height: 90%;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+.table-body {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+.feedback-row {
+  height: 40px;
+  font-size: 14px;
+  font-weight: 300;
+  width: 100%;
+}
+
+.feedback-row > th,
+.feedback-row > td {
+  min-width: 225px;
+  /* width: 33%; */
+  height: 20px;
+}
+
+th {
+  font-size: 14px;
+  font-weight: 500;
+}

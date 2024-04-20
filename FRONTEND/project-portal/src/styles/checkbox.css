@@ -1,0 +1,32 @@
+.checkbox-wrapper {
+  display: inline-block;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+  display: none;
+}
+
+.checkbox-wrapper .cbx {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1.5px solid #060606a3;
+}
+
+.checkbox-wrapper .checkbox-icon {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkbox-wrapper input[type="checkbox"]:checked + .cbx {
+  border-color: #e65f2b;
+  background: url("/images/tick-1.png");
+  background-size: contain;
+}

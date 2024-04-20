@@ -1,0 +1,32 @@
+.members {
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+}
+
+.members-container {
+  height: 90%;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+.members-table {
+  height: 100%;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.members-row {
+  height: 30px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.members-row > th {
+  color: #696672;
+}
+
+.members-table th:first-child {
+  width: 135px; /* Adjust the width as per your preference */
+}
