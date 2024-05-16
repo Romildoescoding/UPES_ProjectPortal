@@ -63,3 +63,27 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #00000030; /* Color of the scrollbar handle on hover */
 }
+
+.text-pill {
+  background-color: white;
+  width: 246px;
+  height: 42px;
+  padding: 5px 20px 5px 7px;
+  gap: 10px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.text-pill-checkbox {
+  background: url("/images/tick-1.png");
+  background-size: contain;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+
+.width-full {
+  width: 100%;
+}

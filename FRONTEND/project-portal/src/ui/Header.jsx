@@ -4,12 +4,19 @@ import { useLocation } from "react-router-dom";
 function Header() {
   const location = useLocation();
   const isDashboard = location.pathname !== "/signin";
+  const isStudent = location.pathname === "/student";
 
   return (
     <div className="header">
       <img src="/images/upes-logo.png" alt="logo" className="logo-image" />
       {isDashboard ? (
-        <span className="header-span-dashboard">Project Portal</span>
+        isStudent ? (
+          <span className="header-span-dashboard">Project Portal</span>
+        ) : (
+          <span className="header-span-dashboard">
+            Project Portal- Faculty Co-Ordinator
+          </span>
+        )
       ) : (
         <span className="header-span">Welcome to UPES Project Portal</span>
       )}

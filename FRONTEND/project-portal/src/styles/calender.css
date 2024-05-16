@@ -1,6 +1,6 @@
 .calender {
   /* height: auto; */
-  width: calc(100%);
+  width: 100%;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -13,9 +13,18 @@
   font-weight: 600;
 }
 
+.calender-days-container-div {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .calender-days-container {
   height: 100%;
   width: 100%;
+  max-width: 200px;
   font-size: 10px;
   font-weight: 500;
 }

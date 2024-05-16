@@ -242,3 +242,11 @@
 .checkbox-wrapper-17 label:active:after {
   width: 55%;
 }
+
+.alphabet-svg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}

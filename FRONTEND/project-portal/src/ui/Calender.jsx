@@ -27,47 +27,49 @@ function Calender() {
           </span>
         </div> */}
       </header>
-      <div className="calender-days-container">
-        <ul className="weeks">
-          <li>m</li>
-          <li>t</li>
-          <li>w</li>
-          <li>t</li>
-          <li>f</li>
-          <li>s</li>
-          <li>s</li>
-        </ul>
-        <ul className="days">
-          {monthDays?.map((day, i) => (
-            <li
-              className={`${
-                day.isCurrentMonth ? "current-day" : "not-current-day"
-              } ${
-                selectedDate.getDate() === day.day && day.isCurrentMonth
-                  ? "active-date "
-                  : ""
-              }
-              ${
-                new Date().getDate() === day.day && day.isCurrentMonth
-                  ? "today"
-                  : ""
-              }`}
-              key={i}
-              onClick={() => {
-                if (!day.isCurrentMonth) return;
-                setSelectedDate(
-                  new Date(
-                    new Date().getFullYear(),
-                    new Date().getMonth(),
-                    day.day
-                  )
-                );
-              }}
-            >
-              {day.day}
-            </li>
-          ))}
-        </ul>
+      <div className="calender-days-container-div">
+        <div className="calender-days-container">
+          <ul className="weeks">
+            <li>m</li>
+            <li>t</li>
+            <li>w</li>
+            <li>t</li>
+            <li>f</li>
+            <li>s</li>
+            <li>s</li>
+          </ul>
+          <ul className="days">
+            {monthDays?.map((day, i) => (
+              <li
+                className={`${
+                  day.isCurrentMonth ? "current-day" : "not-current-day"
+                } ${
+                  selectedDate.getDate() === day.day && day.isCurrentMonth
+                    ? "active-date "
+                    : ""
+                }
+            ${
+              new Date().getDate() === day.day && day.isCurrentMonth
+                ? "today"
+                : ""
+            }`}
+                key={i}
+                onClick={() => {
+                  if (!day.isCurrentMonth) return;
+                  setSelectedDate(
+                    new Date(
+                      new Date().getFullYear(),
+                      new Date().getMonth(),
+                      day.day
+                    )
+                  );
+                }}
+              >
+                {day.day}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );

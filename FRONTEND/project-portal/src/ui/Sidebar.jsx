@@ -5,12 +5,17 @@ import People from "../../public/svg/People";
 import Messages from "../../public/svg/Messages";
 import Meeting from "../../public/svg/Meeting";
 import Logout from "../../public/svg/Logout";
+import Alphabet from "../../public/svg/Alphabet";
+import { useLocation } from "react-router-dom";
 
 function Sidebar() {
+  const location = useLocation();
+  const isStudent = location.pathname === "/student";
+
   return (
     <div className="sidebar">
       <div className="sidebar-options">
-        <Whitehat />
+        {isStudent ? <Whitehat /> : <Alphabet />}
         <ul className="options-list">
           <li className="option">
             <div>

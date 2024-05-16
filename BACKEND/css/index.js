@@ -3,13 +3,60 @@ import bodyParser from "body-parser";
 import pg from "pg";
 import nodemailer from "nodemailer";
 import cors from "cors";
+import session from "express-session"; // Import session middleware
+
+// npm install connect-pg-simple
+
+// import session from "express-session";
+// import connectPgSimple from "connect-pg-simple";
+
+// const pgSession = connectPgSimple(session);
+
+// // Database connection
+// const db = new pg.Client({
+//   user: "postgres",
+//   host: "localhost",
+//   database: "login",
+//   password: "ROMIL2004",
+//   port: 5432,
+// });
+// db.connect();
+
+// app.use(
+//   session({
+//     store: new pgSession({
+//       pool: db, // Use the PostgreSQL database instance
+//       createTableIfMissing: true, // Create the session table if it doesn't exist
+//     }),
+//     secret: "Romildoescoding", // Set a secret key for session encryption
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: false },
+//   })
+// );
 
 const app = express();
 const port = 3000;
 
 //middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["POST", "GET"],
+    credentials: true,
+  })
+);
 app.use(express.json());
+
+app.use(
+  session({
+    secret: "Romildoescoding", // Set a secret key for session encryption
+    resave: false,
+    saveUninitialized: false,
+    // cookie: { secure: true, maxAge: 60000 },
+    cookie: { secure: false },
+  })
+);
 
 // Database connection
 const db = new pg.Client({
@@ -107,9 +154,16 @@ app.post("/login", async (req, res) => {
       const role = user.role;
 
       if (password === userPassword) {
-        res
-          .status(200)
-          .json({ userId, userEmail, userPassword, role, authenticated: true });
+        req.session.user = { userId, userEmail, role };
+        console.log(req.session);
+        req.session.save();
+        res.status(200).json({
+          userId,
+          userEmail,
+          userPassword,
+          role,
+          authenticated: true,
+        });
       } else {
         res
           .status(401)
@@ -124,6 +178,22 @@ app.post("/login", async (req, res) => {
     res
       .status(500)
       .json({ error: "Internal Server Error", authenticated: false }); // Send JSON response for internal server error
+  }
+});
+// const requireAuth = (req, res, next) => {
+//   if (req.session.user) {
+//     next(); // User is authenticated, proceed to the next middleware or route handler
+//   } else {
+//     res.status(401).json({ error: "Not authenticated" }); // User is not authenticated, send an error response
+//   }
+// };
+
+app.get("/authenticate", (req, res) => {
+  console.log(req.session);
+  if (!req.session.user) {
+    res.json({ user: req.session.user });
+  } else {
+    res.status(401).json({ error: "Not authenticated" });
   }
 });
 

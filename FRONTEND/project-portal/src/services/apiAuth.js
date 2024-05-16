@@ -15,3 +15,12 @@ export async function signIn({ email, password }) {
     console.log(err.message);
   }
 }
+
+export async function getUser() {
+  const res = await fetch(`${serverPort}/authenticate`, {
+    credentials: "include",
+  });
+  const data = await res.json();
+  console.log(data);
+  return data;
+}
