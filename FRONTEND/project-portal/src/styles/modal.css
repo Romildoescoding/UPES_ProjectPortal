@@ -1,0 +1,95 @@
+.modal-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1000;
+  backdrop-filter: blur(7px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-students {
+  height: 80vh;
+  width: 70vw;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.add-students-form {
+  position: relative;
+  height: 100%;
+  width: 60%;
+  /* background-color: rgb(198, 198, 198); */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.add-students-form h3 {
+  letter-spacing: -1px;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.centered-input {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+.full-length-input {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.add-students-form input {
+  height: 45px;
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.add-students-form label {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.add-students-form input:focus {
+  outline: none;
+  border-color: #b0b0b0;
+}
+
+.add-students-form input::placeholder {
+  color: #a0a0a0;
+}
+
+.btn-black {
+  height: 50px;
+  width: 150px;
+  background-color: black;
+  color: white;
+  border: none;
+}
+
+.btn-close {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: none;
+  font-size: 50px;
+  top: 0px;
+  right: -13.5vw;
+}

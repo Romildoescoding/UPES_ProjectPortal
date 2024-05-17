@@ -14,6 +14,13 @@ CREATE TABLE users(
     passwd VARCHAR(20)
 );
 
+CREATE TABLE members(
+    teamName VARCHAR(30) PRIMARY KEY,
+    member1 VARCHAR(30),
+    member2 VARCHAR(30)
+    member3 varrchar(30)
+);
+
 -- Drop the events table if it exists
 DROP TABLE IF EXISTS events;
 

@@ -7,17 +7,36 @@ import Meeting from "../../public/svg/Meeting";
 import Logout from "../../public/svg/Logout";
 import Alphabet from "../../public/svg/Alphabet";
 import { useLocation } from "react-router-dom";
+import Modal from "./Modal";
+import { useState } from "react";
+import ModalAddStudents from "../features/members/ModalAddStudents";
 
 function Sidebar() {
   const location = useLocation();
   const isStudent = location.pathname === "/student";
+  const [showModal, setShowModal] = useState("");
+
+  function handleAddMembers(id) {
+    setShowModal(id);
+  }
 
   return (
     <div className="sidebar">
+      {/*---------MODAL WINDOW--------- */}
+      {showModal && (
+        <Modal setShowModal={setShowModal}>
+          <ModalAddStudents setShowModal={setShowModal} />
+        </Modal>
+      )}
+      {/*---------MODAL WINDOW--------- */}
+
       <div className="sidebar-options">
         {isStudent ? <Whitehat /> : <Alphabet />}
         <ul className="options-list">
-          <li className="option">
+          <li
+            className="option"
+            onClick={() => handleAddMembers("Add Students")}
+          >
             <div>
               <span className="option-icon">
                 <Rectangles />

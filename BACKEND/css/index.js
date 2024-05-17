@@ -197,6 +197,30 @@ app.get("/authenticate", (req, res) => {
   }
 });
 
+app.get("/addTeam", async (req, res) => {
+  const teamName = req.body.teamName;
+  const member1 = req.body.member1;
+  const member2 = req.body.member2;
+  const member3 = req.body.member3;
+
+  try {
+    const result = await db.query(
+      "INSERT INTO teams(teamName, member1, member2,member3) VALUES ($1,$2,$3,$4)",
+      [teamName, member1, member2, member3]
+    );
+
+    res.status(200).json({
+      teamName,
+      member1,
+      member2,
+      member3,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Internal Server Error", inserted: false }); // Send JSON response for internal server error
+  }
+});
+
 // Start server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

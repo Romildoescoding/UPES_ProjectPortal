@@ -4,7 +4,6 @@ import Events from "../ui/Events";
 import Feedback from "../ui/Feedback";
 import GroupMembers from "../ui/GroupMembers";
 import Objectives from "../ui/Objectives";
-import Sidebar from "../ui/Sidebar";
 
 function Dashboard() {
   return (
