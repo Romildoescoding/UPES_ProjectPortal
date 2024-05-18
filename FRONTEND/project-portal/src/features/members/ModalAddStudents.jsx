@@ -1,13 +1,30 @@
 import { useState } from "react";
+import validateEmail from "../../helpers/emailValidate";
+import useMembers from "./useMembers";
 
 function ModalAddStudents({ setShowModal }) {
   const [team, setTeam] = useState("");
   const [member1, setMember1] = useState("");
   const [member2, setMember2] = useState("");
   const [member3, setMember3] = useState("");
+  const { addTeam, isLoading } = useMembers();
 
-  function handleSubmit() {
-    if (team === "" || 0) return;
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (
+      team === "" ||
+      !validateEmail(member1) ||
+      !validateEmail(member2) ||
+      !validateEmail(member3)
+    ) {
+      console.log("INVALID EMAILS or TEAM-NAME");
+      return;
+    } // console.log(team, member1, member2, member3);
+    addTeam({ team, member1, member2, member3 });
+    setTeam("");
+    setMember1("");
+    setMember2("");
+    setMember3("");
   }
   return (
     <div className="add-students">
@@ -15,7 +32,7 @@ function ModalAddStudents({ setShowModal }) {
         <button
           className="btn-close"
           onClick={(e) => {
-            e.preventDefault;
+            e.preventDefault();
             setShowModal("");
           }}
         >
@@ -41,7 +58,7 @@ function ModalAddStudents({ setShowModal }) {
             id="member1"
             placeholder="PARTICIPANT 1 MAIL ID"
             value={member1}
-            onChange={(e) => setTeam(e.target.value)}
+            onChange={(e) => setMember1(e.target.value)}
           />
         </div>
         <div className="full-length-input">
@@ -52,7 +69,7 @@ function ModalAddStudents({ setShowModal }) {
             id="member2"
             placeholder="PARTICIPANT 2 MAIL ID"
             value={member2}
-            onChange={(e) => setTeam(e.target.value)}
+            onChange={(e) => setMember2(e.target.value)}
           />
         </div>
         <div className="full-length-input">
@@ -63,11 +80,11 @@ function ModalAddStudents({ setShowModal }) {
             id="member3"
             placeholder="PARTICIPANT 3 MAIL ID"
             value={member3}
-            onChange={(e) => setTeam(e.target.value)}
+            onChange={(e) => setMember3(e.target.value)}
           />
         </div>
-        <button type="submit" className="btn-black">
-          SEND
+        <button type="submit" className="btn-black" disabled={isLoading}>
+          {isLoading ? "SENDING..." : "SEND"}
         </button>
       </form>
     </div>

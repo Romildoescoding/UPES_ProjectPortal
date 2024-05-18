@@ -197,8 +197,8 @@ app.get("/authenticate", (req, res) => {
   }
 });
 
-app.get("/addTeam", async (req, res) => {
-  const teamName = req.body.teamName;
+app.post("/addTeam", async (req, res) => {
+  const teamName = req.body.team;
   const member1 = req.body.member1;
   const member2 = req.body.member2;
   const member3 = req.body.member3;
@@ -210,6 +210,8 @@ app.get("/addTeam", async (req, res) => {
     );
 
     res.status(200).json({
+      res: 200,
+      status: "ok",
       teamName,
       member1,
       member2,
@@ -217,7 +219,11 @@ app.get("/addTeam", async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: "Internal Server Error", inserted: false }); // Send JSON response for internal server error
+    res.status(500).json({
+      error: "Internal Server Error",
+      inserted: false,
+      realError: err,
+    }); // Send JSON response for internal server error
   }
 });
 
