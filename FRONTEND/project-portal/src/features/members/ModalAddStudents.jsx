@@ -25,6 +25,7 @@ function ModalAddStudents({ setShowModal }) {
     setMember1("");
     setMember2("");
     setMember3("");
+    setShowModal("");
   }
   return (
     <div className="add-students">
