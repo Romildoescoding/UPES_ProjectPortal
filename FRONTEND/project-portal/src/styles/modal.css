@@ -25,7 +25,6 @@
   position: relative;
   height: 100%;
   width: 60%;
-  /* background-color: rgb(198, 198, 198); */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,7 +33,7 @@
   padding: 20px 0;
 }
 
-.add-students-form h3 {
+.add-students h3 {
   letter-spacing: -1px;
   font-size: 15px;
   font-weight: 900;
@@ -52,7 +51,7 @@
   width: 100%;
 }
 
-.add-students-form input {
+.add-students input {
   height: 45px;
   width: 100%;
   border: 1px solid #e0e0e0;
@@ -60,17 +59,17 @@
   padding: 5px;
 }
 
-.add-students-form label {
+.add-students label {
   font-size: 13px;
   font-weight: 700;
 }
 
-.add-students-form input:focus {
+.add-students input:focus {
   outline: none;
   border-color: #b0b0b0;
 }
 
-.add-students-form input::placeholder {
+.add-students input::placeholder {
   color: #a0a0a0;
 }
 

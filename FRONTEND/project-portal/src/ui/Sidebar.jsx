@@ -10,22 +10,29 @@ import { useLocation } from "react-router-dom";
 import Modal from "./Modal";
 import { useState } from "react";
 import ModalAddStudents from "../features/members/ModalAddStudents";
+import ModalRequestMentorship from "../features/members/ModalRequestMentorship";
 
 function Sidebar() {
   const location = useLocation();
   const isStudent = location.pathname === "/student";
   const [showModal, setShowModal] = useState("");
 
-  function handleAddMembers(id) {
-    setShowModal(id);
-  }
+  // function handleAddMembers(id) {
+  //   setShowModal(id);
+  // }
 
   return (
     <div className="sidebar">
       {/*---------MODAL WINDOW--------- */}
-      {showModal && (
+      {showModal === "add-students" && (
         <Modal setShowModal={setShowModal}>
           <ModalAddStudents setShowModal={setShowModal} />
+        </Modal>
+      )}
+
+      {showModal === "request-mentorship" && (
+        <Modal setShowModal={setShowModal}>
+          <ModalRequestMentorship setShowModal={setShowModal} />
         </Modal>
       )}
       {/*---------MODAL WINDOW--------- */}
@@ -35,7 +42,7 @@ function Sidebar() {
         <ul className="options-list">
           <li
             className="option"
-            onClick={() => handleAddMembers("Add Students")}
+            onClick={() => setShowModal("request-mentorship")}
           >
             <div>
               <span className="option-icon">
@@ -44,7 +51,7 @@ function Sidebar() {
               <span>Request For Mentorship</span>
             </div>
           </li>
-          <li className="option">
+          <li className="option" onClick={() => setShowModal("add-students")}>
             <div>
               <span className="option-icon">
                 <Pen />

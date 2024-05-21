@@ -227,6 +227,45 @@ app.post("/addTeam", async (req, res) => {
   }
 });
 
+app.post("/requestMentorship", async (req, res) => {
+  // const faculty = req.body.faculty;
+  const mail = req.body.facultyMail;
+
+  try {
+    const result = await db.query("SELECT * FROM users WHERE email = $1;", [
+      mail,
+    ]);
+
+    if (result.rows.length > 0) {
+      const facultyName = result.rows[0].name;
+      const facultyMail = result.rows[0].email;
+      const role = result.rows[0].role;
+
+      if (role === "faculty") {
+        res.status(200).json({
+          facultyName,
+          facultyMail,
+          isFaculty: true,
+        });
+      } else {
+        res.status(401).json({
+          error: "Details entered for is not a faculty",
+          isFaculty: false,
+        }); // Not a faculty
+      }
+    } else {
+      res.status(404).json({ error: "Faculty not found", isFaculty: false }); // Faculty not found
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      error: "Internal Server Error",
+      inserted: false,
+      realError: err,
+    }); // Send JSON response for internal server error
+  }
+});
+
 // Start server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

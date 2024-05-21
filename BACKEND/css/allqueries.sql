@@ -21,6 +21,10 @@ CREATE TABLE members(
     member3 varrchar(30)
 );
 
+INSERT INTO users(user_id, email, passwd, role, name)
+VALUES (2, 'test@gmail.com', '0987654321', 'faculty', 'TEST');
+
+
 -- Drop the events table if it exists
 DROP TABLE IF EXISTS events;
 
