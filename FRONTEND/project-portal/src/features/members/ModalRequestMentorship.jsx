@@ -1,6 +1,5 @@
 import { useState } from "react";
 import validateEmail from "../../helpers/emailValidate";
-import useMembers from "./useMembers";
 import useRequestMembership from "./useRequestMembership";
 
 function ModalRequestMentorship({ setShowModal }) {

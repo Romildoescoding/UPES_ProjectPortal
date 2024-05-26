@@ -40,25 +40,47 @@ function Sidebar() {
       <div className="sidebar-options">
         {isStudent ? <Whitehat /> : <Alphabet />}
         <ul className="options-list">
-          <li
-            className="option"
-            onClick={() => setShowModal("request-mentorship")}
-          >
-            <div>
-              <span className="option-icon">
-                <Rectangles />
-              </span>
-              <span>Request For Mentorship</span>
-            </div>
-          </li>
-          <li className="option" onClick={() => setShowModal("add-students")}>
-            <div>
-              <span className="option-icon">
-                <Pen />
-              </span>
-              <span>Add Members</span>
-            </div>
-          </li>
+          {isStudent ? (
+            <li
+              className="option"
+              onClick={() => setShowModal("request-mentorship")}
+            >
+              <div>
+                <span className="option-icon">
+                  <Rectangles />
+                </span>
+                <span>Request For Mentorship</span>
+              </div>
+            </li>
+          ) : (
+            <li className="option">
+              <div>
+                <span className="option-icon">
+                  <Rectangles />
+                </span>
+                <span>Dashboard</span>
+              </div>
+            </li>
+          )}
+          {isStudent ? (
+            <li className="option" onClick={() => setShowModal("add-students")}>
+              <div>
+                <span className="option-icon">
+                  <Pen />
+                </span>
+                <span>Add Members</span>
+              </div>
+            </li>
+          ) : (
+            <li className="option">
+              <div>
+                <span className="option-icon">
+                  <Pen />
+                </span>
+                <span>Import Students</span>
+              </div>
+            </li>
+          )}
           <li className="option">
             <div>
               <span className="option-icon">
