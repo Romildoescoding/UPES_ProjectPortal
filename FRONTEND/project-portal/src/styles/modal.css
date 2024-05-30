@@ -92,3 +92,13 @@
   top: 0px;
   right: -13.5vw;
 }
+
+.btn-colored {
+  height: 50px;
+  width: 150px;
+  font-weight: 700;
+  border-style: solid;
+  border-color: blueviolet;
+  border-width: 2px 2px 5px 2px; /* top, right, bottom, left */
+  border-radius: 15px;
+}
