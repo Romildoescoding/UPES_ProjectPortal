@@ -25,6 +25,11 @@
   border-radius: 20px;
 }
 
+.contents-top-right-faculty > div {
+  /* height: 90%; */
+  width: 90%;
+}
+
 .contents-top-left-upper {
   display: flex;
   align-items: center;

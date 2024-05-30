@@ -114,17 +114,33 @@ const projects = [
 ];
 
 function FacultyDashboard() {
-  const [numResultsToDisplay, setNumResultsToDisplay] = useState(5);
+  const [numResultsToDisplay, setNumResultsToDisplay] = useState(7);
   // const [projects, setProjects] = useState();
   const [projectsToDisplay, setProjectsToDisplay] = useState(projects);
   const tableContainerRef = useRef();
 
-  // useEffect(
-  //   function () {
-  //     console.log(tableContainerRef.current.clientHeight);
-  //   },
-  //   []
-  // );
+  useEffect(() => {
+    function calculateRowsToDisplay() {
+      const containerHeight = tableContainerRef.current.clientHeight - 130;
+      const rowHeight =
+        tableContainerRef.current.querySelector("tr").clientHeight;
+      const rowsToDisplay = Math.floor(containerHeight / rowHeight);
+      console.log(
+        containerHeight + "-----" + rowHeight + "-----" + rowsToDisplay
+      );
+
+      // setNumResultsToDisplay(rowsToDisplay);
+    }
+
+    calculateRowsToDisplay();
+    window.addEventListener("resize", calculateRowsToDisplay);
+
+    return () => window.removeEventListener("resize", calculateRowsToDisplay);
+  }, []);
+
+  // useEffect(() => {
+  //   setProjectsToDisplay(projects.slice(0, numResultsToDisplay));
+  // }, [numResultsToDisplay]);
   return (
     <>
       <div className="contents-top-left">
