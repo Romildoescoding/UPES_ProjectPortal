@@ -12,6 +12,7 @@ import { useState } from "react";
 import ModalAddStudents from "../features/members/ModalAddStudents";
 import ModalRequestMentorship from "../features/members/ModalRequestMentorship";
 import ModalGroupInitiation from "../features/members/ModalGroupinitiation";
+import ModalImportStudents from "../features/members/ModalImportStudents";
 
 function Sidebar() {
   const location = useLocation();
@@ -40,6 +41,12 @@ function Sidebar() {
       {showModal === "group-initiation" && (
         <Modal setShowModal={setShowModal}>
           <ModalGroupInitiation setShowModal={setShowModal} />
+        </Modal>
+      )}
+
+      {showModal === "import-students" && (
+        <Modal setShowModal={setShowModal}>
+          <ModalImportStudents setShowModal={setShowModal} />
         </Modal>
       )}
       {/*---------MODAL WINDOW--------- */}
@@ -79,7 +86,10 @@ function Sidebar() {
               </div>
             </li>
           ) : (
-            <li className="option">
+            <li
+              className="option"
+              onClick={() => setShowModal("import-students")}
+            >
               <div>
                 <span className="option-icon">
                   <Pen />
