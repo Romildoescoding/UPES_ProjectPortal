@@ -32,7 +32,7 @@ function Pagination({
     <div className="pagination-div">
       <ul className="pagination">
         <button
-          className="btn-arrows"
+          className="btn-arrows pagination-btn"
           onClick={() =>
             setSelectedPage((selectedPage) => {
               if (selectedPage === 1) return selectedPage;
@@ -44,7 +44,9 @@ function Pagination({
         </button>
         {pageArr.map((page) => (
           <button
-            className={`${selectedPage === page ? "selectedPage" : "pageNum"}`}
+            className={`${
+              selectedPage === page ? "selectedPage" : "pageNum"
+            } pagination-btn`}
             key={page}
             onClick={() => setSelectedPage(page)}
           >
@@ -53,7 +55,7 @@ function Pagination({
         ))}
         {
           <button
-            className="btn-arrows"
+            className="btn-arrows pagination-btn"
             onClick={() =>
               setSelectedPage((selectedPage) => {
                 if (selectedPage === maxPage) return selectedPage;

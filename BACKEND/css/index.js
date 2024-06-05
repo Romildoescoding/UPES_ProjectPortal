@@ -4,59 +4,7 @@ import pg from "pg";
 import nodemailer from "nodemailer";
 import cors from "cors";
 import session from "express-session"; // Import session middleware
-
-// npm install connect-pg-simple
-
-// import session from "express-session";
-// import connectPgSimple from "connect-pg-simple";
-
-// const pgSession = connectPgSimple(session);
-
-// // Database connection
-// const db = new pg.Client({
-//   user: "postgres",
-//   host: "localhost",
-//   database: "login",
-//   password: "ROMIL2004",
-//   port: 5432,
-// });
-// db.connect();
-
-// app.use(
-//   session({
-//     store: new pgSession({
-//       pool: db, // Use the PostgreSQL database instance
-//       createTableIfMissing: true, // Create the session table if it doesn't exist
-//     }),
-//     secret: "Romildoescoding", // Set a secret key for session encryption
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: { secure: false },
-//   })
-// );
-
-const app = express();
-const port = 3000;
-
-//middleware
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    methods: ["POST", "GET"],
-    credentials: true,
-  })
-);
-app.use(express.json());
-
-app.use(
-  session({
-    secret: "Romildoescoding", // Set a secret key for session encryption
-    resave: false,
-    saveUninitialized: false,
-    // cookie: { secure: true, maxAge: 60000 },
-    cookie: { secure: false },
-  })
-);
+import connectPgSimple from "connect-pg-simple";
 
 // Database connection
 const db = new pg.Client({
@@ -67,6 +15,45 @@ const db = new pg.Client({
   port: 5432,
 });
 db.connect();
+
+// Session store using PostgreSQL
+const pgSession = connectPgSimple(session);
+
+const app = express();
+const port = 3000;
+
+//middleware
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    methods: ["POST", "GET"],
+    credentials: true,
+  })
+);
+
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
+
+// Session configuration
+app.use(
+  session({
+    store: new pgSession({
+      pool: db, // Connection pool
+      tableName: "session", // Use another table-name than the default "session" one
+    }),
+    secret: "Romildoescoding", // Set a secret key for session encryption
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false, maxAge: 300000 }, // COOKIE would be set for 5 minutes i.e 5 * 60 * 1000
+  })
+);
+
+// Debugging middleware to log session details
+app.use((req, res, next) => {
+  console.log("Session details:", req.session);
+  next();
+});
 
 // Nodemailer transporter setup
 const transporter = nodemailer.createTransport({
@@ -150,16 +137,25 @@ app.post("/login", async (req, res) => {
       const user = result.rows[0];
       const userPassword = user.passwd;
       const userEmail = user.email;
+      const username = user.name;
       const userId = user.user_id;
       const role = user.role;
 
       if (password === userPassword) {
-        req.session.user = { userId, userEmail, role };
-        console.log(req.session);
-        req.session.save();
+        req.session.user = { userId, userEmail, role, username };
+        console.log("Session before save:", req.session);
+
+        req.session.save((err) => {
+          if (err) {
+            console.error("Session save error:", err);
+            return res.status(500).json({ error: "Session save error" });
+          }
+        });
+        console.log("Session after save:", req.session);
         res.status(200).json({
           userId,
           userEmail,
+          username,
           userPassword,
           role,
           authenticated: true,
@@ -189,12 +185,14 @@ app.post("/login", async (req, res) => {
 // };
 
 app.get("/authenticate", (req, res) => {
+  console.log("THE AUTHEnTICATE");
   console.log(req.session);
-  if (!req.session.user) {
-    res.json({ user: req.session.user });
-  } else {
-    res.status(401).json({ error: "Not authenticated" });
-  }
+  res.json(req.session);
+  // if (req.session.user) {
+  //   res.json({ user: req.session.user });
+  // } else {
+  //   res.status(401).json({ error: "Not authenticated" });
+  // }
 });
 
 app.post("/addTeam", async (req, res) => {
@@ -242,10 +240,20 @@ app.post("/requestMentorship", async (req, res) => {
       const role = result.rows[0].role;
 
       if (role === "faculty") {
+        //Adding request to another table called MentorshipRequests o structure teamID, teamName, facultyRequestsed, status
+        const { teamId, teamName } = req.body;
+        const result = await db.query(
+          "INSERT INTO mentorshipRequests(teamId, teamName, faculty, requestStatus) VALUES ($1,$2,$3,$4)",
+          [teamId, teamName, facultyName, "pending"]
+        );
+
         res.status(200).json({
           facultyName,
           facultyMail,
           isFaculty: true,
+          teamId,
+          teamName,
+          requestStatus: "pending",
         });
       } else {
         res.status(401).json({

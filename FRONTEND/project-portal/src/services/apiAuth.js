@@ -5,6 +5,7 @@ export async function signIn({ email, password }) {
     const body = { email, password };
     const res = await fetch(`${serverPort}/login`, {
       method: "POST",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
@@ -18,7 +19,8 @@ export async function signIn({ email, password }) {
 
 export async function getUser() {
   const res = await fetch(`${serverPort}/authenticate`, {
-    credentials: "include",
+    method: "GET",
+    credentials: "include", // Include credentials (cookies)
   });
   const data = await res.json();
   console.log(data);

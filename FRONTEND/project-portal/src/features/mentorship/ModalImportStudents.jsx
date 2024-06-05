@@ -1,4 +1,5 @@
 import validateEmail from "../../helpers/emailValidate";
+import Request from "./Request";
 
 const mentorshipRequests = [
   {
@@ -10,7 +11,7 @@ const mentorshipRequests = [
   {
     id: 1234,
     name: "PYTHONS",
-    leader: "Romil",
+    leader: "Dhruv",
     idea: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus enim quo aut officia, omnis odit eveniet molestias rem possimus odio mollitia excepturi aperiam laboriosam quibusdam asperiores numquam ipsa non sed?",
   },
   {
@@ -22,7 +23,7 @@ const mentorshipRequests = [
   {
     id: 1234,
     name: "PYTHONS",
-    leader: "Romil",
+    leader: "Harsh",
     idea: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus enim quo aut officia, omnis odit eveniet molestias rem possimus odio mollitia excepturi aperiam laboriosam quibusdam asperiores numquam ipsa non sed?",
   },
   {
@@ -53,25 +54,9 @@ function ModalImportStudents({ setShowModal }) {
         </button>
         <h3>IMPORT STUDENTS</h3>
         <div className="requests-div">
-          <div className="request">
-            <h1>TEAM NAME</h1>
-            <div className="request-area">
-              <span>TEAM ID</span>
-              <div className="request-text"></div>
-            </div>
-            <div className="request-area">
-              <span>TEAM LEADER</span>
-              <div className="request-text"></div>
-            </div>
-            <div className="request-area">
-              <span>PROJECT IDEA</span>
-              <div className="request-text"></div>
-            </div>
-            <div className="btn-div-import">
-              <button className="btn-black-import">ACCEPT</button>
-              <button className="btn-black-import">DECLINE</button>
-            </div>
-          </div>
+          {mentorshipRequests.map((request) => (
+            <Request request={request} key={request.id} />
+          ))}
         </div>
       </div>
     </div>

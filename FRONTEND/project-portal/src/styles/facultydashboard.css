@@ -137,7 +137,7 @@
 }
 
 .pagination li,
-button {
+.pagination-btn {
   height: 35px;
   width: 35px;
   display: flex;

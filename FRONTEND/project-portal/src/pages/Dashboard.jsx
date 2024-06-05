@@ -1,3 +1,4 @@
+import { useUser } from "../features/authentication/signin/useUser";
 import { getFormattedDate } from "../helpers/formatDate";
 import Calender from "../ui/Calender";
 import Events from "../ui/Events";
@@ -6,6 +7,9 @@ import GroupMembers from "../ui/GroupMembers";
 import Objectives from "../ui/Objectives";
 
 function Dashboard() {
+  const { data: session, isLoading } = useUser();
+  let name = session?.user?.username;
+
   return (
     <div className="contents">
       <div className="contents-top">
@@ -13,7 +17,7 @@ function Dashboard() {
           <div className="greetings-div">
             <div>
               <p className="greetings-text-sm">{getFormattedDate()}</p>
-              <p className="greetings-text-xl">Welcome back, John!</p>
+              <p className="greetings-text-xl">Welcome back, {name}!</p>
               <p className="greetings-text-sm">
                 Stay Updated In your Project Portal!
               </p>

@@ -10,9 +10,9 @@ import { useLocation } from "react-router-dom";
 import Modal from "./Modal";
 import { useState } from "react";
 import ModalAddStudents from "../features/members/ModalAddStudents";
-import ModalRequestMentorship from "../features/members/ModalRequestMentorship";
+import ModalRequestMentorship from "../features/mentorship/ModalRequestMentorship";
 import ModalGroupInitiation from "../features/members/ModalGroupinitiation";
-import ModalImportStudents from "../features/members/ModalImportStudents";
+import ModalImportStudents from "../features/mentorship/ModalImportStudents";
 
 function Sidebar() {
   const location = useLocation();

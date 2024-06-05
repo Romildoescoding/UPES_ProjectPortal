@@ -124,17 +124,27 @@
   align-items: center;
   /* justify-content: center; */
   gap: 20px;
-  padding: 40px 40px;
+  padding: 40px 10px;
 }
 
 .requests-div {
   height: 90%;
   width: 100%;
+  /* background-color: red; */
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  overflow-y: scroll;
 }
 
 .request {
-  height: 50%;
-  width: 33%;
+  height: 230px;
+  width: 300px;
+  /* max-height: 230px; */
+  /* max-width: 300px; */
+  /* width: 32%; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -165,6 +175,12 @@
   height: 30px;
   width: 60%;
   border-radius: 20px;
+  overflow: hidden;
+  font-size: 12.5px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  white-space: nowrap;
 }
 
 .btn-black-import {

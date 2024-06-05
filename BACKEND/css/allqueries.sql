@@ -17,8 +17,15 @@ CREATE TABLE users(
 CREATE TABLE members(
     teamName VARCHAR(30) PRIMARY KEY,
     member1 VARCHAR(30),
-    member2 VARCHAR(30)
-    member3 varrchar(30)
+    member2 VARCHAR(30),
+    member3 varchar(30)
+);
+
+CREATE TABLE mentorshipRequests(
+    teamId VARCHAR(30) PRIMARY KEY,
+    teamName VARCHAR(30),
+    faculty VARCHAR(30),
+    requestStatus VARCHAR(30)
 );
 
 INSERT INTO users(user_id, email, passwd, role, name)

@@ -13,14 +13,6 @@ export default function useSignin() {
     onSuccess: (user) => {
       console.log(user);
       if (user.authenticated) {
-        // document.cookie =
-        //   "remember_email=" +
-        //   user.email +
-        //   "; expires=Sun, 1 Jan 2023 00:00:00 UTC; path=/";
-        // document.cookie =
-        //   "remember_password=" +
-        //   user.password +
-        //   "; expires=Sun, 1 Jan 2023 00:00:00 UTC; path=/";
         console.log("USER AUTHENTICATED");
         queryClient.setQueryData(["currentUser"], user);
         if (user.role === "student") {

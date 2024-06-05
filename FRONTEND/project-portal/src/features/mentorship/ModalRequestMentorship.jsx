@@ -5,16 +5,16 @@ import useRequestMembership from "./useRequestMembership";
 function ModalRequestMentorship({ setShowModal }) {
   const [faculty, setFaculty] = useState("");
   const [facultyMail, setFacultyMail] = useState("");
-
+  const { teamId, teamName } = { teamId: 1, teamName: "PYTHONS" };
   const { requestMentorship, isLoading } = useRequestMembership();
 
   function handleSubmit(e) {
     e.preventDefault();
     if (faculty === "" || !validateEmail(facultyMail)) {
-      console.log("INVALID EMAILS or TEAM-NAME");
+      console.log("INVALID FIELDS");
       return;
     }
-    requestMentorship({ faculty, facultyMail });
+    requestMentorship({ faculty, facultyMail, teamId, teamName });
     setFaculty("");
     setFacultyMail("");
     setShowModal("");
