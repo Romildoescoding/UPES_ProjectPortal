@@ -195,7 +195,7 @@ app.get("/authenticate", (req, res) => {
   // }
 });
 
-app.post("/addTeam", async (req, res) => {
+app.post("/addMembers", async (req, res) => {
   const teamName = req.body.team;
   const member1 = req.body.member1;
   const member2 = req.body.member2;
@@ -222,6 +222,55 @@ app.post("/addTeam", async (req, res) => {
       inserted: false,
       realError: err,
     }); // Send JSON response for internal server error
+  }
+});
+
+app.post("/addTeam", async (req, res) => {
+  const teamName = req.body.teamName;
+  const leader = req.body.leader;
+  const leaderSap = req.body.leaderSap;
+  const leaderMail = req.body.leaderMail;
+
+  // const { teamName, leader, leaderMail, leaderSap } = req.body;
+
+  try {
+    const result = await db.query(
+      "INSERT INTO teams(teamName, leader, member1, member2, member3) VALUES ($1,$2,$3,$4,$5)",
+      [teamName, leader, null, null, null]
+    );
+
+    res.status(200).json({
+      res: 200,
+      status: "ok",
+      teamName,
+      leader,
+      leaderSap,
+      leaderMail,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      error: "Internal Server Error",
+      inserted: false,
+      realError: err,
+    }); // Send JSON response for internal server error
+  }
+});
+
+app.post("/getTeam", async (req, res) => {
+  console.log("THE USERNAME IS :=", req.body.username);
+  console.log(req.body);
+
+  const username = req.body.username;
+
+  try {
+    const result = await db.query(
+      "SELECT * FROM teams WHERE leader = $1 OR member1 = $1 or member2 = $1 OR member3 = $1;",
+      [username]
+    );
+    console.log("Query Result of getTeam:", result.rows);
+  } catch (err) {
+    console.log(err);
   }
 });
 

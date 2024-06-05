@@ -14,8 +14,9 @@ CREATE TABLE users(
     passwd VARCHAR(20)
 );
 
-CREATE TABLE members(
+CREATE TABLE teams(
     teamName VARCHAR(30) PRIMARY KEY,
+    leader VARCHAR(30) NOT NULL,
     member1 VARCHAR(30),
     member2 VARCHAR(30),
     member3 varchar(30)

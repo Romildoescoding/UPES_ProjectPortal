@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 // import emailjs from "@emailjs/browser";
+import useTeam from "./useTeam";
 import validateEmail from "../../helpers/emailValidate";
 
 function ModalGroupInitiation({ setShowModal }) {
+  const { addTeam, isLoading } = useTeam();
   const [team, setTeam] = useState("");
   const [member1, setMember1] = useState("");
   const [sapmember1, setsapMember1] = useState("");
   const [emailmember1, setEmailmember1] = useState(""); // Renamed to avoid duplication
-  const [isLoading, setIsLoading] = useState(false); // Added loading state
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -17,19 +18,18 @@ function ModalGroupInitiation({ setShowModal }) {
       return;
     }
 
-    // Placeholder for addTeam function - implement as needed
-    // addTeam({ team, member1, sapmember1, emailmember1 });
+    addTeam({
+      teamName: team,
+      leader: member1,
+      leaderSap: sapmember1,
+      leaderMail: emailmember1,
+    });
 
+    setShowModal("");
     setTeam("");
     setMember1("");
     setsapMember1("");
     setEmailmember1("");
-    setIsLoading(true); // Indicate loading start
-    setTimeout(() => {
-      // Simulate async operation
-      setIsLoading(false); // Reset loading state after simulating async operation
-      setShowModal(false);
-    }, 2000); // Adjust timeout as needed
   }
 
   return (

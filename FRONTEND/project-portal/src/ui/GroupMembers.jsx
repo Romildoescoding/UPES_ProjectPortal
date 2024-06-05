@@ -1,6 +1,14 @@
 import "../styles/groupmembers.css";
+import { useUser } from "../features/authentication/signin/useUser";
+import useTeamInformation from "../features/members/useTeamInformation";
 
 function GroupMembers() {
+  const { data: session, isLoading } = useUser();
+  const name = session?.user?.username;
+
+  const { team, isLoading2 } = useTeamInformation(name);
+  console.log("THE TEAM IS --------------------------");
+  console.log(team);
   return (
     <div className="members">
       <span className="dashboard-heading">Group Members</span>

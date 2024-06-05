@@ -27,3 +27,19 @@ export async function requestMentorship(faculty) {
     console.log(err);
   }
 }
+
+export async function getTeam(username) {
+  console.log("USERNAME passsed to getTEAM is:=> ");
+  console.log(username);
+  try {
+    const res = await fetch(`${serverPort}/getTeam`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username }),
+    });
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
