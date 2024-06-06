@@ -1,14 +1,14 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { getTeam } from "../../services/apiMembers";
+import { useUser } from "../authentication/signin/useUser";
 
 export default function useTeamInformation(username) {
-  // console.log("USERNAME passed here is:=", username); // Uncomment if needed
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryFn: () => {
-      console.log("THE USERNAME IN THE QUERYFN IS:", username);
       return getTeam(username);
     },
     queryKey: ["team"],
+    initialData: [], // Provide an empty array as initial data
   });
-  return { data, isLoading };
+  return { data, isLoading, refetch };
 }

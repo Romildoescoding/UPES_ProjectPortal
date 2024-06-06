@@ -260,6 +260,7 @@ app.post("/addTeam", async (req, res) => {
 app.post("/getTeam", async (req, res) => {
   console.log("THE REQ-BODY IS :=", req.body);
   console.log(req.body.username);
+  console.log(req.session?.user?.username);
 
   let username = req.body.username;
   username =

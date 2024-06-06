@@ -29,9 +29,9 @@ export async function requestMentorship(faculty) {
 }
 
 export async function getTeam(username) {
-  // const username = "Romil";
-  console.log("USERNAME passsed to getTEAM is:=> ");
-  console.log(username);
+  // // const username = "Romil";
+  // console.log("USERNAME passsed to getTEAM is:=> ");
+  // console.log(username);
   try {
     const res = await fetch(`${serverPort}/getTeam`, {
       method: "POST",

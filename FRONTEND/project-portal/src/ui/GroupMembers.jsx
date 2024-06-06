@@ -1,15 +1,25 @@
 import "../styles/groupmembers.css";
 import { useUser } from "../features/authentication/signin/useUser";
 import useTeamInformation from "../features/members/useTeamInformation";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 function GroupMembers() {
   const { data: session, isLoading } = useUser();
-  const username = session?.user?.username || "Romil";
-  console.log(username);
+  const username = session?.user?.username;
+  // console.log(username);
 
-  const { data, isLoading2 } = useTeamInformation({ username });
-  console.log("THE TEAM IS --------------------------");
-  console.log(data);
+  const { data, isLoading2, refetch } = useTeamInformation({ username });
+
+  useEffect(
+    function () {
+      refetch();
+    },
+    [username, refetch]
+  );
+
+  // console.log("THE TEAM IS --------------------------");
+  // console.log(data);
   return (
     <div className="members">
       <span className="dashboard-heading">Group Members</span>
