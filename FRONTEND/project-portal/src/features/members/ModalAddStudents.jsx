@@ -7,20 +7,20 @@ function ModalAddStudents({ setShowModal }) {
   const [member1, setMember1] = useState("");
   const [member2, setMember2] = useState("");
   const [member3, setMember3] = useState("");
-  const { addTeam, isLoading } = useMembers();
+  const { addMembers, isLoading } = useMembers();
 
   function handleSubmit(e) {
     e.preventDefault();
     if (
-      team === "" ||
-      !validateEmail(member1) ||
-      !validateEmail(member2) ||
-      !validateEmail(member3)
+      team === ""
+      //|| !validateEmail(member1) ||
+      // !validateEmail(member2) ||
+      // !validateEmail(member3)
     ) {
       console.log("INVALID EMAILS or TEAM-NAME");
       return;
     } // console.log(team, member1, member2, member3);
-    addTeam({ team, member1, member2, member3 });
+    addMembers({ team, member1, member2, member3 });
     setTeam("");
     setMember1("");
     setMember2("");

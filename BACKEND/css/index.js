@@ -73,10 +73,6 @@ app.get("/", (req, res) => {
   res.render("home.ejs");
 });
 
-// app.get("/login", (req, res) => {
-//   res.render("login.ejs");
-// });
-
 app.get("/register", (req, res) => {
   res.render("register.ejs");
 });
@@ -196,6 +192,7 @@ app.get("/authenticate", (req, res) => {
 });
 
 app.post("/addMembers", async (req, res) => {
+  console.log(req.body);
   const teamName = req.body.team;
   const member1 = req.body.member1;
   const member2 = req.body.member2;
@@ -203,8 +200,8 @@ app.post("/addMembers", async (req, res) => {
 
   try {
     const result = await db.query(
-      "INSERT INTO teams(teamName, member1, member2,member3) VALUES ($1,$2,$3,$4)",
-      [teamName, member1, member2, member3]
+      "UPDATE teams SET member1 = $1, member2 = $2, member3 = $3 WHERE teamName = $4",
+      [member1, member2, member3, teamName]
     );
 
     res.status(200).json({

@@ -29,6 +29,11 @@ CREATE TABLE mentorshipRequests(
     requestStatus VARCHAR(30)
 );
 
+UPDATE teams
+SET member1 = 'TEST', member2 = 'TEST2', member3 = 'TEST3'
+WHERE teamName = 'PYTHONS';
+
+
 INSERT INTO users(user_id, email, passwd, role, name)
 VALUES (2, 'test@gmail.com', '0987654321', 'faculty', 'TEST');
 
