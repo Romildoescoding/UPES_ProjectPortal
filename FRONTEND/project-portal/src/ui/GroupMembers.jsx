@@ -9,7 +9,7 @@ function GroupMembers() {
   const username = session?.user?.username;
   // console.log(username);
 
-  const { data, isLoading2, refetch } = useTeamInformation({ username });
+  const { data: team, isLoading2, refetch } = useTeamInformation({ username });
 
   useEffect(
     function () {
@@ -34,40 +34,24 @@ function GroupMembers() {
           </thead>
           <tbody>
             <tr className="members-row">
-              <td>{isLoading2 ? "LOADING..." : "Romil"}</td>
+              <td>{team?.leader}</td>
               <td>0987654321</td>
               <td>Group Lead</td>
             </tr>
             <tr className="members-row">
-              <td>Romil Rajrana</td>
-              <td>0987654321</td>
-              <td>Group Lead</td>
+              <td>{team?.member1}</td>
+              <td>{9876543210}</td>
+              <td>{"Member"}</td>
             </tr>
             <tr className="members-row">
-              <td>Romil Rajrana</td>
-              <td>0987654321</td>
-              <td>Group Lead</td>
+              <td>{team?.member2}</td>
+              <td>{9876543210}</td>
+              <td>{"Member"}</td>
             </tr>
             <tr className="members-row">
-              <td>Romil Rajrana</td>
-              <td>0987654321</td>
-              <td>Group Lead</td>
-            </tr>
-            <tr className="members-row">
-              <td>Romil Rajrana</td>
-              <td>0987654321</td>
-              <td>Member</td>
-            </tr>
-            <tr className="members-row">
-              <td>Romil Rajrana</td>
-              <td>0987654321</td>
-              <td>Member</td>
-            </tr>
-
-            <tr className="members-row">
-              <td>Romil Rajrana</td>
-              <td>0987654321</td>
-              <td>Member</td>
+              <td>{team?.member3}</td>
+              <td>{9876543210}</td>
+              <td>{"Member"}</td>
             </tr>
           </tbody>
         </table>
