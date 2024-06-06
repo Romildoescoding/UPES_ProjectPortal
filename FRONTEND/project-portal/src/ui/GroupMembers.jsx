@@ -4,11 +4,12 @@ import useTeamInformation from "../features/members/useTeamInformation";
 
 function GroupMembers() {
   const { data: session, isLoading } = useUser();
-  const name = session?.user?.username;
+  const username = session?.user?.username || "Romil";
+  console.log(username);
 
-  const { team, isLoading2 } = useTeamInformation(name);
+  const { data, isLoading2 } = useTeamInformation({ username });
   console.log("THE TEAM IS --------------------------");
-  console.log(team);
+  console.log(data);
   return (
     <div className="members">
       <span className="dashboard-heading">Group Members</span>
@@ -23,7 +24,7 @@ function GroupMembers() {
           </thead>
           <tbody>
             <tr className="members-row">
-              <td>Romil Rajrana</td>
+              <td>{isLoading2 ? "LOADING..." : "Romil"}</td>
               <td>0987654321</td>
               <td>Group Lead</td>
             </tr>

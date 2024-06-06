@@ -45,7 +45,7 @@ app.use(
     secret: "Romildoescoding", // Set a secret key for session encryption
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, maxAge: 300000 }, // COOKIE would be set for 5 minutes i.e 5 * 60 * 1000
+    cookie: { secure: false, maxAge: 1800000 }, // COOKIE would be set for 30 minutes i.e 30 * 60 * 1000
   })
 );
 
@@ -258,19 +258,27 @@ app.post("/addTeam", async (req, res) => {
 });
 
 app.post("/getTeam", async (req, res) => {
-  console.log("THE USERNAME IS :=", req.body.username);
-  console.log(req.body);
+  console.log("THE REQ-BODY IS :=", req.body);
+  console.log(req.body.username);
 
-  const username = req.body.username;
-
+  let username = req.body.username;
+  username =
+    username?.slice(0, 1)?.toUpperCase() + username?.slice(1)?.toLowerCase();
   try {
     const result = await db.query(
       "SELECT * FROM teams WHERE leader = $1 OR member1 = $1 or member2 = $1 OR member3 = $1;",
       [username]
     );
     console.log("Query Result of getTeam:", result.rows);
+    if (result.rows.length > 0) {
+      res.status(200).json({ res: 200, status: "ok", ...result.rows[0] });
+    }
   } catch (err) {
-    console.log(err);
+    res.status(500).json({
+      error: "Internal Server Error",
+      inserted: false,
+      realError: err,
+    }); // Send JSON response for internal server error
   }
 });
 
