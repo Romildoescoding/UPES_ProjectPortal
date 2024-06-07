@@ -1,8 +1,12 @@
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { addTeam as addTeamApi } from "../../services/apiMembers";
 
 export default function useTeam() {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   const { mutate: addTeam, isLoading } = useMutation({
     mutationFn: addTeamApi,
     // mutationKey: ["team"],
@@ -11,7 +15,7 @@ export default function useTeam() {
     },
     onSuccess: (team) => {
       console.log(team);
-      queryClient.setQueryData(["team"], team);
+      queryClient.setQueryData("team", team);
     },
   });
   return { addTeam, isLoading };

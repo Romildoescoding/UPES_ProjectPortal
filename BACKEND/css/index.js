@@ -204,13 +204,14 @@ app.post("/addMembers", async (req, res) => {
       [member1, member2, member3, teamName]
     );
 
+    const teamData = await db.query("SELECT * FROM teams WHERE teamName = $1", [
+      teamName,
+    ]);
+
     res.status(200).json({
       res: 200,
       status: "ok",
-      teamName,
-      member1,
-      member2,
-      member3,
+      ...teamData.rows[0],
     });
   } catch (err) {
     console.log(err);

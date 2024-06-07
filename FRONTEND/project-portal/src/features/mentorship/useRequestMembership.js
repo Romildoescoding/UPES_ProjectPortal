@@ -1,8 +1,12 @@
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { requestMentorship as requestMentorshipApi } from "../../services/apiMembers";
 
 export default function useRequestMembership() {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   const { mutate: requestMentorship, isLoading } = useMutation({
     mutationFn: requestMentorshipApi,
     onError: (err) => {
@@ -10,7 +14,7 @@ export default function useRequestMembership() {
     },
     onSuccess: (faculty) => {
       console.log(faculty);
-      queryClient.setQueryData(["requested"], faculty);
+      queryClient.setQueryData("requested", faculty);
     },
   });
   return { requestMentorship, isLoading };
