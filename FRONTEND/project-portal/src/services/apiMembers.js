@@ -59,3 +59,17 @@ export async function addMembers(team) {
     console.log(err);
   }
 }
+
+export async function getRequests(faculty) {
+  try {
+    const res = await fetch(`${serverPort}/getRequests`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(faculty),
+    });
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}

@@ -1,5 +1,7 @@
 import validateEmail from "../../helpers/emailValidate";
+import { useUser } from "../authentication/signin/useUser";
 import Request from "./Request";
+import useRequests from "./useRequests";
 
 const mentorshipRequests = [
   {
@@ -40,6 +42,10 @@ const mentorshipRequests = [
   },
 ];
 function ModalImportStudents({ setShowModal }) {
+  const { data: session, isLoading } = useUser();
+  const username = session?.user?.username;
+  const { data, isLoading2 } = useRequests({ username });
+  console.log(data);
   return (
     <div className="add-students">
       <div className="import-students-div">

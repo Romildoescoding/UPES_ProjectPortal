@@ -330,6 +330,32 @@ app.post("/requestMentorship", async (req, res) => {
   }
 });
 
+app.post("/getRequests", async (req, res) => {
+  // const faculty = req.body.faculty;
+  const faculty = req.body.username;
+
+  try {
+    const result = await db.query(
+      "SELECT * FROM mentorshipRequests WHERE faculty = $1;",
+      [faculty]
+    );
+
+    if (result.rows.length > 0) {
+      res.status(200).json({ ...result.rows });
+    } // Not a faculty
+    else {
+      res.status(404).json({ error: "No requests found", isFaculty: false }); // Faculty not found
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      error: "Internal Server Error",
+      inserted: false,
+      realError: err,
+    }); // Send JSON response for internal server error
+  }
+});
+
 // Start server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
