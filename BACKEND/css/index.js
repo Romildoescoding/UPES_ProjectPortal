@@ -356,6 +356,26 @@ app.post("/getRequests", async (req, res) => {
   }
 });
 
+app.post("/handleRequests", async (req, res) => {
+  console.log(req.body);
+  const { requestStatus, teamid } = req.body;
+  try {
+    await db.query(
+      "UPDATE mentorshipRequests SET requestStatus = $1 WHERE teamid = $2",
+      [requestStatus, teamid]
+    );
+
+    res.status(200).json(req.body);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      error: "Internal Server Error",
+      inserted: false,
+      realError: err,
+    }); // Send JSON response for internal server error
+  }
+});
+
 // Start server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

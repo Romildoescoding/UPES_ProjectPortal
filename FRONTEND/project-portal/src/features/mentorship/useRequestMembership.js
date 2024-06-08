@@ -14,7 +14,7 @@ export default function useRequestMembership() {
     },
     onSuccess: (faculty) => {
       console.log(faculty);
-      queryClient.setQueryData("requested", faculty);
+      queryClient.setQueryData(["requested"], faculty);
     },
   });
   return { requestMentorship, isLoading };

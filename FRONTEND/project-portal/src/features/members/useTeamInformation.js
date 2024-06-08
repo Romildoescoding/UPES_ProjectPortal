@@ -7,7 +7,7 @@ export default function useTeamInformation(username) {
     queryFn: () => {
       return getTeam(username);
     },
-    queryKey: "team",
+    queryKey: ["team"],
     initialData: [], // Provide an empty array as initial data
   });
   return { data, isLoading, refetch };

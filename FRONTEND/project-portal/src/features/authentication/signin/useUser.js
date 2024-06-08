@@ -5,7 +5,7 @@ export function useUser() {
   const queryClient = useQueryClient();
   const { data, isLoading } = useQuery({
     queryFn: getUser,
-    queryKey: "user",
+    queryKey: ["user"],
   });
 
   console.log(data);

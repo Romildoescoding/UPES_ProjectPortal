@@ -8,6 +8,26 @@ CREATE TABLE IF NOT EXISTS Activity_coordinator (
     passwords VARCHAR(20)
 );
 
+CREATE TABLE IF NOT EXISTS students (
+    sapid VARCHAR(10) PRIMARY KEY NOT NULL,
+    rollno VARCHAR(30) NOT NULL,
+    username VARCHAR(30) NOT NULL,
+    contact VARCHAR(30) NOT NULL,
+    email VARCHAR(40) NOT NULL,
+    passwords VARCHAR(16) NOT NULL,
+    program VARCHAR(30) NOT NULL,
+    batch VARCHAR(10) NOT NULL
+);
+
+INSERT INTO students (sapid, rollno, username, contact, email, passwords, program, batch)
+VALUES
+  ('500104444','R2142220444','Test','8765432109','Test.104444@stu.upes.ac.in','1234567890','B.Tech CSE GG','B3'),
+  ('500109999', 'R2142220999', 'Dhruv', '1234567891', 'Dhruv.109876@stu.upes.ac.in', '1234567890', 'B.Tech CSE', 'B3'),
+  ('500111111', 'R2142221111', 'Sajan', '9876543212', 'Sajan.107001.student@stu.upes.ac.in', '1234567890', 'B.Tech IT', 'B2'),
+  ('500122222', 'R2142222222', 'Satyam', '1122334455', 'Satyam.106033@stu.upes.ac.in', '1234567890', 'B.Tech CSE', 'B1')
+;
+
+
 CREATE TABLE users(
     user_id VARCHAR(15) PRIMARY KEY,
     email VARCHAR(30),

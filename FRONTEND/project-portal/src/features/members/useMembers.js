@@ -10,7 +10,7 @@ export default function useMembers() {
     },
     onSuccess: (team) => {
       // console.log(team);
-      queryClient.setQueryData("team", team);
+      queryClient.setQueryData(["team"], team);
     },
   });
   return { addMembers, isLoading };

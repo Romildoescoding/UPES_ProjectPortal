@@ -190,7 +190,7 @@
 
 .btn-black-import {
   height: 30px;
-  padding: 5px;
+  padding: 5px 5px;
   width: auto;
   font-size: 12.5px;
   background-color: black;
@@ -198,6 +198,15 @@
   border: none;
   border-radius: 20px;
   cursor: pointer;
+}
+
+.btn-black-import:active,
+.btn-black:active,
+.btn-close:active,
+.btn-colored:active,
+.btn-close-import:active {
+  transform: scale(1.1);
+  transition: all 0.3s;
 }
 
 .btn-div-import {

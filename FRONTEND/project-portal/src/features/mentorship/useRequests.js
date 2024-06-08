@@ -1,6 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getRequests } from "../../services/apiMembers";
-// import { getUser } from "../../../services/apiAuth";
 
 export default function useRequests(username) {
   const queryClient = useQueryClient();

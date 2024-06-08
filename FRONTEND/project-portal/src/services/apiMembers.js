@@ -73,3 +73,17 @@ export async function getRequests(faculty) {
     console.log(err);
   }
 }
+
+export async function handleRequests(request) {
+  try {
+    const res = await fetch(`${serverPort}/handleRequests`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(request),
+    });
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
