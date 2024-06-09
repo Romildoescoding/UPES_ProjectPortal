@@ -26,7 +26,10 @@ function Pagination({ numResultsToDisplay, projects, setProjectsToDisplay }) {
     );
   }
   return (
-    <div className="pagination-div">
+    <div
+      className="pagination-div"
+      style={{ display: numResultsToDisplay >= projects.length ? "none" : "" }}
+    >
       <ul className="pagination">
         <button
           className="btn-arrows pagination-btn"

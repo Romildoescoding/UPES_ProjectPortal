@@ -14,8 +14,8 @@ function TextPill({ text, width, height, isHeading }) {
           <div
             className="text-pill-checkbox"
             style={{
-              width: height ? height - 10 : 0,
-              height: height ? height - 10 : 0,
+              width: `${height - 10}px`,
+              height: `${height - 10}px`,
             }}
           ></div>
           <span>{text}</span>

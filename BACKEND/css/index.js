@@ -45,7 +45,7 @@ app.use(
     secret: "Romildoescoding", // Set a secret key for session encryption
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, maxAge: 1800000 }, // COOKIE would be set for 30 minutes i.e 30 * 60 * 1000
+    cookie: { secure: false, maxAge: 30000 }, // COOKIE would be set for 30 minutes i.e 30 * 60 * 1000
   })
 );
 
