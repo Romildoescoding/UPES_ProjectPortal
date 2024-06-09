@@ -39,7 +39,9 @@ CREATE TABLE teams(
     leader VARCHAR(30) NOT NULL,
     member1 VARCHAR(30),
     member2 VARCHAR(30),
-    member3 varchar(30)
+    member3 varchar(30),
+    projectidea TEXT,
+    mentor varchar(30)
 );
 
 CREATE TABLE mentorshipRequests(

@@ -2,11 +2,8 @@ import { useEffect, useState } from "react";
 import BackwardArrows from "../../public/svg/BackwardArrows";
 import ForwardArrows from "../../public/svg/ForwardArrows";
 
-function Pagination({
-  numResultsToDisplay = 10,
-  projects,
-  setProjectsToDisplay,
-}) {
+function Pagination({ numResultsToDisplay, projects, setProjectsToDisplay }) {
+  console.log(numResultsToDisplay);
   const [selectedPage, setSelectedPage] = useState(1);
   const pageNum = projects.length;
   const maxPage = Math.floor(pageNum / numResultsToDisplay) + 1;

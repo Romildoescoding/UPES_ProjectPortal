@@ -3,7 +3,7 @@ import Events from "../ui/Events";
 import "../styles/facultydashboard.css";
 import { getFormattedDate } from "../helpers/formatDate";
 import TextPill from "../ui/TextPill";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Pagination from "../ui/Pagination";
 
 //DEMO PROJECTS OR DATA
@@ -114,10 +114,10 @@ const projects = [
 ];
 
 function FacultyDashboard() {
-  const [numResultsToDisplay, setNumResultsToDisplay] = useState(7);
+  const [numResultsToDisplay, setNumResultsToDisplay] = useState(5);
   // const [projects, setProjects] = useState();
   const [projectsToDisplay, setProjectsToDisplay] = useState(projects);
-  const tableContainerRef = useRef();
+  const tableContainerRef = useRef(null);
 
   useEffect(() => {
     function calculateRowsToDisplay() {
@@ -125,22 +125,19 @@ function FacultyDashboard() {
       const rowHeight =
         tableContainerRef.current.querySelector("tr").clientHeight;
       const rowsToDisplay = Math.floor(containerHeight / rowHeight);
-      console.log(
-        containerHeight + "-----" + rowHeight + "-----" + rowsToDisplay
-      );
-
-      // setNumResultsToDisplay(rowsToDisplay);
+      setNumResultsToDisplay(rowsToDisplay);
     }
 
-    calculateRowsToDisplay();
-    window.addEventListener("resize", calculateRowsToDisplay);
+    // THE HEIGHT IS CALCULATED AFTER EVERYTHING IS LOADED ON THE APP, ELSE IT RESULTS IN FALSE HEIGHT CALCULATION
+    window.onload = calculateRowsToDisplay;
 
-    return () => window.removeEventListener("resize", calculateRowsToDisplay);
+    // Recalculate rows whenever the window is resized
+    window.addEventListener("resize", calculateRowsToDisplay);
+    return () => {
+      window.removeEventListener("resize", calculateRowsToDisplay);
+    };
   }, []);
 
-  // useEffect(() => {
-  //   setProjectsToDisplay(projects.slice(0, numResultsToDisplay));
-  // }, [numResultsToDisplay]);
   return (
     <>
       <div className="contents-top-left">
@@ -198,7 +195,7 @@ function FacultyDashboard() {
           </table>
           {/* PAGINATION */}
           <Pagination
-            numResultsToDisplay={numResultsToDisplay}
+            numResultsToDisplay={numResultsToDisplay - 1}
             projects={projects}
             setProjectsToDisplay={setProjectsToDisplay}
           />

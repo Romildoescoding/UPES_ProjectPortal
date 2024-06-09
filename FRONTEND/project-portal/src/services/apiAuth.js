@@ -2,7 +2,12 @@ import { serverPort } from "../helpers/backendApi";
 
 export async function signIn({ email, password }) {
   try {
-    const body = { email, password };
+    let body;
+    if (email.includes("@stu")) {
+      body = { email, password, role: "student" };
+    } else {
+      body = { email, password, role: "faculty" };
+    }
     const res = await fetch(`${serverPort}/login`, {
       method: "POST",
       credentials: "include",

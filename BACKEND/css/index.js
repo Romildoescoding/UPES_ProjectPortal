@@ -119,27 +119,26 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   console.log(req.body);
-  const email = req.body.email;
-  const password = req.body.password;
+  const { email, password, role } = req.body;
   console.log(req.body.email);
   console.log(req.body.password);
 
   try {
-    const result = await db.query("SELECT * FROM users WHERE email = $1;", [
-      email,
-    ]);
+    let result;
+    if (role === "student") {
+      result = await db.query("SELECT * FROM students WHERE email = $1;", [
+        email,
+      ]);
+    } else {
+      result = await db.query("SELECT * FROM users WHERE email = $1;", [email]);
+    }
     console.log("Query Result:", result.rows);
     if (result.rows.length > 0) {
-      const user = result.rows[0];
-      const userPassword = user.passwd;
-      const userEmail = user.email;
-      const username = user.name;
-      const userId = user.user_id;
-      const role = user.role;
+      const userPassword = result.rows[0].passwords;
 
       if (password === userPassword) {
-        req.session.user = { userId, userEmail, role, username };
-        console.log("Session before save:", req.session);
+        req.session.user = result.rows[0];
+        // console.log("Session before save:", req.session);
 
         req.session.save((err) => {
           if (err) {
@@ -149,12 +148,9 @@ app.post("/login", async (req, res) => {
         });
         console.log("Session after save:", req.session);
         res.status(200).json({
-          userId,
-          userEmail,
-          username,
-          userPassword,
-          role,
+          ...result.rows[0],
           authenticated: true,
+          role,
         });
       } else {
         res

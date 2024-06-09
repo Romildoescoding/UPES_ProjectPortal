@@ -14,7 +14,7 @@ export default function useSignin() {
       console.log(user);
       if (user.authenticated) {
         console.log("USER AUTHENTICATED");
-        queryClient.setQueryData(["currentUser"], user);
+        // queryClient.setQueryData(["user"], user);
         if (user.role === "student") {
           navigate("/student");
         }
