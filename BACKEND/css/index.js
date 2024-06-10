@@ -168,6 +168,24 @@ app.post("/login", async (req, res) => {
       .json({ error: "Internal Server Error", authenticated: false }); // Send JSON response for internal server error
   }
 });
+
+app.get("/logout", async (req, res) => {
+  console.log("THE BODY OF REQ FOR LOGOUT IS " + req);
+  try {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Session destroy error:", err);
+        return res.status(500).json({ error: "Logout failed" });
+      }
+
+      console.log("Session destroyed successfully");
+      res.status(200).json({ message: "Logout successful" });
+    });
+  } catch (err) {
+    console.error("Logout error:", err);
+    res.status(500).json({ error: "Logout failed" });
+  }
+});
 // const requireAuth = (req, res, next) => {
 //   if (req.session.user) {
 //     next(); // User is authenticated, proceed to the next middleware or route handler

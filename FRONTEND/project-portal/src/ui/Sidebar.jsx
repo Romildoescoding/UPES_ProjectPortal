@@ -4,7 +4,6 @@ import Pen from "../../public/svg/Pen";
 import People from "../../public/svg/People";
 import Messages from "../../public/svg/Messages";
 import Meeting from "../../public/svg/Meeting";
-import Logout from "../../public/svg/Logout";
 import Alphabet from "../../public/svg/Alphabet";
 import { useLocation } from "react-router-dom";
 import Modal from "./Modal";
@@ -13,6 +12,8 @@ import ModalAddStudents from "../features/members/ModalAddStudents";
 import ModalRequestMentorship from "../features/mentorship/ModalRequestMentorship";
 import ModalGroupInitiation from "../features/members/ModalGroupinitiation";
 import ModalImportStudents from "../features/mentorship/ModalImportStudents";
+import LogoutSVG from "../../public/svg/LogoutSVG";
+import Logout from "../features/authentication/logout/Logout";
 
 function Sidebar() {
   const location = useLocation();
@@ -127,15 +128,7 @@ function Sidebar() {
           </li>
         </ul>
       </div>
-      <div className="logout-div">
-        <button className="logout-btn">
-          <Logout />
-          Logout
-        </button>
-        <span className="logout-text">
-          Last Login : 01/02/2024, 02:05:03 PM
-        </span>
-      </div>
+      <Logout />
     </div>
   );
 }

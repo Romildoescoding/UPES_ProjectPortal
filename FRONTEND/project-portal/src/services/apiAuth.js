@@ -31,3 +31,13 @@ export async function getUser() {
   console.log(data);
   return data;
 }
+
+export async function logout() {
+  const res = await fetch(`${serverPort}/logout`, {
+    method: "GET",
+    credentials: "include",
+  });
+  const data = await res.json();
+  console.log(data);
+  return data;
+}

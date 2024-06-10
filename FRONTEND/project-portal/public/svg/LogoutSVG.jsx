@@ -1,4 +1,4 @@
-function Logout() {
+function LogoutSVG() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -25,4 +25,4 @@ function Logout() {
   );
 }
 
-export default Logout;
+export default LogoutSVG;
