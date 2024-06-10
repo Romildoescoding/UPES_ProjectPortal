@@ -276,12 +276,14 @@ app.post("/getTeam", async (req, res) => {
       );
 
       const response = {
-        teamName: teamData.rows[0].teamName,
+        teamName: teamData.rows[0].teamname,
         leader: membersData.rows[0],
         member1: membersData.rows[1],
         member2: membersData.rows[2],
         member3: membersData.rows[3],
       };
+
+      console.log(response);
 
       res.status(200).json({
         res: 200,

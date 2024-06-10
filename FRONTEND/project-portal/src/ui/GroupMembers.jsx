@@ -35,23 +35,23 @@ function GroupMembers() {
           <tbody>
             <tr className="members-row">
               <td>{team?.leader?.username}</td>
-              <td>0987654321</td>
+              <td>{team?.leader?.contact}</td>
               <td>Group Lead</td>
             </tr>
             <tr className="members-row">
               <td>{team?.member1?.username}</td>
-              <td>{9876543210}</td>
-              <td>{"Member"}</td>
+              <td>{team?.member1?.contact}</td>
+              <td>Member</td>
             </tr>
             <tr className="members-row">
               <td>{team?.member2?.username}</td>
-              <td>{9876543210}</td>
-              <td>{"Member"}</td>
+              <td>{team?.member2?.contact}</td>
+              <td>Member</td>
             </tr>
             <tr className="members-row">
               <td>{team?.member3?.username}</td>
-              <td>{9876543210}</td>
-              <td>{"Member"}</td>
+              <td>{team?.member3?.contact}</td>
+              <td>Member</td>
             </tr>
           </tbody>
         </table>
