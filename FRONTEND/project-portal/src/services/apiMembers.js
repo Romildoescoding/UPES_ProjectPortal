@@ -28,7 +28,7 @@ export async function requestMentorship(faculty) {
   }
 }
 
-export async function getTeam(username) {
+export async function getTeam(user) {
   // // const username = "Romil";
   // console.log("USERNAME passsed to getTEAM is:=> ");
   // console.log(username);
@@ -36,7 +36,7 @@ export async function getTeam(username) {
     const res = await fetch(`${serverPort}/getTeam`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(username),
+      body: JSON.stringify(user),
     });
     const data = await res.json();
     console.log(data);

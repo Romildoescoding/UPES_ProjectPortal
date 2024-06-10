@@ -9,6 +9,7 @@ export default function useLogout() {
     onSuccess: async () => {
       console.log("LOGOUT SUCCESSFUL");
       queryClient.setQueryData(["user"], null);
+      setTimeout(() => queryClient.removeQueries(), 1000);
     },
   });
   return { logout, isLoading };

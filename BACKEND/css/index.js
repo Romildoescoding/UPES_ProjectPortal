@@ -213,7 +213,7 @@ app.post("/addMembers", async (req, res) => {
   const member3 = req.body.member3;
 
   try {
-    const result = await db.query(
+    await db.query(
       "UPDATE teams SET member1 = $1, member2 = $2, member3 = $3 WHERE teamName = $4",
       [member1, member2, member3, teamName]
     );
@@ -222,17 +222,22 @@ app.post("/addMembers", async (req, res) => {
       teamName,
     ]);
 
+    const leaderDetails = await db.query(
+      "SELECT * FROM students WHERE email = $1",
+      [teamData.rows[0].leader]
+    );
+
     const membersData = await db.query(
-      "SELECT * FROM students where username = $1 OR email = $2 OR email = $3 OR email = $4",
-      [teamData.rows[0].leader, member1, member2, member3]
+      "SELECT * FROM students where email = $1 OR email = $2 OR email = $3",
+      [member1, member2, member3]
     );
 
     const response = {
       teamName,
-      leader: membersData.rows[0],
-      member1: membersData.rows[1],
-      member2: membersData.rows[2],
-      member3: membersData.rows[3],
+      leader: leaderDetails.rows[0],
+      member1: membersData.rows[0],
+      member2: membersData.rows[1],
+      member3: membersData.rows[2],
     };
 
     res.status(200).json({
@@ -252,23 +257,26 @@ app.post("/addMembers", async (req, res) => {
 
 app.post("/getTeam", async (req, res) => {
   console.log("THE REQ-BODY IS :=", req.body);
-  console.log(req.body.username);
 
-  let username = req.body.username;
+  let user = req.body.user;
   // username =
   //   username?.slice(0, 1)?.toUpperCase() + username?.slice(1)?.toLowerCase();
   try {
     const teamData = await db.query(
       "SELECT * FROM teams WHERE leader = $1 OR member1 = $1 or member2 = $1 OR member3 = $1;",
-      [username]
+      [user]
     );
     console.log("Query Result of getTeam:", teamData.rows);
 
     if (teamData.rows.length > 0) {
+      const leaderDetails = await db.query(
+        "SELECT * FROM students WHERE email = $1",
+        [teamData.rows[0].leader]
+      );
+
       const membersData = await db.query(
-        "SELECT * FROM students where username = $1 OR email = $2 OR email = $3 OR email = $4",
+        "SELECT * FROM students where email = $1 OR email = $2 OR email = $3",
         [
-          teamData.rows[0].leader,
           teamData.rows[0].member1,
           teamData.rows[0].member2,
           teamData.rows[0].member3,
@@ -277,10 +285,10 @@ app.post("/getTeam", async (req, res) => {
 
       const response = {
         teamName: teamData.rows[0].teamname,
-        leader: membersData.rows[0],
-        member1: membersData.rows[1],
-        member2: membersData.rows[2],
-        member3: membersData.rows[3],
+        leader: leaderDetails.rows[0],
+        member1: membersData.rows[0],
+        member2: membersData.rows[1],
+        member3: membersData.rows[2],
       };
 
       console.log(response);
@@ -289,6 +297,10 @@ app.post("/getTeam", async (req, res) => {
         res: 200,
         status: "ok",
         ...response,
+      });
+    } else {
+      res.status(404).json({
+        error: "No Team Found",
       });
     }
   } catch (err) {
@@ -312,12 +324,13 @@ app.post("/addTeam", async (req, res) => {
   try {
     const result = await db.query(
       "INSERT INTO teams(teamName, leader, member1, member2, member3) VALUES ($1,$2,$3,$4,$5)",
-      [teamName, leader, null, null, null]
+      [teamName, leaderMail, null, null, null]
     );
 
     res.status(200).json({
       res: 200,
       status: "ok",
+      message: "Team initiated successfully",
       teamName,
       leader,
       leaderSap,

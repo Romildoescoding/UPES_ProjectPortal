@@ -14,8 +14,9 @@ export default function useTeam() {
       console.log(err);
     },
     onSuccess: (team) => {
-      console.log(team);
-      queryClient.setQueryData(["team"], team);
+      // console.log(team);
+      // queryClient.setQueryData(["team"], team);
+      queryClient.invalidateQueries(["team"]);
     },
   });
   return { addTeam, isLoading };
