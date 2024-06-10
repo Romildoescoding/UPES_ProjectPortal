@@ -1,6 +1,5 @@
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getTeam } from "../../services/apiMembers";
-import { useUser } from "../authentication/signin/useUser";
 
 export default function useTeamInformation(username) {
   const { data, isLoading, refetch } = useQuery({

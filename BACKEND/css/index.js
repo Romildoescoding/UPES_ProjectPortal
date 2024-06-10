@@ -45,7 +45,7 @@ app.use(
     secret: "Romildoescoding", // Set a secret key for session encryption
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, maxAge: 30000 }, // COOKIE would be set for 30 minutes i.e 30 * 60 * 1000
+    cookie: { secure: false, maxAge: 1800000 }, // COOKIE would be set for 30 minutes i.e 30 * 60 * 1000
   })
 );
 
@@ -204,11 +204,73 @@ app.post("/addMembers", async (req, res) => {
       teamName,
     ]);
 
+    const membersData = await db.query(
+      "SELECT * FROM students where username = $1 OR email = $2 OR email = $3 OR email = $4",
+      [teamData.rows[0].leader, member1, member2, member3]
+    );
+
+    const response = {
+      teamName,
+      leader: membersData.rows[0],
+      member1: membersData.rows[1],
+      member2: membersData.rows[2],
+      member3: membersData.rows[3],
+    };
+
     res.status(200).json({
       res: 200,
       status: "ok",
-      ...teamData.rows[0],
+      ...response,
     });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      error: "Internal Server Error",
+      inserted: false,
+      realError: err,
+    }); // Send JSON response for internal server error
+  }
+});
+
+app.post("/getTeam", async (req, res) => {
+  console.log("THE REQ-BODY IS :=", req.body);
+  console.log(req.body.username);
+
+  let username = req.body.username;
+  // username =
+  //   username?.slice(0, 1)?.toUpperCase() + username?.slice(1)?.toLowerCase();
+  try {
+    const teamData = await db.query(
+      "SELECT * FROM teams WHERE leader = $1 OR member1 = $1 or member2 = $1 OR member3 = $1;",
+      [username]
+    );
+    console.log("Query Result of getTeam:", teamData.rows);
+
+    if (teamData.rows.length > 0) {
+      const membersData = await db.query(
+        "SELECT * FROM students where username = $1 OR email = $2 OR email = $3 OR email = $4",
+        [
+          teamData.rows[0].leader,
+          teamData.rows[0].member1,
+          teamData.rows[0].member2,
+          teamData.rows[0].member3,
+        ]
+      );
+
+      const response = {
+        teamName: teamData.rows[0].teamName,
+        leader: membersData.rows[0],
+        member1: membersData.rows[1],
+        member2: membersData.rows[2],
+        member3: membersData.rows[3],
+      };
+
+      res.status(200).json({
+        res: 200,
+        status: "ok",
+        ...response,
+      });
+    }
   } catch (err) {
     console.log(err);
     res.status(500).json({
@@ -243,32 +305,6 @@ app.post("/addTeam", async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    res.status(500).json({
-      error: "Internal Server Error",
-      inserted: false,
-      realError: err,
-    }); // Send JSON response for internal server error
-  }
-});
-
-app.post("/getTeam", async (req, res) => {
-  console.log("THE REQ-BODY IS :=", req.body);
-  console.log(req.body.username);
-  console.log(req.session?.user?.username);
-
-  let username = req.body.username;
-  username =
-    username?.slice(0, 1)?.toUpperCase() + username?.slice(1)?.toLowerCase();
-  try {
-    const result = await db.query(
-      "SELECT * FROM teams WHERE leader = $1 OR member1 = $1 or member2 = $1 OR member3 = $1;",
-      [username]
-    );
-    console.log("Query Result of getTeam:", result.rows);
-    if (result.rows.length > 0) {
-      res.status(200).json({ res: 200, status: "ok", ...result.rows[0] });
-    }
-  } catch (err) {
     res.status(500).json({
       error: "Internal Server Error",
       inserted: false,

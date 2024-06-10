@@ -12,10 +12,10 @@ function ModalAddStudents({ setShowModal }) {
   function handleSubmit(e) {
     e.preventDefault();
     if (
-      team === ""
-      //|| !validateEmail(member1) ||
-      // !validateEmail(member2) ||
-      // !validateEmail(member3)
+      team === "" ||
+      !validateEmail(member1) ||
+      !validateEmail(member2) ||
+      !validateEmail(member3)
     ) {
       console.log("INVALID EMAILS or TEAM-NAME");
       return;
