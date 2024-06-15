@@ -1,15 +1,30 @@
 import { useState } from "react";
 import useSignin from "./useSignin";
+import { useNavigate } from "react-router-dom";
 
-function SigninForm() {
+function SigninForm({ setShowModal }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signin, isLoading } = useSignin();
+  const navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) return;
-    signin({ email, password });
+    signin(
+      { email, password },
+      {
+        onSuccess: (user) => {
+          if (user.role === "student") {
+            navigate("/student");
+          }
+          if (user.role === "faculty") {
+            console.log("ROLE OPENED");
+            setShowModal("select-role");
+          }
+        },
+      }
+    );
   }
   return (
     <form className="signin-form" onSubmit={handleSubmit}>

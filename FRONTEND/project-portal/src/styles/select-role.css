@@ -1,0 +1,69 @@
+.select-role {
+  position: relative;
+  height: 60vh;
+  width: 50vw;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.208);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  padding: 30px;
+}
+
+.btn-close-role {
+  position: absolute;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: none;
+  font-size: 50px;
+  top: 0px;
+  right: 0px;
+  cursor: pointer;
+}
+
+.role-ques {
+  font-size: 2vw;
+}
+
+.roles {
+  width: calc(100% - 30px);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  height: 100%;
+  justify-content: center;
+}
+
+.role {
+  width: 100%;
+  height: 30%;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  padding-left: 30px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.faculty-role {
+  background-color: rgb(235, 235, 235);
+  color: black;
+}
+
+.faculty-role:hover {
+  background-color: black;
+  color: white;
+}
+.coordinator-role {
+  background-color: black;
+  color: white;
+}
+.coordinator-role:hover {
+  background-color: rgb(235, 235, 235);
+  color: black;
+}
