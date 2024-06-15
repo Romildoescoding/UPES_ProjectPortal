@@ -14,7 +14,7 @@ function DashboardHeader() {
         <span className="header-span-dashboard">Project Portal</span>
       ) : (
         <span className="header-span-dashboard">
-          Project Portal- Faculty Co-Ordinator
+          Project Portal- Activity Co-Ordinator
         </span>
       )}
 
