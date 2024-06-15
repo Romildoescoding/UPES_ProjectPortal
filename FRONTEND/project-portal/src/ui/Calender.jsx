@@ -30,13 +30,13 @@ function Calender() {
       <div className="calender-days-container-div">
         <div className="calender-days-container">
           <ul className="weeks">
-            <li>m</li>
-            <li>t</li>
-            <li>w</li>
-            <li>t</li>
-            <li>f</li>
-            <li>s</li>
-            <li>s</li>
+            <li>Mon</li>
+            <li>Tue</li>
+            <li>Wed</li>
+            <li>Thu</li>
+            <li>Fri</li>
+            <li>Sat</li>
+            <li>Sun</li>
           </ul>
           <ul className="days">
             {monthDays?.map((day, i) => (
