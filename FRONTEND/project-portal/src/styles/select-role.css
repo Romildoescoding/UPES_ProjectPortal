@@ -47,23 +47,19 @@
   padding-left: 30px;
   font-size: 20px;
   cursor: pointer;
-  transition: all 0.5s;
+  transition: all 0.15s;
+  background-color: rgb(244, 244, 244);
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.176);
 }
 
-.faculty-role {
-  background-color: rgb(235, 235, 235);
-  color: black;
+.role:hover {
+  background-color: black;
+  color: white;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.612);
+  transform: translateY(-5px);
 }
 
-.faculty-role:hover {
-  background-color: black;
-  color: white;
-}
-.coordinator-role {
-  background-color: black;
-  color: white;
-}
-.coordinator-role:hover {
-  background-color: rgb(235, 235, 235);
-  color: black;
+.role:active {
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.612);
+  transform: translateY(0px);
 }

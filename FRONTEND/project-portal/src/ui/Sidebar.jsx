@@ -18,6 +18,7 @@ import Logout from "../features/authentication/logout/Logout";
 function Sidebar() {
   const location = useLocation();
   const isStudent = location.pathname === "/student";
+  const isFaculty = location.pathname === "/faculty";
   const [showModal, setShowModal] = useState("");
 
   // function handleAddMembers(id) {
@@ -78,6 +79,7 @@ function Sidebar() {
             </li>
           )}
           {isStudent ? (
+            //STUDENT
             <li className="option" onClick={() => setShowModal("add-students")}>
               <div>
                 <span className="option-icon">
@@ -86,7 +88,8 @@ function Sidebar() {
                 <span>Add Members</span>
               </div>
             </li>
-          ) : (
+          ) : isFaculty ? (
+            //FACULTY
             <li
               className="option"
               onClick={() => setShowModal("import-students")}
@@ -98,18 +101,33 @@ function Sidebar() {
                 <span>Import Students</span>
               </div>
             </li>
+          ) : (
+            //COORDINATOR
+            <li
+              className="option"
+              onClick={() => setShowModal("assign-members")}
+            >
+              <div>
+                <span className="option-icon">
+                  <Pen />
+                </span>
+                <span>Assign Panel Members</span>
+              </div>
+            </li>
           )}
-          <li
-            className="option"
-            onClick={() => setShowModal("group-initiation")}
-          >
-            <div>
-              <span className="option-icon">
-                <People />
-              </span>
-              <span>Group Initiation</span>
-            </div>
-          </li>
+          {(isStudent || isFaculty) && (
+            <li
+              className="option"
+              onClick={() => setShowModal("group-initiation")}
+            >
+              <div>
+                <span className="option-icon">
+                  <People />
+                </span>
+                <span>Group Initiation</span>
+              </div>
+            </li>
+          )}
           <li className="option">
             <div>
               <span className="option-icon">
@@ -118,14 +136,25 @@ function Sidebar() {
               <span>Technical Support</span>
             </div>
           </li>
-          <li className="option">
-            <div>
-              <span className="option-icon">
-                <Meeting />
-              </span>
-              <span>Schedule a Meeting</span>
-            </div>
-          </li>
+          {isStudent || isFaculty ? (
+            <li className="option">
+              <div>
+                <span className="option-icon">
+                  <Meeting />
+                </span>
+                <span>Schedule a Meeting</span>
+              </div>
+            </li>
+          ) : (
+            <li className="option">
+              <div>
+                <span className="option-icon">
+                  <Meeting />
+                </span>
+                <span>Schedule Events</span>
+              </div>
+            </li>
+          )}
         </ul>
       </div>
       <Logout />

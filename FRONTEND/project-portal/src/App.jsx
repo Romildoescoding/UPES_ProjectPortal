@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import FacultyDashboard from "./pages/FacultyDashboard";
+import ActivityCoDashboard from "./pages/ActivityCoDashboard";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/student", element: <Dashboard /> },
       { path: "/faculty", element: <FacultyDashboard /> },
+      { path: "/activity-coordinator", element: <ActivityCoDashboard /> },
     ],
   },
   { path: "/signin", element: <Signin /> },
