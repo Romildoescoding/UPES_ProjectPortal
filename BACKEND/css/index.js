@@ -137,7 +137,11 @@ app.post("/login", async (req, res) => {
       const userPassword = result.rows[0].passwords;
 
       if (password === userPassword) {
-        req.session.user = result.rows[0];
+        req.session.user = {
+          ...result.rows[0],
+          authenticated: true,
+          role,
+        };
         // console.log("Session before save:", req.session);
 
         req.session.save((err) => {

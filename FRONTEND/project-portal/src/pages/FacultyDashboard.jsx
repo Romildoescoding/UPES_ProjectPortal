@@ -5,6 +5,8 @@ import { getFormattedDate } from "../helpers/formatDate";
 import TextPill from "../ui/TextPill";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Pagination from "../ui/Pagination";
+import { useUser } from "../features/authentication/signin/useUser";
+import Error from "../ui/Error";
 
 //DEMO PROJECTS OR DATA
 const projects = [
@@ -137,6 +139,11 @@ function FacultyDashboard() {
       window.removeEventListener("resize", calculateRowsToDisplay);
     };
   }, []);
+
+  const { data: session, isLoading } = useUser();
+  let role = session?.user?.role;
+
+  if (role !== "faculty") return <Error />;
 
   return (
     <>

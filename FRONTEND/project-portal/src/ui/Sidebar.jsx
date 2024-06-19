@@ -14,16 +14,25 @@ import ModalGroupInitiation from "../features/members/ModalGroupinitiation";
 import ModalImportStudents from "../features/mentorship/ModalImportStudents";
 import LogoutSVG from "../../public/svg/LogoutSVG";
 import Logout from "../features/authentication/logout/Logout";
+import { useUser } from "../features/authentication/signin/useUser";
 
 function Sidebar() {
   const location = useLocation();
   const isStudent = location.pathname === "/student";
   const isFaculty = location.pathname === "/faculty";
+  const isCoordinator = location.pathname === "/activity-coordinator";
   const [showModal, setShowModal] = useState("");
 
   // function handleAddMembers(id) {
   //   setShowModal(id);
   // }
+
+  const { data: session, isLoading } = useUser();
+  let role = session?.user?.role;
+
+  //Added this code so that the faculty cannot access the student portal by changing the url after logging in and vice-versa
+  if (isStudent && role !== "student") return;
+  if ((isFaculty || isCoordinator) && role !== "faculty") return;
 
   return (
     <div className="sidebar">

@@ -1,6 +1,7 @@
 import { useUser } from "../features/authentication/signin/useUser";
 import { getFormattedDate } from "../helpers/formatDate";
 import Calender from "../ui/Calender";
+import Error from "../ui/Error";
 import Events from "../ui/Events";
 import Feedback from "../ui/Feedback";
 import GroupMembers from "../ui/GroupMembers";
@@ -9,7 +10,9 @@ import Objectives from "../ui/Objectives";
 function Dashboard() {
   const { data: session, isLoading } = useUser();
   let name = session?.user?.username;
+  let role = session?.user?.role;
 
+  if (role !== "student") return <Error />;
   return (
     <div className="contents">
       <div className="contents-top">

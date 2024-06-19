@@ -5,6 +5,8 @@ import "../styles/ActivityCoDashboard.css"; // Ensure your styles are correctly 
 import { getFormattedDate } from "../helpers/formatDate"; // Ensure this utility function exists and works as expected
 import TextPill from "../ui/TextPill"; // Ensure this component exists and is correctly implemented
 import Pagination from "../ui/Pagination"; // Ensure this component exists and is correctly implemented
+import { useUser } from "../features/authentication/signin/useUser";
+import Error from "../ui/Error";
 function ActivityCoDashboard() {
   const [numResultsToDisplay, setNumResultsToDisplay] = useState(5);
   const [projects, setProjects] = useState([]); // Mock projects data
@@ -13,8 +15,9 @@ function ActivityCoDashboard() {
 
   useEffect(() => {
     function calculateRowsToDisplay() {
-      const containerHeight = tableContainerRef.current.clientHeight - 130; // Adjust the 130px offset as needed
-      const rowHeight = tableContainerRef.current.querySelector("tr").clientHeight;
+      const containerHeight = tableContainerRef.current?.clientHeight - 130; // Adjust the 130px offset as needed
+      const rowHeight =
+        tableContainerRef.current?.querySelector("tr").clientHeight;
       const rowsToDisplay = Math.floor(containerHeight / rowHeight);
       setNumResultsToDisplay(rowsToDisplay);
     }
@@ -27,8 +30,12 @@ function ActivityCoDashboard() {
     };
   }, []);
 
+  const { data: session, isLoading } = useUser();
+  let role = session?.user?.role;
+
+  if (role !== "faculty") return <Error />;
+
   return (
-   
     <>
       <div className="contents-top-left">
         <div className="contents-top-faculty">
