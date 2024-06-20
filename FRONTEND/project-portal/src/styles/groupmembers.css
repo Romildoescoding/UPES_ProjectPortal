@@ -27,10 +27,6 @@
   color: #696672;
 }
 
-.members-table th:first-child {
-  width: 80px;
-}
-
 .members-first-child-long th:first-child {
   width: 135px !important;
 }

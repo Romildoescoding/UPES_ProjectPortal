@@ -24,7 +24,7 @@ function GroupMembers() {
     <div className="members">
       <span className="dashboard-heading">Group Members</span>
       <div className="members-container">
-        <table className="members-table members-first-child-long">
+        <table className="members-table">
           <thead>
             <tr className="members-row">
               <th>Name</th>

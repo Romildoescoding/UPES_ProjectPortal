@@ -3,14 +3,12 @@ import BackwardArrows from "../../public/svg/BackwardArrows";
 import ForwardArrows from "../../public/svg/ForwardArrows";
 
 function Pagination({ numResultsToDisplay, projects, setProjectsToDisplay }) {
-  // console.log(projects);
-  // console.log(numResultsToDisplay);
+  console.log(projects);
+  console.log(numResultsToDisplay);
+  console.log(numResultsToDisplay);
   const [selectedPage, setSelectedPage] = useState(1);
-  const pageNum = projects?.length;
-  const maxPage = Math.min(
-    Math.floor(pageNum / numResultsToDisplay) + 1,
-    pageNum
-  );
+  const pageNum = projects.length;
+  const maxPage = Math.floor(pageNum / numResultsToDisplay) + 1;
   const pageArr = Array.from({ length: maxPage }, (_, i) => i + 1);
 
   useEffect(handlePageChange, [
@@ -21,8 +19,8 @@ function Pagination({ numResultsToDisplay, projects, setProjectsToDisplay }) {
   ]);
 
   function handlePageChange() {
-    setProjectsToDisplay(() =>
-      projects?.filter(
+    setProjectsToDisplay(
+      projects.filter(
         (project, i) =>
           i + 1 <= selectedPage * numResultsToDisplay &&
           i + 1 > (selectedPage - 1) * numResultsToDisplay
@@ -32,7 +30,7 @@ function Pagination({ numResultsToDisplay, projects, setProjectsToDisplay }) {
   return (
     <div
       className="pagination-div"
-      style={{ display: numResultsToDisplay >= projects?.length ? "none" : "" }}
+      style={{ display: numResultsToDisplay >= projects.length ? "none" : "" }}
     >
       <ul className="pagination">
         <button

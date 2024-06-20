@@ -3,7 +3,7 @@ function ActivityRequest() {
     <div className="ac-request">
       <span className="ac-marks-heading">PYTHONS</span>
       <div className="members-container overflow-hidden">
-        <table className="members-table">
+        <table className="members-table ac-members-table">
           <thead>
             <tr className="ac-members-row color-gray">
               <th>Name</th>
