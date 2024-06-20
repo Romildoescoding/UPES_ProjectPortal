@@ -3,8 +3,6 @@ import BackwardArrows from "../../public/svg/BackwardArrows";
 import ForwardArrows from "../../public/svg/ForwardArrows";
 
 function Pagination({ numResultsToDisplay, projects, setProjectsToDisplay }) {
-  console.log(projects);
-  console.log(numResultsToDisplay);
   console.log(numResultsToDisplay);
   const [selectedPage, setSelectedPage] = useState(1);
   const pageNum = projects.length;
