@@ -7,29 +7,8 @@ import TextPill from "../ui/TextPill"; // Ensure this component exists and is co
 import Pagination from "../ui/Pagination"; // Ensure this component exists and is correctly implemented
 import { useUser } from "../features/authentication/signin/useUser";
 import Error from "../ui/Error";
+import MarksAwarded from "../ui/MarksAwarded";
 function ActivityCoDashboard() {
-  const [numResultsToDisplay, setNumResultsToDisplay] = useState(5);
-  const [projects, setProjects] = useState([]); // Mock projects data
-  const [projectsToDisplay, setProjectsToDisplay] = useState(projects);
-  const tableContainerRef = useRef(null);
-
-  useEffect(() => {
-    function calculateRowsToDisplay() {
-      const containerHeight = tableContainerRef.current?.clientHeight - 130; // Adjust the 130px offset as needed
-      const rowHeight =
-        tableContainerRef.current?.querySelector("tr").clientHeight;
-      const rowsToDisplay = Math.floor(containerHeight / rowHeight);
-      setNumResultsToDisplay(rowsToDisplay);
-    }
-
-    window.addEventListener("resize", calculateRowsToDisplay);
-    calculateRowsToDisplay(); // Call the function immediately to set initial value
-
-    return () => {
-      window.removeEventListener("resize", calculateRowsToDisplay);
-    };
-  }, []);
-
   const { data: session, isLoading } = useUser();
   let role = session?.user?.role;
 
@@ -62,39 +41,7 @@ function ActivityCoDashboard() {
             </div>
           </div>
         </div>
-        <div className="contents-bottom-faculty" ref={tableContainerRef}>
-          <TextPill
-            text={<span className="dashboard-heading">Marks awarded</span>}
-            width={220}
-            height={35}
-            isHeading={true}
-          />
-          <table className="faculty-table">
-            <thead>
-              <tr>
-                <th>Student Name</th>
-                <th>Sap ID</th>
-                <th>Specialization</th>
-                <th>Marks awarded</th>
-              </tr>
-            </thead>
-            <tbody>
-              {projectsToDisplay.map((project, index) => (
-                <tr key={index}>
-                  <td>{project.name}</td>
-                  <td>{project.sapId}</td>
-                  <td>{project.specialization}</td>
-                  <td>{project.marks}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <Pagination
-            numResultsToDisplay={numResultsToDisplay}
-            projects={projects}
-            setProjectsToDisplay={setProjectsToDisplay}
-          />
-        </div>
+        <MarksAwarded />
       </div>
       <div className="calender-div-faculty">
         <Calender />
