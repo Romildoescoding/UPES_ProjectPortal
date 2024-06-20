@@ -28,5 +28,9 @@
 }
 
 .members-table th:first-child {
-  width: 135px; /* Adjust the width as per your preference */
+  width: 80px;
+}
+
+.members-first-child-long th:first-child {
+  width: 135px !important;
 }

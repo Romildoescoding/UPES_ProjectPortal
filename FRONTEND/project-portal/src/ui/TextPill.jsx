@@ -1,6 +1,13 @@
-function TextPill({ text, width, height, isHeading }) {
+function TextPill({ text, width, height, isHeading, isCentered }) {
   return (
-    <div className="text-pill" style={{ width: width, height: height }}>
+    <div
+      className="text-pill"
+      style={{
+        width: width,
+        height: height,
+        justifyContent: isCentered ? "center" : "",
+      }}
+    >
       {isHeading ? (
         <>
           <span style={{ marginLeft: 5 }}>{text}</span>
