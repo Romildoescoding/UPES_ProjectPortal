@@ -1,4 +1,11 @@
-function TextPill({ text, width, height, isHeading, isCentered }) {
+function TextPill({
+  text,
+  width,
+  height,
+  isHeading,
+  isCentered,
+  isWithoutSvg,
+}) {
   return (
     <div
       className="text-pill"
@@ -9,13 +16,19 @@ function TextPill({ text, width, height, isHeading, isCentered }) {
       }}
     >
       {isHeading ? (
-        <>
-          <span style={{ marginLeft: 5 }}>{text}</span>
-          <div
-            className="text-pill-checkbox"
-            style={{ width: height - 10, height: height - 10 }}
-          ></div>
-        </>
+        isWithoutSvg ? (
+          <>
+            <span style={{ marginLeft: 5 }}>{text}</span>
+          </>
+        ) : (
+          <>
+            <span style={{ marginLeft: 5 }}>{text}</span>
+            <div
+              className="text-pill-checkbox"
+              style={{ width: height - 10, height: height - 10 }}
+            ></div>
+          </>
+        )
       ) : (
         <>
           <div

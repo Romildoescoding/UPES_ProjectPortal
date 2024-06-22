@@ -22,6 +22,9 @@ function ModalSelectRole({ setShowModal }) {
         <p className="role" onClick={() => navigate("/activity-coordinator")}>
           As an Activity Co-ordinator
         </p>
+        <p className="role" onClick={() => navigate("/panel-members")}>
+          As a Faculty Panel Member
+        </p>
       </div>
     </div>
   );

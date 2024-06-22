@@ -21,17 +21,27 @@ function ActivityCoMarksTable({ mentorshipRequests }) {
         (containerWidth - Math.floor(containerWidth / requestWidth) * 10) /
           requestWidth
       );
+
+      console.log(
+        containerWidth +
+          "---------------" +
+          requestWidth +
+          "--------------" +
+          requestInWidth
+      );
       const requestHeight =
         tableContainerRef.current.querySelector(".ac-request")?.clientHeight;
       const requestInHeight = Math.floor(containerHeight / requestHeight);
       const requestsToDisplay = requestInWidth * requestInHeight;
-      //   console.log(
-      //     containerHeight +
-      //       "---------------" +
-      //       requestHeight +
-      //       "--------------" +
-      //       requestsToDisplay
-      //   );
+
+      console.log(
+        containerHeight +
+          "---------------" +
+          requestHeight +
+          "--------------" +
+          requestInHeight
+      );
+      console.log(requestsToDisplay);
       setNumResultsToDisplay(requestsToDisplay);
     }
 

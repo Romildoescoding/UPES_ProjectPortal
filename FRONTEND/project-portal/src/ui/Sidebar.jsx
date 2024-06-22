@@ -21,6 +21,7 @@ function Sidebar() {
   const isStudent = location.pathname === "/student";
   const isFaculty = location.pathname === "/faculty";
   const isCoordinator = location.pathname === "/activity-coordinator";
+  const isPanelMember = location.pathname === "/panel-members";
   const [showModal, setShowModal] = useState("");
 
   // function handleAddMembers(id) {
@@ -32,7 +33,8 @@ function Sidebar() {
 
   //Added this code so that the faculty cannot access the student portal by changing the url after logging in and vice-versa
   if (isStudent && role !== "student") return;
-  if ((isFaculty || isCoordinator) && role !== "faculty") return;
+  if ((isFaculty || isCoordinator || isPanelMember) && role !== "faculty")
+    return;
 
   return (
     <div className="sidebar">
@@ -110,8 +112,8 @@ function Sidebar() {
                 <span>Import Students</span>
               </div>
             </li>
-          ) : (
-            //COORDINATOR
+          ) : //COORDINATOR
+          isCoordinator ? (
             <li
               className="option"
               onClick={() => setShowModal("assign-members")}
@@ -123,6 +125,8 @@ function Sidebar() {
                 <span>Assign Panel Members</span>
               </div>
             </li>
+          ) : (
+            <></>
           )}
           {(isStudent || isFaculty) && (
             <li
@@ -154,13 +158,22 @@ function Sidebar() {
                 <span>Schedule a Meeting</span>
               </div>
             </li>
-          ) : (
+          ) : isCoordinator ? (
             <li className="option">
               <div>
                 <span className="option-icon">
                   <Meeting />
                 </span>
                 <span>Schedule Events</span>
+              </div>
+            </li>
+          ) : (
+            <li className="option">
+              <div>
+                <span className="option-icon">
+                  <Meeting />
+                </span>
+                <span>Join a meeting</span>
               </div>
             </li>
           )}

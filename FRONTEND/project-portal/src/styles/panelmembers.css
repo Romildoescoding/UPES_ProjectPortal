@@ -1,0 +1,68 @@
+.panel-marks-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 87%;
+}
+
+.panel-members-table-container {
+  height: 100%;
+  width: 95%;
+  background-color: #eff1f5;
+  display: flex;
+  justify-content: center;
+}
+
+.panel-members-table {
+  max-height: 70%;
+  background-color: transparent;
+  border: none;
+  border-collapse: collapse;
+  width: 90%;
+  color: #4f4f4f;
+}
+
+.panel-members-table tbody tr {
+  height: 40px !important;
+  max-height: 40px !important;
+}
+
+.panel-members-table thead tr {
+  height: 30px;
+}
+
+.report {
+  cursor: pointer;
+}
+
+.panel-members-table th:first-child {
+  border-bottom: 2px solid #00a7f3;
+  font-weight: 700;
+}
+
+.panel-members-table tbody tr:hover {
+  background-color: white;
+}
+
+.panel-members-table tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.panel-members-table tr td:first-child {
+  font-weight: 700;
+}
+
+.panel-members-table th {
+  font-size: 8.6px;
+  border-bottom: 2px solid #4f4f4f;
+}
+
+.panel-members-table td {
+  font-size: 8.6px;
+  font-weight: 400;
+}
+
+.panel-members-table th,
+.panel-members-table td {
+  text-align: center;
+}
