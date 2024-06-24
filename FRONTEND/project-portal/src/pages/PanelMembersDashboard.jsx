@@ -27,26 +27,12 @@ function PanelMembersDashboard() {
     <>
       <div className="contents-top-left">
         <div className="contents-top-faculty">
-          <div className="contents-top-left-faculty">
-            <div className="contents-top-left-upper">
-              <div>
-                <p className="greetings-text-sm">{getFormattedDate()}</p>
-                <p className="greetings-text-xl">Welcome back, Dr.John!</p>
-              </div>
-            </div>
-            <div className="contents-top-left-lower">
-              <div>
-                <p className="greetings-text-xl">Statistics</p>
-                <p className="greetings-text-xl">empty space for statistics</p>
-              </div>
-            </div>
-          </div>
-          <div className="contents-top-right-faculty">
+          <div className="contents-top-panel">
+            <span className="dashboard-heading">Actions</span>
             <div>
-              <span className="dashboard-heading">Actions</span>
-              <TextPill text={"Schedule Project"} />
-              <TextPill text={"Panel Members"} />
-              <TextPill text={"Panel Members"} />
+              <TextPill text={"Check Groups"} />
+              <TextPill text={"Assigned Students"} />
+              <TextPill text={"Marks Awarded"} />
             </div>
           </div>
         </div>

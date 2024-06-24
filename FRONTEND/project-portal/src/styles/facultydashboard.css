@@ -1,13 +1,11 @@
 .contents-top-faculty {
   height: 35%;
   width: 100%;
-  /* background-color: red; */
   display: flex;
   gap: 10px;
 }
 
 .contents-top-left-faculty {
-  /* background-color: blue; */
   height: 100%;
   width: 60%;
   display: flex;
