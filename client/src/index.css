@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: url("/images/gradient.png");
+  background-size: cover;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.pill {
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  /* padding: 5px; */
+  max-width: 100px;
+  width: 85px;
+  border-radius: 20px;
+  /* font-family: Poppins; */
+  font-weight: 300;
+}
+
+.danger-pill {
+  color: #ee201c;
+  background: #ee201c2e;
+}
+
+.normal-pill {
+  color: #dfa510;
+  background: #e2b1332e;
+}
+
+.safe-pill {
+  color: #1a932e;
+  background: #1a932e2e;
+}
+
+/* Styles for the custom scrollbar */
+::-webkit-scrollbar {
+  width: 7.5px; /* Width of the scrollbar */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent; /* Transparent background */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  background: #0000001a; /* Color of the scrollbar handle */
+  border-radius: 5px; /* Border radius of the scrollbar handle */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #00000030; /* Color of the scrollbar handle on hover */
+}
+
+.text-pill {
+  background-color: white;
+  width: 100%;
+  height: 42px;
+  padding: 5px 20px 5px 7px;
+  gap: 10px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.text-pill-checkbox {
+  background: url("/images/tick-1.png");
+  background-size: contain;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+
+.width-full {
+  width: 100%;
+}
+
+.error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: url("/images/gradient.png");
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  gap: 1.25vw;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-message {
+  font-size: 2vw;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.error-link {
+  color: rgb(0, 85, 255);
+  font-size: 2.25vw;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.signin-link {
+  color: rgb(0, 85, 255);
+  font-size: 2.25vw;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.empty-comp {
+  padding: 20px;
+  position: absolute;
+  text-align: center;
+  color: #00000070;
+  top: 50%;
+  left: 50%;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+}
