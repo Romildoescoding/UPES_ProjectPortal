@@ -80,7 +80,8 @@ function ActivityCoMarksTable() {
         isHeading={true}
         isCentered={true}
       />
-      {showModal && (
+
+      {showModal === "faculty-project-details" && (
         <Modal setShowModal={setShowModal}>
           <ModalFacultyProjects
             projectForModal={projectForModal}

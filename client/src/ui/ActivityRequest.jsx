@@ -3,7 +3,13 @@ function ActivityRequest({ setShowModal, setProjectForModal, request }) {
   console.log(request);
   const { group_name, title, technologies, report } = request;
   return (
-    <div className="ac-request">
+    <div
+      className="ac-request"
+      onClick={() => {
+        setProjectForModal(request);
+        setShowModal("faculty-project-details");
+      }}
+    >
       <span className="ac-marks-heading">{group_name}</span>
       <div className="members-container overflow-hidden">
         <table className="members-table">
