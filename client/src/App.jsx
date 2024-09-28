@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import FacultyDashboard from "./pages/FacultyDashboard";
 import ActivityCoDashboard from "./pages/ActivityCoDashboard";
 import PanelMembersDashboard from "./pages/PanelMembersDashboard";
+import toast, { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient();
 
@@ -32,10 +33,13 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <RouterProvider router={router}></RouterProvider>
-    </QueryClientProvider>
+    <>
+      <Toaster />
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <RouterProvider router={router}></RouterProvider>
+      </QueryClientProvider>
+    </>
   );
 }
 

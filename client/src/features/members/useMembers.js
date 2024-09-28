@@ -1,16 +1,19 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateMembers as updateMembersApi } from "../../services/apiMembers";
+import toast from "react-hot-toast";
 
 export default function useUpdateMembers() {
   const queryClient = useQueryClient();
-  const { mutate: updateMembers, isLoading } = useMutation({
+  const { mutate: updateMembers, isPending } = useMutation({
     mutationFn: updateMembersApi,
     onError: (err) => {
+      toast.error("Failed to Add Members");
       console.log(err);
     },
-    onSuccess: (team) => {
+    onSuccess: () => {
+      toast.success("Member(s) added sucessfully");
       queryClient.invalidateQueries(["team"]);
     },
   });
-  return { updateMembers, isLoading };
+  return { updateMembers, isPending };
 }

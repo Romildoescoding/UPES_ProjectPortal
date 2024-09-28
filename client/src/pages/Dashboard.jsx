@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { useUser } from "../features/authentication/signin/useUser";
 import { getFormattedDate } from "../helpers/formatDate";
 import Calender from "../ui/Calender";
@@ -9,7 +10,7 @@ import Loader from "../ui/Loader";
 import Objectives from "../ui/Objectives";
 
 function Dashboard() {
-  const { data, isLoading } = useUser();
+  const { data, isPending, isFetching, isLoading } = useUser();
   if (isLoading) return <Loader />;
 
   let user = data?.user;
@@ -18,7 +19,13 @@ function Dashboard() {
   if (role !== "student") return <Error />;
 
   return (
-    <div className="contents">
+    <div
+      className="contents"
+      // onClick={() => {
+      //   console.log("CLICKED");
+      //   toast.success("CLICK!");
+      // }}
+    >
       <div className="contents-top">
         <div className="contents-top-left">
           <div className="greetings-div">

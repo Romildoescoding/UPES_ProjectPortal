@@ -3,12 +3,19 @@ import validateEmail from "../../helpers/emailValidate";
 import useRequestMembership from "./useRequestMembership";
 import { useQueryClient } from "@tanstack/react-query";
 import EmptyComponent from "../../ui/EmptyComponent";
+import useProjectByGroup from "../members/useProjectByGroup";
+import toast from "react-hot-toast";
 
 function ModalRequestMentorship({ setShowModal }) {
   const [facultyMail, setFacultyMail] = useState("");
-  const { requestMentorship, isLoading } = useRequestMembership();
+  const { requestMentorship, isPending } = useRequestMembership();
   const queryClient = useQueryClient();
   const team = queryClient.getQueryData(["team"]);
+  const group = team?.group?.group_name;
+  const { project, isPending: isPending2 } = useProjectByGroup({
+    group_name: group,
+  });
+  // console.log(project);
   if (!team?.data?.length)
     return (
       <EmptyComponent
@@ -17,14 +24,13 @@ function ModalRequestMentorship({ setShowModal }) {
       />
     );
 
-  const group = team?.group?.group_name;
-
   function handleSubmit(e) {
     e.preventDefault();
     if (!validateEmail(facultyMail)) {
-      console.log("INVALID FIELDS");
-      return;
+      return toast.error("Invalid Mail");
     }
+
+    console.log(facultyMail, group);
     requestMentorship({ faculty: facultyMail, group });
     setFacultyMail("");
     setShowModal("");
@@ -49,8 +55,18 @@ function ModalRequestMentorship({ setShowModal }) {
           />
         ) : (
           <>
+            {project?.data[0]?.mentor && (
+              <div className="full-length-input danger-note">
+                Note: You&apos;ve already requested to
+                <span className="bold">
+                  Prof.{" "}
+                  <span className="uppercase">{project?.data[0]?.mentor}</span>
+                </span>
+                . If you request again, Your previous request will be overridden
+              </div>
+            )}
             <h3>MENTORSHIP DETAILS</h3>
-            <div className="full-length-input">
+            <div className="centered-input">
               <label htmlFor="facultyMail">FACULTY MAIL ID</label>
               <input
                 type="text"
@@ -61,9 +77,15 @@ function ModalRequestMentorship({ setShowModal }) {
                 onChange={(e) => setFacultyMail(e.target.value)}
               />
             </div>
-            <button type="submit" className="btn-black" disabled={isLoading}>
-              {isLoading ? "SENDING..." : "SEND"}
-            </button>
+            <div className="centered-input">
+              <button
+                type="submit"
+                className="view-report"
+                disabled={isPending}
+              >
+                {isPending ? "REQUESTING..." : "REQUEST"}
+              </button>
+            </div>
           </>
         )}
       </form>

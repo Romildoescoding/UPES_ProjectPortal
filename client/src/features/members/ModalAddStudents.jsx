@@ -4,28 +4,34 @@ import useMembers from "./useMembers";
 import { useQueryClient } from "@tanstack/react-query";
 import MemberInput from "../../ui/MemberInput";
 import EmptyComponent from "../../ui/EmptyComponent";
+import { useUser } from "../authentication/signin/useUser";
+import useTeamInformation from "./useTeamInformation";
+import toast from "react-hot-toast";
 
 function ModalAddStudents({ setShowModal }) {
   const queryClient = useQueryClient();
-  // const [team, setTeam] = useState("");
   const [remainingMembers, setRemainingMembers] = useState([]);
-  // const [member1, setMember1] = useState("");
-  // const [member2, setMember2] = useState("");
-  // const [member3, setMember3] = useState("");
   const [members, setMembers] = useState([]);
   const { updateMembers, isLoading } = useMembers();
   const group = queryClient.getQueryData(["team"]);
 
+  const { data, isPending } = useUser();
+  const user = data?.user;
+
+  const { data: team, isPending: isPending2 } = useTeamInformation({ user });
+
   useEffect(() => {
     let remainingLen = 4 - group?.data?.length;
+    console.log(remainingLen, 4 - remainingMembers.length);
     setRemainingMembers(Array.from({ length: remainingLen }, () => 0));
-  }, [group?.data?.length]);
+  }, [group?.data?.length, remainingMembers.length]);
   console.log();
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    let membersToSubmit = members.filter((member) => member !== "");
+    let membersToSubmit = members.filter((member) => member);
+    console.log(membersToSubmit, remainingMembers);
     if (membersToSubmit.length !== remainingMembers.length) {
       console.log("INVALID EMAILS");
       return;
@@ -54,7 +60,9 @@ function ModalAddStudents({ setShowModal }) {
         >
           &times;
         </button>
-        {!remainingMembers.length ? (
+        {!team?.data?.length ? (
+          <EmptyComponent msg={"❗Initialize a Group First❗"} size={32} />
+        ) : !remainingMembers.length ? (
           <EmptyComponent
             msg={"❗Group is full. Unable to add more members❗"}
             size={32}
@@ -76,45 +84,12 @@ function ModalAddStudents({ setShowModal }) {
             {remainingMembers.map((_, i) => (
               <MemberInput
                 key={i}
-                number={i + remainingMembers.length}
+                number={4 - remainingMembers.length + i}
                 remainingMembers={remainingMembers}
                 members={members}
                 setMembers={setMembers}
               />
             ))}
-            {/* <div className="full-length-input">
-          <label htmlFor="member1">PARTICIPANT 1</label>
-          <input
-          type="text"
-          name="member1"
-          id="member1"
-          placeholder="PARTICIPANT 1 MAIL ID"
-          value={member1}
-          onChange={(e) => setMember1(e.target.value)}
-          />
-          </div>
-          <div className="full-length-input">
-          <label htmlFor="member2">PARTICIPANT 2</label>
-          <input
-          type="text"
-          name="member2"
-          id="member2"
-          placeholder="PARTICIPANT 2 MAIL ID"
-          value={member2}
-          onChange={(e) => setMember2(e.target.value)}
-          />
-          </div>
-          <div className="full-length-input">
-          <label htmlFor="member3">PARTICIPANT 3</label>
-          <input
-          type="text"
-          name="member3"
-          id="member3"
-          placeholder="PARTICIPANT 3 MAIL ID"
-          value={member3}
-          onChange={(e) => setMember3(e.target.value)}
-          />
-          </div> */}
             <button type="submit" className="btn-black" disabled={isLoading}>
               {isLoading ? "SENDING..." : "SEND"}
             </button>

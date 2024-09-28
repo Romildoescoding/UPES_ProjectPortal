@@ -1,4 +1,5 @@
 import PdfLogo from "../../../public/svg/PdfLogo";
+import { docServiceURL } from "../../helpers/backendApi";
 import Member from "../../ui/Member";
 import Spinner from "../../ui/Spinner";
 import useProjectMembers from "./useProjectMembers";
@@ -37,24 +38,30 @@ function ModalFacultyProjects({ setShowModal, projectForModal }) {
           <h3 className="tech-project-h3">{projectForModal?.technologies}</h3>
         </div>
 
-        <div
-          className="project-field"
-          onClick={() => {
-            // Open the fileURL in a new tab
-            // const fileURL = projectForModal?.report; Assuming the file URL is stored here
-            const fileURL = "https://www.google.com";
-            if (fileURL) {
-              window.open(fileURL, "_blank"); // Open in new tab
-            } else {
-              console.log("No report available");
-            }
-          }}
-        >
+        <div className="project-field">
           <h1>REPORT</h1>
-          <h3 className="view-report">
-            <span>Click here to view</span>
-            <PdfLogo />
-          </h3>
+          {projectForModal?.report ? (
+            <h3
+              className="view-report"
+              onClick={() => {
+                // Open the fileURL in a new tab
+                // const fileURL = projectForModal?.report; Assuming the file URL is stored here
+                const fileURL = `${docServiceURL}${projectForModal?.report}`;
+                if (fileURL) {
+                  window.open(fileURL, "_blank"); // Open in new tab
+                } else {
+                  console.log("No report available");
+                }
+              }}
+            >
+              <span>Click here to view</span>
+              <PdfLogo />
+            </h3>
+          ) : (
+            <span className=" view-report danger-note">
+              No Report Uploaded Yet.
+            </span>
+          )}
           {/* <h3>{projectForModal?.report}</h3> */}
         </div>
 

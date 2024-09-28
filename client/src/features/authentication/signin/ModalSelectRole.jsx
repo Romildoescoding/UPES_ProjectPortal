@@ -17,7 +17,7 @@ function ModalSelectRole({ setShowModal }) {
       <div className="role-ques">How would you like to access the Portal?</div>
       <div className="roles">
         <p
-          className="role"
+          className="view-report custom-font"
           onClick={() => {
             navigate("/faculty");
             setShowModal("");
@@ -26,7 +26,7 @@ function ModalSelectRole({ setShowModal }) {
           As a Faculty
         </p>
         <p
-          className="role"
+          className="view-report custom-font"
           onClick={() => {
             navigate("/activity-coordinator");
             setShowModal("");
@@ -35,7 +35,7 @@ function ModalSelectRole({ setShowModal }) {
           As an Activity Co-ordinator
         </p>
         <p
-          className="role"
+          className="view-report custom-font"
           onClick={() => {
             navigate("/panel-members");
             setShowModal("");

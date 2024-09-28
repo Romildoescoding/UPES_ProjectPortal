@@ -2,21 +2,27 @@ import { serverPort } from "../helpers/backendApi";
 
 //UPDATED
 export async function initializeGroup(group) {
-  try {
-    const res = await fetch(`${serverPort}/api/v1/groups`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(group),
-    });
-    const data = await res.json();
-    return data;
-  } catch (err) {
-    console.log(err);
-  }
+  // try {
+  const res = await fetch(`${serverPort}/api/v1/groups`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(group),
+  });
+  const data = await res.json();
+
+  //THIS LINE IS NECESSARY FOR ONERROR
+  if (res.status !== 200) throw new Error(data.message);
+  return data;
+  // } catch (err) {
+  // console.log(err);
+  //THROW THE ERROR SO THAT USEMUTATION CAN CATCH IT
+  // throw err;
+  // }
 }
 
 //Request Mentorship from the faculty
 export async function requestMentorship(faculty) {
+  console.log(faculty);
   try {
     const res = await fetch(`${serverPort}/api/v1/projects`, {
       method: "PATCH",
@@ -71,13 +77,32 @@ export async function getGroupDetails(group) {
 //UPDATING...
 export async function updateMembers(group) {
   console.log(group);
+  // try {
+  const res = await fetch(`${serverPort}/api/v1/groups`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(group),
+  });
+  const data = await res.json();
+  if (res.status !== 200)
+    throw new Error("Group Members already in another group");
+  console.log(data);
+  return data;
+  // } catch (err) {
+  // console.log(err);
+  // throw err;
+  // }
+}
+
+export async function getProjectByGroup(group_name) {
+  console.log(group_name);
   try {
-    const res = await fetch(`${serverPort}/api/v1/groups`, {
-      method: "PATCH",
+    const res = await fetch(`${serverPort}/api/v1/projects/group`, {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(group),
+      body: JSON.stringify(group_name),
     });
-    const data = await res.json();
+    const data = res.json();
     return data;
   } catch (err) {
     console.log(err);
@@ -155,6 +180,45 @@ export async function uploadProject(formData) {
       title,
       technologies,
       group_name,
+      report: reportBase64, // Send the base64 encoded file
+    };
+
+    console.log(payload);
+
+    const res = await fetch(`${serverPort}/api/v1/projects`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+//{ title, group_name, report, tech }
+export async function updateProject({ formData, oldFilePath }) {
+  const title = formData.get("title");
+  const technologies = formData.get("tech");
+  const group_name = formData.get("group");
+  const report = formData.get("report");
+  const fileType = report.type;
+  console.log(fileType);
+  console.log({ title, technologies, group_name, report });
+
+  try {
+    const reportBase64 = await convertFileToBase64(report);
+
+    const payload = {
+      title,
+      technologies,
+      group_name,
+      isUpdating: true,
+      oldFilePath,
       report: reportBase64, // Send the base64 encoded file
     };
 

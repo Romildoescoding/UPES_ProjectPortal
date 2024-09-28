@@ -14,6 +14,10 @@ body {
   position: relative;
 }
 
+.react-hot-toast {
+  z-index: 9999 !important; /* Ensure it's on top of all elements */
+}
+
 .pill {
   height: 28px;
   display: flex;

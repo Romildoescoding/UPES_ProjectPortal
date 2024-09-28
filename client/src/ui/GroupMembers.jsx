@@ -1,53 +1,35 @@
 import "../styles/groupmembers.css";
 import { useUser } from "../features/authentication/signin/useUser";
 import useTeamInformation from "../features/members/useTeamInformation";
-import { useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
-import GroupMember from "./GroupMember";
-import extractMails from "../helpers/extractMails";
 import Spinner from "./Spinner";
 import EmptyComponent from "./EmptyComponent";
+import GroupMember from "./GroupMember";
 
 function GroupMembers() {
-  const { data, isLoading } = useUser();
+  const { data, isPending } = useUser();
   const user = data?.user;
+  const { data: team, isPending: isPending2 } = useTeamInformation({ user });
 
-  const { data: team, isLoading2 } = useTeamInformation({ user });
-
-  // useEffect(
-  //   function () {
-  //     refetch();
-  //   },
-  //   [user, refetch]
-  // );
-
-  // if (isLoading || isLoading2) return <Spinner />;
-
-  console.log(!team?.data?.length);
   return (
     <div className="members">
       <span className="dashboard-heading">Group Members</span>
       <div className="members-container">
-        <table className="members-table members-first-child-long">
-          <thead>
-            <tr className="members-row">
-              <th>Name</th>
-              <th>Contact</th>
-              <th>Position</th>
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading || isLoading2 ? (
-              <Spinner />
-            ) : !team?.data?.length ? (
-              <EmptyComponent msg={"❗No group data found❗"} isTable={true} />
-            ) : (
-              team?.data?.map((member, i) => (
-                <GroupMember key={i} member={member} />
-              ))
-            )}
-          </tbody>
-        </table>
+        {isPending || isPending2 ? (
+          <Spinner />
+        ) : !team?.data?.length ? (
+          <EmptyComponent msg={"❗No group data found❗"} isTable={false} />
+        ) : (
+          <div className="members-list">
+            <div className="members-header">
+              <div className="member-column">Name</div>
+              <div className="member-column">Contact</div>
+              <div className="member-column">Position</div>
+            </div>
+            {team?.data?.map((member, i) => (
+              <GroupMember key={i} member={member} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

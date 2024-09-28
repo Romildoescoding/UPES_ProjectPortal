@@ -49,8 +49,10 @@ export async function createGroup(req, res) {
       .insert([{ group_name: group, leader: leader }])
       .select("*");
 
-    if (error) console.log(error);
-    res.status(200).json({ status: "success", newGroup });
+    if (error) {
+      res.status(400).json({ status: "fail", message: error.message });
+      console.log(error);
+    } else res.status(200).json({ status: "success", newGroup });
   } catch (err) {
     console.log(err);
     res.status(400).json({ status: "fail", message: err });
@@ -82,8 +84,12 @@ export async function updateMembers(req, res) {
       .eq("group_name", group)
       .select("*");
 
-    if (error) console.log(error);
-    res.status(200).json({ status: "success", updatedGroup });
+    if (error) {
+      console.log(error);
+      res.status(400).json({ status: "fail", updatedGroup });
+    } else {
+      res.status(200).json({ status: "success", updatedGroup });
+    }
   } catch (err) {
     console.log(err);
     res.status(400).json({ status: "fail", message: err });

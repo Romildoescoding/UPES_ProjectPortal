@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export default function useSignin() {
   const queryClient = useQueryClient();
 
-  const { mutate: signin, isLoading } = useMutation({
+  const { mutate: signin, isPending } = useMutation({
     mutationFn: signInApi,
     onError: (err) => {
       console.log("Error during Signin :==== ", err.message);
@@ -20,5 +20,5 @@ export default function useSignin() {
       }
     },
   });
-  return { signin, isLoading };
+  return { signin, isLoading: isPending };
 }

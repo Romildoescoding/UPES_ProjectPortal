@@ -205,7 +205,7 @@ export async function setPassword(req, res) {
 
     // Query the faculty by email
     let { data: faculty, error: selectError } = await supabase
-      .from("faculty") // Ensure the table name is correct
+      .from("students") // Ensure the table name is correct
       .select("mail")
       .eq("mail", mail)
       .single(); // Use .single() to get a single record
@@ -223,7 +223,7 @@ export async function setPassword(req, res) {
 
     // Update the faculty's password in the database
     const { error: updateError } = await supabase
-      .from("faculty") // Ensure the table name is correct
+      .from("students") // Ensure the table name is correct
       .update({ password: hashedPassword })
       .eq("mail", mail);
 

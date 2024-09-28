@@ -3,10 +3,11 @@ import { useState, useEffect, useMemo } from "react";
 import useAllFaculties from "./useAllFaculties";
 import usePanelists from "./usePanelists";
 import Spinner from "../../ui/Spinner";
+import toast from "react-hot-toast";
 
 function ModalAssignPanelSm({ setShowModal }) {
   const queryClient = useQueryClient();
-  const { setPanelMembers, isLoading: isLoading2 } = usePanelists();
+  const { setPanelMembers, isPending } = usePanelists();
   const group = queryClient.getQueryData(["selected-group"]);
 
   const { data: facultiesData, isLoading } = useAllFaculties();
@@ -33,10 +34,12 @@ function ModalAssignPanelSm({ setShowModal }) {
   }, [faculties]);
 
   function handleSetPanelists() {
+    if (!panel1 || !panel2) {
+      return toast.error("Please Select all the fields");
+    }
     const mail1 = faculties.find((faculty) => faculty.name === panel1)?.mail;
     const mail2 = faculties.find((faculty) => faculty.name === panel2)?.mail;
 
-    console.log("handleSetPanelists run!");
     console.log(mail1, mail2, group.group_name);
 
     setPanelMembers({ panelists: [mail1, mail2], group: group.group_name });
@@ -78,12 +81,14 @@ function ModalAssignPanelSm({ setShowModal }) {
           &times;
         </button>
         <div className="modal-header">
-          <h2>{group.title}</h2>
+          <h2>
+            {group.title.length > 100 ? group.title.slice(0, 100) : group.title}
+          </h2>
           <p>{group.group_name}</p>
           <p>Mentor: {group.mentor}</p>
         </div>
 
-        {isLoading || !faculties.length ? (
+        {isPending || !faculties.length ? (
           <Spinner isNotAbsolute={true} isBlack={true} />
         ) : (
           <>
@@ -122,8 +127,8 @@ function ModalAssignPanelSm({ setShowModal }) {
           </>
         )}
 
-        <button className="btn-black" onClick={handleSetPanelists}>
-          Submit Panelists
+        <button className="view-report" onClick={handleSetPanelists}>
+          {isPending ? "Submitting Panelists.." : "Submit Panelists"}
         </button>
       </div>
     </div>

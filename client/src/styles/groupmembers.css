@@ -8,33 +8,50 @@
   height: 90%;
   width: 100%;
   overflow-y: scroll;
-}
-
-.members tbody {
   position: relative;
 }
 
-.members-table {
-  height: 100%;
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
+.members-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
-.members-row {
-  height: 30px;
-  font-size: 14px;
-  font-weight: 400;
+/* Header styling */
+.members-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  padding: 10px;
+  color: rgb(61, 61, 61);
 }
 
-.members-row > th {
-  color: #696672;
+/* Each row in the group members list */
+.member-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Ensures top alignment */
+  padding: 5px;
+  font-size: 15px;
+  /* border-bottom: 1px solid rgb(147, 147, 147); */
+  gap: 20px;
+  color: rgb(71, 71, 71);
 }
 
-.members-table th:first-child {
-  width: 80px;
+/* Each column inside the row */
+.member-column {
+  flex: 1; /* Each column takes equal space */
+  word-wrap: break-word;
 }
 
-.members-first-child-long th:first-child {
-  width: 135px !important;
+/* Styling for the first column to be wider */
+.member-column:first-child {
+  flex: 1.5;
+}
+
+/* Additional styles for responsiveness or specific column widths */
+@media (max-width: 768px) {
+  .member-column {
+    flex: 1;
+  }
 }

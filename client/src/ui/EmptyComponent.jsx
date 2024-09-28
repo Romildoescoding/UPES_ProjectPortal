@@ -9,9 +9,12 @@ function EmptyComponent({ msg, color, size, isTable }) {
   ) : (
     <div
       className="empty-comp"
-      style={{ backgroundColor: color || "transparent", fontSize: size || 16 }}
+      style={{
+        backgroundColor: color || "transparent",
+        fontSize: size || 16,
+      }}
     >
-      <td>{msg}</td>
+      <span>{msg}</span>
     </div>
   );
 }

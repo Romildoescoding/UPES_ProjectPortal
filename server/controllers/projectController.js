@@ -36,13 +36,37 @@ export async function getProjects(req, res) {
   }
 }
 
+//POST /projects/group
+export async function getProjectByGroup(req, res) {
+  console.log("GET_PROJECTS_BY_GROUP_NAME");
+  try {
+    const { group_name } = req.body;
+    let { data, error } = await supabase
+      .from("projects")
+      .select("*")
+      .eq("group_name", group_name);
+
+    if (error) {
+      res.status(400).json({ status: "fail", message: err.message });
+      console.log(error);
+    }
+    console.log(data);
+    res.status(200).json({ status: "success", data });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ status: "fail", message: err });
+  }
+}
+
 //TAKES IN MAIL OF THE FACULTY AS AN INPUT
 
 //MAIL CONFIRMATION PENDING MAYBE FRONTEND MIGHT BE OKAY FOR THIS ONE.
 export async function setMentor(req, res) {
   console.log("SETMENTOR");
+
   try {
     let { faculty, group } = req.body;
+    console.log(req.body);
     //CHECK IF THE FACULTY EVEN EXISTS OR NOT
     let { data: faculties } = await supabase
       .from("faculty")
@@ -148,9 +172,8 @@ export async function createProject(req, res) {
 
   try {
     // Log body and files to see the data received
-    const { title, technologies, group_name, report } = req.body;
-
-    console.log(req.body);
+    const { title, technologies, group_name, report, isUpdating, oldFilePath } =
+      req.body;
 
     if (!report) {
       return res.status(400).json({ message: "Report file is required" });
@@ -163,43 +186,88 @@ export async function createProject(req, res) {
     const fileExtension = getFileExtension(report);
     const fileName = `${Math.random()}-report.${fileExtension}`;
 
-    //AFTER UPLOADING A FILE TO BUCKET, THE URL LOOKS LIKE
-    //https://gnhykmijuwsmnctkbfmy.supabase.co/storage/v1/object/public/reports/dhruv_c_file.pdf
+    // Construct the file path
     const filePath = `${process.env.SUPABASE_URL}/storage/v1/object/public/reports/${fileName}`;
-
     console.log(filePath, fileName);
 
-    // Save the project details in Supabase
-    const { data, error } = await supabase
-      .from("projects")
-      .insert([
-        {
+    if (isUpdating && group_name) {
+      // Update the existing project based on group_name
+      const { data: updateData, error: updateError } = await supabase
+        .from("projects")
+        .update({
           group_name,
           technologies,
           title,
           report: filePath,
-        },
-      ])
-      .select()
-      .single();
+        })
+        .eq("group_name", group_name) // Update based on group_name
+        .select()
+        .single();
 
-    if (error) {
-      console.error(error);
-      return res.status(404).json({ status: "fail", message: error });
+      if (updateError) {
+        console.error(updateError);
+        return res.status(404).json({ status: "fail", message: updateError });
+      }
+
+      // Upload the decoded file to Supabase storage
+      const { error: uploadError } = await supabase.storage
+        .from("reports")
+        .upload(fileName, reportBuffer);
+
+      if (uploadError) {
+        console.error(uploadError);
+        return res.status(500).json({ message: "Failed to upload report" });
+      }
+
+      // Extract the file name from the old URL
+      const oldFileName = oldFilePath.split("/").pop();
+
+      // Delete the previous file from the storage bucket
+      const { error: deleteError } = await supabase.storage
+        .from("reports")
+        .remove([oldFileName]);
+
+      if (deleteError) {
+        console.error("Error deleting the old file:", deleteError);
+        return res.status(500).json({ message: "Failed to delete old report" });
+      }
+
+      console.log(`Deleted old file: ${oldFileName}`);
+
+      return res.status(200).json({ status: "success", data: updateData });
+    } else {
+      // Insert new project
+      const { data, error } = await supabase
+        .from("projects")
+        .insert([
+          {
+            group_name,
+            technologies,
+            title,
+            report: filePath,
+          },
+        ])
+        .select()
+        .single();
+
+      if (error) {
+        console.error(error);
+        return res.status(404).json({ status: "fail", message: error });
+      }
+
+      // Upload the decoded file to Supabase storage
+      const { error: uploadError } = await supabase.storage
+        .from("reports")
+        .upload(fileName, reportBuffer);
+
+      if (uploadError) {
+        console.error(uploadError);
+        return res.status(500).json({ message: "Failed to upload report" });
+      }
+
+      // Success response
+      return res.status(200).json({ status: "success", data });
     }
-
-    // Upload the decoded file to Supabase storage
-    const { error: uploadError } = await supabase.storage
-      .from("reports")
-      .upload(fileName, reportBuffer);
-
-    if (uploadError) {
-      console.error(uploadError);
-      return res.status(500).json({ message: "Failed to upload report" });
-    }
-
-    // Success response
-    return res.status(200).json({ status: "success", data });
   } catch (err) {
     console.error(err);
     return res
@@ -213,11 +281,19 @@ export async function handleRequest(req, res) {
   try {
     const { isMentorAccepted, group_name } = req.body;
 
-    const { data, error } = await supabase
-      .from("projects")
-      .update({ is_mentor_accepted: isMentorAccepted })
-      .eq("group_name", group_name)
-      .select("*");
+    if (isMentorAccepted === false) {
+      const { data, error } = await supabase
+        .from("projects")
+        .update({ mentor: null })
+        .eq("group_name", group_name)
+        .select("*");
+    } else {
+      const { data, error } = await supabase
+        .from("projects")
+        .update({ is_mentor_accepted: isMentorAccepted })
+        .eq("group_name", group_name)
+        .select("*");
+    }
     if (error) {
       console.log(error);
       res.status(400).json({ status: "fail", message: error });

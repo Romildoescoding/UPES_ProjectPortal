@@ -11,12 +11,12 @@ function PanelProject({ setShowModal, setProjectForModal, project }) {
       }}
     >
       <td>
-        {group_name.length > 40 ? group_name.slice(0, 40) + "..." : group_name}
+        {group_name.length > 25 ? group_name.slice(0, 25) + "..." : group_name}
       </td>
-      <td>{title.length > 40 ? title.slice(0, 40) + "..." : title}</td>
+      <td>{title.length > 25 ? title.slice(0, 25) + "..." : title}</td>
       <td>
-        {technologies.length > 40
-          ? technologies.slice(0, 40) + "..."
+        {technologies.length > 25
+          ? technologies.slice(0, 25) + "..."
           : technologies}
       </td>
       <td

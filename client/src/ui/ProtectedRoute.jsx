@@ -5,10 +5,10 @@ import Loader from "./Loader";
 
 function ProtectedRoute({ children }) {
   const navigate = useNavigate();
-  const { data: user, isLoading } = useUser();
-  if (isLoading) return <Loader />;
+  const { data: user, Pending } = useUser();
+  if (Pending) return <Loader />;
 
-  if (!isLoading && !user?.user) {
+  if (!Pending && !user?.user) {
     // Ensure navigation happens once user is determined to be null
     navigate("/signin", { replace: true });
   }

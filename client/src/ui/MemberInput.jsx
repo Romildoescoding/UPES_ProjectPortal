@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
 
 function MemberInput({ number, members, setMembers, remainingMembers }) {
   const [member, setMember] = useState(members[number - 1] || ""); // Initialize with current value if exists
@@ -10,7 +10,8 @@ function MemberInput({ number, members, setMembers, remainingMembers }) {
     // Update the members array at the specific index
     setMembers((prevMembers) => {
       const updatedMembers = [...prevMembers];
-      updatedMembers[number - remainingMembers.length] = updatedMember;
+      console.log(number);
+      updatedMembers[number] = updatedMember;
       return updatedMembers;
     });
   };

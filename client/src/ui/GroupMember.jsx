@@ -1,12 +1,11 @@
 import capitalize from "../helpers/capitalize";
-
 function GroupMember({ member }) {
   return (
-    <tr className="members-row">
-      <td>{member?.name}</td>
-      <td>{member?.contact}</td>
-      <td>{capitalize(member?.position)}</td>
-    </tr>
+    <div className="member-row">
+      <div className="member-column">{member.name}</div>
+      <div className="member-column">{member.contact}</div>
+      <div className="member-column">{capitalize(member?.position)}</div>
+    </div>
   );
 }
 

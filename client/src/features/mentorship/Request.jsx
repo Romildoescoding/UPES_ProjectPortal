@@ -1,3 +1,4 @@
+import { useState } from "react";
 import useHandleRequests from "./useHandleRequests";
 
 function Request({ request }) {
@@ -13,15 +14,21 @@ function Request({ request }) {
   //     "is_mentor_accepted": false
   // }
   const { id, project, group_name, technologies, title } = request;
-  const { handleRequest, isLoading } = useHandleRequests();
+  const { handleRequest, isPending } = useHandleRequests();
+
+  const [isAccepting, setIsAccepting] = useState("placeholder");
 
   function handleAcceptRequest() {
+    setIsAccepting(true);
     handleRequest({ group_name, isMentorAccepted: true });
+    setIsAccepting("placeholder");
   }
 
   //DELETE (ASK FACULTY ABOUT IT)
   function handleDeclineRequest() {
+    setIsAccepting(false);
     handleRequest({ group_name, isMentorAccepted: false });
+    setIsAccepting("placeholder");
   }
 
   return (
@@ -44,14 +51,15 @@ function Request({ request }) {
         <span>TECHNOLOGIES</span>
         <div className="request-text">{technologies?.slice(0, 18) + "..."}</div>
       </div>
-      <div className="btn-div-import">
-        <button className="btn-black-import" onClick={handleAcceptRequest}>
-          ACCEPT
-        </button>
-        <button className="btn-black-import" onClick={handleDeclineRequest}>
-          DECLINE
-        </button>
-      </div>
+      {/* <div className="btn-div-import">
+        
+      </div> */}
+      <button className="view-report margin-div" onClick={handleAcceptRequest}>
+        {isPending && isAccepting ? "ACCEPTING..." : "ACCEPT"}
+      </button>
+      <button className="view-report margin-div" onClick={handleDeclineRequest}>
+        {isPending && !isAccepting ? "DECLINING..." : "DECLINE"}
+      </button>
     </div>
   );
 }

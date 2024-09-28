@@ -1,27 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import emailjs from "@emailjs/browser";
 import useGroup from "./useGroup";
 import validateEmail from "../../helpers/emailValidate";
 import { useQueryClient } from "@tanstack/react-query";
 import useUpdateMembers from "./useMembers";
 import EmptyComponent from "../../ui/EmptyComponent";
+import toast from "react-hot-toast";
 
 function ModalGroupInitiation({ setShowModal }) {
   const queryClient = useQueryClient();
   const user = queryClient.getQueryData(["user"]);
   const inGroup = queryClient.getQueryData(["team"]);
-  const { initializeGroup, isLoading } = useGroup();
-  const { updateMembers, isLoading: isLoading2 } = useUpdateMembers();
+  const { initializeGroup, isPending, isSuccess, isError } = useGroup();
+  const { updateMembers, isPending: isPending2 } = useUpdateMembers();
   const [group, setGroup] = useState("");
   const [leader, setLeader] = useState("");
-  // const [sapmember1, setsapMember1] = useState("");
-  // const [emailmember1, setEmailmember1] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
 
     if (group === "" || !validateEmail(leader)) {
-      // Changed to use emailmember1 for validation
       console.log("INVALID EMAIL OR TEAM NAME");
       return;
     }
@@ -29,23 +27,29 @@ function ModalGroupInitiation({ setShowModal }) {
     initializeGroup({
       group,
       leader,
-      // leaderSap: sapmember1,
-      // leaderMail: emailmember1,
     });
 
     if (leader !== user?.user?.mail) {
       updateMembers({ group, member1: user?.user?.mail });
-      console.log("IS NOT LEADER");
     }
-
-    //TOAST NOTIFICATION... FOR SUCCESSFUL CREATION OF GROUP
 
     setShowModal("");
     setGroup("");
     setLeader("");
-    // setsapMember1("");
-    // setEmailmember1("");
   }
+
+  // useEffect to handle success and error for group initiation
+  // useEffect(() => {
+  //   console.log(isSuccess, isError);
+  //   if (isSuccess) {
+  //     toast.success("Group Initiated Successfully");
+  //     queryClient.invalidateQueries(["team"]);
+  //   }
+
+  //   if (isError) {
+  //     toast.error("Group Initiation Failed");
+  //   }
+  // }, [isSuccess, isError, queryClient]);
 
   return (
     <div className="add-students">
@@ -87,8 +91,8 @@ function ModalGroupInitiation({ setShowModal }) {
                 onChange={(e) => setLeader(e.target.value)}
               />
             </div>
-            <button type="submit" className="btn-colored" disabled={isLoading}>
-              {isLoading ? "CREATING GROUP..." : "CREATE GROUP"}
+            <button type="submit" className="btn-colored" disabled={isPending}>
+              {isPending || isPending2 ? "CREATING GROUP..." : "CREATE GROUP"}
             </button>
           </>
         )}
