@@ -1,3 +1,5 @@
+import PdfLogo from "../../public/svg/PdfLogo";
+
 //HERE PROJECT === REQUEST
 function ActivityRequest({ setShowModal, setProjectForModal, request }) {
   console.log(request);
@@ -12,7 +14,12 @@ function ActivityRequest({ setShowModal, setProjectForModal, request }) {
     >
       <span className="ac-marks-heading">{group_name}</span>
       <div className="members-container overflow-hidden">
-        <table className="members-table">
+        <p className="ellipsis">Project Title: {title}</p>
+        <p className="ellipsis">Technologies: {technologies}</p>
+        <p className="ellipsis">
+          Report: <PdfLogo />
+        </p>
+        {/* <table className="members-table">
           <thead>
             <tr className="ac-members-row color-gray">
               <th>Name</th>
@@ -42,7 +49,7 @@ function ActivityRequest({ setShowModal, setProjectForModal, request }) {
               <td>99/100</td>
             </tr>
           </tbody>
-        </table>
+        </table> */}
       </div>
     </div>
   );

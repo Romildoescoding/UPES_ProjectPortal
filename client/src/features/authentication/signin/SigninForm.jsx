@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import useSignin from "./useSignin";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function SigninForm({ setShowModal }) {
   const [email, setEmail] = useState("");
@@ -10,11 +11,14 @@ function SigninForm({ setShowModal }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!email || !password) return;
+    if (!email || !password) {
+      return toast.error("Fields must not be empty");
+    }
     signin(
       { email, password },
       {
         onSuccess: (user) => {
+          toast.success("Login Successful");
           if (user.data.role === "student") {
             navigate("/student");
           }
@@ -22,6 +26,9 @@ function SigninForm({ setShowModal }) {
             console.log("ROLE OPENED");
             setShowModal("select-role");
           }
+        },
+        onError: () => {
+          toast.error("Email or Password are incorrect");
         },
       }
     );
@@ -59,7 +66,7 @@ function SigninForm({ setShowModal }) {
         />
       </div>
 
-      <div className="checkbox-div">
+      <div className="checkbox-div checkbox-container">
         {/* <div className="checkbox">
           <input type="checkbox" id="remember-me" name="remember-me" />
           <label htmlFor="remember-me">Remember me</label>

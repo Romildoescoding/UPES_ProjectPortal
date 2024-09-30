@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 // import emailjs from "@emailjs/browser";
 import useGroup from "./useGroup";
 import validateEmail from "../../helpers/emailValidate";
@@ -12,6 +12,7 @@ import useProjectByGroup from "./useProjectByGroup";
 import { docServiceURL } from "../../helpers/backendApi";
 import useProjectUpdate from "./useProjectUpdate";
 import toast from "react-hot-toast";
+import Spinner from "../../ui/Spinner";
 
 function ModalUploadProject({ setShowModal }) {
   const queryClient = useQueryClient();
@@ -23,10 +24,15 @@ function ModalUploadProject({ setShowModal }) {
   const { uploadProject, isPending: isPendingProjectUpload } = useProject();
   const { updateProject, isPending: isPendingProjectUpdate } =
     useProjectUpdate();
-  const [title, setTitle] = useState(project?.data[0]?.title || "");
+  const [title, setTitle] = useState(project?.data[0]?.title || ""); // Ensure controlled input
   const [technologies, setTechnologies] = useState(
     project?.data[0]?.technologies || ""
   );
+
+  useEffect(() => {
+    setTitle(project?.data[0]?.title || ""); // Default to empty string
+    setTechnologies(project?.data[0]?.technologies || ""); // Default to empty string
+  }, [project?.data]);
   const [report, setReport] = useState("");
 
   const { data, isPending } = useUser();
@@ -61,14 +67,6 @@ function ModalUploadProject({ setShowModal }) {
       return;
     }
 
-    // if (
-    //   title === project?.data[0]?.title &&
-    //   technologies === project?.data[0]?.technologies
-    // ) {
-    //   toast.error("All Field are the same as previous");
-    //   return;
-    // }
-
     // Create FormData object to hold the file and other form data
     const formData = new FormData();
     formData.append("title", title);
@@ -85,6 +83,8 @@ function ModalUploadProject({ setShowModal }) {
     setTitle("");
     setReport(null);
   }
+
+  if (isPending || isPending2 || isPending3) return <Spinner />;
 
   return (
     <div className="add-students">
@@ -111,7 +111,7 @@ function ModalUploadProject({ setShowModal }) {
                 name="title"
                 id="title"
                 placeholder="PROJECT TITLE"
-                value={title}
+                value={title || ""}
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
@@ -122,7 +122,7 @@ function ModalUploadProject({ setShowModal }) {
                 name="tech"
                 id="tech"
                 placeholder="TECHNOLOGIES USED (separate by comma , )"
-                value={technologies}
+                value={technologies || ""}
                 onChange={(e) => setTechnologies(e.target.value)}
               />
             </div>
@@ -133,7 +133,7 @@ function ModalUploadProject({ setShowModal }) {
                 id="report"
                 className="hidden-input"
                 placeholder="REPORT"
-                onChange={(e) => setReport(e.target.files[0])}
+                onChange={(e) => setReport(e.target.files[0] || null)}
               />
               <label htmlFor="report" className="custom-label">
                 SELECT REPORT
@@ -157,17 +157,17 @@ function ModalUploadProject({ setShowModal }) {
               </button>
             </div>
             <div className="btn-div">
-              {project?.data.length && (
+              {project?.data.length !== 0 && (
                 <button
                   type="submit"
                   className="btn-colored"
                   onClick={handleUpdate}
-                  disabled={isPendingProjectUpload || !project?.data.length}
+                  disabled={isPendingProjectUpdate || !project?.data.length}
                   style={{
                     cursor: !project?.data.length ? "not-allowed" : "pointer",
                   }}
                 >
-                  {isPendingProjectUpload
+                  {isPendingProjectUpdate
                     ? "UPDATE DETAILS..."
                     : "UPDATE DETAILS"}
                 </button>

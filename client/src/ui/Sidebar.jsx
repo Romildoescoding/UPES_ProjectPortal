@@ -18,6 +18,7 @@ import { useUser } from "../features/authentication/signin/useUser";
 import ModalUploadProject from "../features/members/ModalUploadProject";
 import ModalAssignPanels from "../features/mentorship/ModalAssignPanels";
 import ModalAssignPanelSm from "../features/mentorship/ModalAssignPanelSm";
+import ModalLogout from "../features/authentication/logout/ModalLogout";
 
 function Sidebar() {
   const location = useLocation();
@@ -101,14 +102,16 @@ function Sidebar() {
               </div>
             </li>
           ) : (
-            <li className="option">
+            <>
+              {/* <li className="option">
               <div>
                 <span className="option-icon">
                   <Rectangles />
                 </span>
                 <span>Dashboard</span>
               </div>
-            </li>
+            </li> */}
+            </>
           )}
           {isStudent ? (
             //STUDENT
@@ -175,24 +178,28 @@ function Sidebar() {
               </div>
             </li>
           ) : (
-            <li className="option">
+            <>
+              {/* <li className="option">
               <div>
                 <span className="option-icon">
                   <Messages />
                 </span>
                 <span>Technical Support</span>
               </div>
-            </li>
+            </li> */}
+            </>
           )}
           {isStudent || isFaculty ? (
-            <li className="option">
+            <>
+              {/* <li className="option">
               <div>
                 <span className="option-icon">
                   <Meeting />
                 </span>
                 <span>Schedule a Meeting</span>
               </div>
-            </li>
+            </li> */}
+            </>
           ) : isCoordinator ? (
             <li className="option">
               <div>
@@ -203,18 +210,20 @@ function Sidebar() {
               </div>
             </li>
           ) : (
-            <li className="option">
+            <>
+              {/* <li className="option">
               <div>
                 <span className="option-icon">
                   <Meeting />
                 </span>
                 <span>Join a meeting</span>
               </div>
-            </li>
+            </li> */}
+            </>
           )}
         </ul>
       </div>
-      <Logout />
+      <Logout setShowModal={setShowModal} showModal={showModal} />
     </div>
   );
 }

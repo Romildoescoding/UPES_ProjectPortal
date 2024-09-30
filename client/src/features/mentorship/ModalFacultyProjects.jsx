@@ -5,7 +5,7 @@ import Spinner from "../../ui/Spinner";
 import useProjectMembers from "./useProjectMembers";
 
 function ModalFacultyProjects({ setShowModal, projectForModal }) {
-  const { data, isLoading } = useProjectMembers({
+  const { data, isLoading, isPending, isFetching } = useProjectMembers({
     group_name: projectForModal.group_name,
   });
   const group = data?.data;
@@ -65,7 +65,7 @@ function ModalFacultyProjects({ setShowModal, projectForModal }) {
           {/* <h3>{projectForModal?.report}</h3> */}
         </div>
 
-        {isLoading || !group?.length ? (
+        {isFetching || !group?.length ? (
           <Spinner isNotAbsolute={true} isBlack={true} />
         ) : (
           group?.map((member, i) => <Member key={i} member={member} />)

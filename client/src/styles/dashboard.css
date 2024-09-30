@@ -1,6 +1,7 @@
 .dashboard {
   height: 100%;
   width: 100vw;
+  max-width: 1680px;
   display: flex;
   padding: 25px;
   gap: 25px;
@@ -36,6 +37,7 @@
   gap: 16px;
   min-height: 343px;
   width: 100%;
+  /* min-width: 845px; */
 }
 
 .contents-bottom {
@@ -44,6 +46,7 @@
   justify-content: space-between;
   min-height: 200px;
   width: 100%;
+  /* min-width: 845px; */
 }
 
 .contents-top-left {
@@ -90,6 +93,12 @@
   justify-content: flex-start;
   padding-left: 33px;
   position: relative;
+}
+
+@media (max-width: 1250px) {
+  .greetings-div img {
+    display: none;
+  }
 }
 
 .feedback-div {

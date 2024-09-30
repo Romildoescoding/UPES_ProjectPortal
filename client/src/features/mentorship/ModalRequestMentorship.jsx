@@ -5,6 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import EmptyComponent from "../../ui/EmptyComponent";
 import useProjectByGroup from "../members/useProjectByGroup";
 import toast from "react-hot-toast";
+import Spinner from "../../ui/Spinner";
 
 function ModalRequestMentorship({ setShowModal }) {
   const [facultyMail, setFacultyMail] = useState("");
@@ -15,14 +16,8 @@ function ModalRequestMentorship({ setShowModal }) {
   const { project, isPending: isPending2 } = useProjectByGroup({
     group_name: group,
   });
-  // console.log(project);
-  if (!team?.data?.length)
-    return (
-      <EmptyComponent
-        color="white"
-        msg="You are not in any group yet ❗\n Join a group first"
-      />
-    );
+
+  if (isPending2) return <Spinner isAbsolute={true} isBlack={true} />;
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -51,6 +46,12 @@ function ModalRequestMentorship({ setShowModal }) {
           <EmptyComponent
             color="white"
             msg="❗You are not in any group yet❗ Join a group first"
+            size={24}
+          />
+        ) : project?.data[0]?.mentor && project?.data[0]?.is_mentor_accepted ? (
+          <EmptyComponent
+            color="white"
+            msg="❗You already have a mentor❗"
             size={24}
           />
         ) : (

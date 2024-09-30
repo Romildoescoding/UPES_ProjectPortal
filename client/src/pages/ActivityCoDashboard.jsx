@@ -11,8 +11,8 @@ import MarksAwarded from "../ui/MarksAwarded";
 import ActivityCoMarksTable from "../ui/ActivityCoMarksTable";
 import ActivityCoMarksTableWrapper from "../ui/ActivityCoMarksTableWrapper";
 function ActivityCoDashboard() {
-  const { data: session, isLoading } = useUser();
-  let role = session?.user?.role;
+  const { data: user, isLoading } = useUser();
+  let role = user?.user?.role;
 
   if (role !== "faculty") return <Error />;
 
@@ -24,15 +24,17 @@ function ActivityCoDashboard() {
             <div className="contents-top-left-upper">
               <div>
                 <p className="greetings-text-sm">{getFormattedDate()}</p>
-                <p className="greetings-text-xl">Welcome back, Dr.John!</p>
+                <p className="greetings-text-xl">
+                  Welcome back, {user?.user?.name}!
+                </p>
               </div>
             </div>
-            <div className="contents-top-left-lower">
+            {/* <div className="contents-top-left-lower">
               <div>
                 <p className="greetings-text-xl">Statistics</p>
                 <p className="greetings-text-xl">empty space for statistics</p>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="contents-top-right-faculty">
             <div>

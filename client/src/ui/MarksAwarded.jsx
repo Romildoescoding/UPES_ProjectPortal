@@ -8,13 +8,18 @@ import MentorProjects from "./MentorProjects";
 import Modal from "./Modal";
 import ModalAddStudents from "../features/members/ModalAddStudents";
 import ModalFacultyProjects from "../features/mentorship/ModalFacultyProjects";
+import Spinner from "./Spinner";
 
 function MarksAwarded() {
   const [showModal, setShowModal] = useState("");
   const [projectForModal, setProjectForModal] = useState("");
   const { data: user, isLoading } = useUser();
   const name = user?.user?.name;
-  let { data: mentorProjects, isLoading2 } = useProjects({
+  let {
+    data: mentorProjects,
+    isLoading2,
+    isFetching,
+  } = useProjects({
     name,
     isMentor: true,
     isMentorAccepted: "true",
@@ -54,31 +59,37 @@ function MarksAwarded() {
         height={35}
         isHeading={true}
       />
-      <table className="faculty-table">
-        <thead>
-          <tr>
-            <th>Group Name</th>
-            <th>Title</th>
-            <th>Technologies Used</th>
-            {/* <th>Marks awarded</th> */}
-          </tr>
-        </thead>
-        <tbody>
-          {projectsToDisplay?.map((project, index) => (
-            <MentorProjects
-              key={index}
-              project={project}
-              setShowModal={setShowModal}
-              setProjectForModal={setProjectForModal}
-            />
-          ))}
-        </tbody>
-      </table>
-      <Pagination
-        numResultsToDisplay={numResultsToDisplay}
-        projects={mentorProjects?.data}
-        setProjectsToDisplay={setProjectsToDisplay}
-      />
+      {isFetching ? (
+        <Spinner />
+      ) : (
+        <>
+          <table className="faculty-table">
+            <thead>
+              <tr>
+                <th>Group Name</th>
+                <th>Title</th>
+                <th>Technologies Used</th>
+                {/* <th>Marks awarded</th> */}
+              </tr>
+            </thead>
+            <tbody>
+              {projectsToDisplay?.map((project, index) => (
+                <MentorProjects
+                  key={index}
+                  project={project}
+                  setShowModal={setShowModal}
+                  setProjectForModal={setProjectForModal}
+                />
+              ))}
+            </tbody>
+          </table>
+          <Pagination
+            numResultsToDisplay={numResultsToDisplay}
+            projects={mentorProjects?.data}
+            setProjectsToDisplay={setProjectsToDisplay}
+          />
+        </>
+      )}
       {showModal === "faculty-project-details" && (
         <Modal setShowModal={setShowModal}>
           <ModalFacultyProjects

@@ -2,8 +2,10 @@ import LogoutSVG from "../../../../public/svg/LogoutSVG";
 import useLogout from "./useLogout";
 import Loader from "../../../ui/Loader";
 import { useQueryClient } from "@tanstack/react-query";
+import Modal from "../../../ui/Modal";
+import ModalLogout from "./ModalLogout";
 
-function Logout() {
+function Logout({ showModal, setShowModal }) {
   const queryClient = useQueryClient();
   // const { logout, isLoading } = useLogout();
 
@@ -15,13 +17,22 @@ function Logout() {
     setTimeout(() => queryClient.removeQueries(), 1000);
   }
   // if (isLoading) return <Loader />;
+
   return (
     <div className="logout-div">
-      <button className="logout-btn" onClick={handleLogout}>
+      {showModal === "logout" && (
+        <Modal setShowModal={setShowModal}>
+          <ModalLogout
+            setShowModal={setShowModal}
+            handleLogout={handleLogout}
+          />
+        </Modal>
+      )}
+
+      <button className="logout-btn" onClick={() => setShowModal("logout")}>
         <LogoutSVG />
         Logout
       </button>
-      <span className="logout-text">Last Login : 01/02/2024, 02:05:03 PM</span>
     </div>
   );
 }

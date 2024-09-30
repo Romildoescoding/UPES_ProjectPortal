@@ -7,6 +7,7 @@ import useRequests from "../features/mentorship/useRequests";
 import useProjects from "../features/mentorship/useProjects";
 import Modal from "./Modal";
 import ModalFacultyProjects from "../features/mentorship/ModalFacultyProjects";
+import Spinner from "./Spinner";
 
 function ActivityCoMarksTable() {
   const [showModal, setShowModal] = useState("");
@@ -15,7 +16,7 @@ function ActivityCoMarksTable() {
   const { data: user, isLoading } = useUser();
   const name = user?.user?.name;
   console.log(name);
-  let { data: mentorProjects, isLoading2 } = useProjects({
+  let { data: mentorProjects, isFetching } = useProjects({
     name,
   });
 
@@ -89,22 +90,28 @@ function ActivityCoMarksTable() {
           />
         </Modal>
       )}
-      <div className="ac-marks-awarded" ref={tableContainerRef}>
-        {requestsToDisplay?.map((request, i) => (
-          <ActivityRequest
-            key={i}
-            request={request}
-            setProjectForModal={setProjectForModal}
-            setShowModal={setShowModal}
-          />
-        ))}
-      </div>
+      {isFetching ? (
+        <Spinner />
+      ) : (
+        <>
+          <div className="ac-marks-awarded" ref={tableContainerRef}>
+            {requestsToDisplay?.map((request, i) => (
+              <ActivityRequest
+                key={i}
+                request={request}
+                setProjectForModal={setProjectForModal}
+                setShowModal={setShowModal}
+              />
+            ))}
+          </div>
 
-      <Pagination
-        numResultsToDisplay={numResultsToDisplay}
-        projects={mentorProjects?.data}
-        setProjectsToDisplay={setRequestsToDisplay}
-      />
+          <Pagination
+            numResultsToDisplay={numResultsToDisplay}
+            projects={mentorProjects?.data}
+            setProjectsToDisplay={setRequestsToDisplay}
+          />
+        </>
+      )}
     </div>
   );
 }

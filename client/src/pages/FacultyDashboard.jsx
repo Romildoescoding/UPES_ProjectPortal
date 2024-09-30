@@ -8,17 +8,16 @@ import Pagination from "../ui/Pagination";
 import { useUser } from "../features/authentication/signin/useUser";
 import Error from "../ui/Error";
 import MarksAwarded from "../ui/MarksAwarded";
+import Loader from "../ui/Loader";
 
 //DEMO PROJECTS OR DATA
 
 function FacultyDashboard() {
-  // const [numResultsToDisplay, setNumResultsToDisplay] = useState(5);
-  // // const [projects, setProjects] = useState();
-  // const [projectsToDisplay, setProjectsToDisplay] = useState(projects);
-  // const tableContainerRef = useRef(null);
+  const { data: user, isFetching, isLoading, isPending } = useUser();
 
-  const { data: session, isLoading } = useUser();
-  let role = session?.user?.role;
+  let role = user?.user?.role;
+
+  if (isLoading) return <Loader />;
 
   if (role !== "faculty") return <Error />;
 
@@ -30,15 +29,17 @@ function FacultyDashboard() {
             <div className="contents-top-left-upper">
               <div>
                 <p className="greetings-text-sm">{getFormattedDate()}</p>
-                <p className="greetings-text-xl">Welcome back, Dr.John!</p>
+                <p className="greetings-text-xl">
+                  Welcome back, {user?.user?.name}!
+                </p>
               </div>
             </div>
-            <div className="contents-top-left-lower">
+            {/* <div className="contents-top-left-lower">
               <div>
                 <p className="greetings-text-xl">Statistics</p>
                 <p className="greetings-text-xl">empty space for statistics</p>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="contents-top-right-faculty">
             <div>

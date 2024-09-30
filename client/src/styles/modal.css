@@ -472,3 +472,43 @@
 .uppercase {
   text-transform: uppercase;
 }
+
+.logout-svg svg path {
+  fill: black;
+}
+
+.logout-svg {
+  margin-left: 10px;
+}
+
+.logout-ques {
+  font-size: 15px;
+  margin: 10px 100px 10px 0px;
+}
+
+.logout-btns {
+  /* background-color: red; */
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  justify-content: end;
+  align-items: center;
+}
+
+.logout-cancel {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #e3e3e3;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.logout-main {
+  cursor: pointer;
+  padding: 10px 20px;
+  background-color: red;
+  border: none;
+  color: white;
+  border-radius: 5px;
+}

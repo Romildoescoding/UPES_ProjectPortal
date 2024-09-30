@@ -1,6 +1,7 @@
 .feedback {
   height: 100%;
   width: 100%;
+  /* overflow-x: scroll; */
 }
 
 .feedback-header {
@@ -19,6 +20,7 @@
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+  /* overflow: scroll; */
 }
 
 .feedback-table thead {
@@ -48,6 +50,14 @@
   font-size: 14px;
   font-weight: 300;
   width: 100%;
+}
+
+@media (max-width: 670px) {
+  .feedback-row {
+    font-size: 5px;
+    max-width: 33%;
+    height: 20px;
+  }
 }
 
 .feedback-row > th,
