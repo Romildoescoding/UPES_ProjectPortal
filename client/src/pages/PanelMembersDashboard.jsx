@@ -9,6 +9,7 @@ import { useUser } from "../features/authentication/signin/useUser";
 import Error from "../ui/Error";
 import MarksAwarded from "../ui/MarksAwarded";
 import PanelMemberMarksTable from "../ui/PanelMemberMarksTable";
+import CalenderEvents from "../ui/CalenderEvents";
 
 //DEMO PROJECTS OR DATA
 
@@ -40,8 +41,7 @@ function PanelMembersDashboard() {
         <PanelMemberMarksTable />
       </div>
       <div className="calender-div-faculty">
-        <Calender />
-        <Events />
+        <CalenderEvents />
       </div>
     </>
   );

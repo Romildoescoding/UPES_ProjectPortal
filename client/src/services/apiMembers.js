@@ -281,3 +281,13 @@ export async function createEvent(event) {
   if (res.status !== 200) throw new Error(data.message);
   return data;
 }
+
+export async function getEvents() {
+  const res = await fetch(`${serverPort}/api/v1/events`);
+  const data = await res.json();
+
+  //THIS LINE IS NECESSARY FOR ONERROR
+  if (res.status !== 200) throw new Error(data.message);
+  console.log(data);
+  return data;
+}

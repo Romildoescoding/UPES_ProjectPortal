@@ -10,6 +10,7 @@ import Error from "../ui/Error";
 import MarksAwarded from "../ui/MarksAwarded";
 import ActivityCoMarksTable from "../ui/ActivityCoMarksTable";
 import ActivityCoMarksTableWrapper from "../ui/ActivityCoMarksTableWrapper";
+import CalenderEvents from "../ui/CalenderEvents";
 function ActivityCoDashboard() {
   const { data: user, isLoading } = useUser();
   let role = user?.user?.role;
@@ -48,8 +49,7 @@ function ActivityCoDashboard() {
         <ActivityCoMarksTable />
       </div>
       <div className="calender-div-faculty">
-        <Calender />
-        <Events />
+        <CalenderEvents />
       </div>
     </>
   );

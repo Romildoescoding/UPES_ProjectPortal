@@ -9,6 +9,7 @@ import { useUser } from "../features/authentication/signin/useUser";
 import Error from "../ui/Error";
 import MarksAwarded from "../ui/MarksAwarded";
 import Loader from "../ui/Loader";
+import CalenderEvents from "../ui/CalenderEvents";
 
 //DEMO PROJECTS OR DATA
 
@@ -54,8 +55,7 @@ function FacultyDashboard() {
         <MarksAwarded />
       </div>
       <div className="calender-div-faculty">
-        <Calender />
-        <Events />
+        <CalenderEvents />
       </div>
     </>
   );

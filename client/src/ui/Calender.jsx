@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import { getMonth } from "../helpers/formatDate";
 import { getCurrentMonthDays } from "../helpers/formatDate";
 
-function Calender() {
-  const [selectedDate, setSelectedDate] = useState();
+function Calender({ selectedDate, setSelectedDate }) {
   const [monthDays, setMonthDays] = useState([]);
-  //   const [currentDate, setcurrentDate] = useState(() => new Date());
+  // const [currentDate, setcurrentDate] = useState(() => new Date());
 
-  useEffect(function () {
-    setSelectedDate(() => new Date());
-    setMonthDays(getCurrentMonthDays);
-  }, []);
+  useEffect(
+    function () {
+      setSelectedDate(() => new Date());
+      setMonthDays(getCurrentMonthDays);
+    },
+    [setSelectedDate]
+  );
 
   return (
     <div className="calender">
@@ -18,14 +20,6 @@ function Calender() {
         <p className="dashboard-heading">
           {selectedDate && getMonth(selectedDate)}
         </p>
-        {/* <div className="icons">
-          <span id="prev" className="material-symbols-rounded">
-            &larr;
-          </span>
-          <span id="next" className="material-symbols-rounded">
-            &rarr;
-          </span>
-        </div> */}
       </header>
       <div className="calender-days-container-div">
         <div className="calender-days-container">

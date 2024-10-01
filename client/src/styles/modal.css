@@ -495,6 +495,7 @@
 }
 
 .event-form {
+  /* align-items: center; */
   width: 60%;
   height: 100%;
   justify-content: center;
@@ -530,4 +531,29 @@
 
 .form-group textarea:focus {
   outline: none;
+}
+
+.styled-select {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.styled-select:focus {
+  border-color: blueviolet;
+  outline: none;
+  box-shadow: 0 0 5px rgba(137, 43, 226, 0.5);
+}
+
+@media (max-width: 650px) {
+  .heading-modal {
+    font-size: 20px;
+    text-decoration: underline;
+  }
 }

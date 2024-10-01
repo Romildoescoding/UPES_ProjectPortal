@@ -5,11 +5,18 @@
   min-width: fit-content;
   display: grid;
   place-items: center;
-  overflow: hidden;
-  /* z-index: -1; */
+  overflow-x: hidden;
+}
+
+.header-wrapper {
+  height: 65px;
+  width: 100vw;
 }
 
 .header {
+  position: fixed;
+  top: 0;
+  z-index: 101;
   height: 65px;
   width: 100vw;
   background-color: #007bed;
@@ -95,7 +102,7 @@
 
 @media (max-width: 700px) {
   .switch-role-header {
-    position: absolute;
+    position: fixed;
     bottom: 10px;
     right: 10px;
     z-index: 9999;
@@ -104,10 +111,21 @@
   }
 }
 
-@media (max-width: 550px) {
+@media (max-width: 1250px) {
+  .faculty-table td,
+  .faculty-table th {
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 604px) {
   .header-span-dashboard {
     font-size: 12px;
-    /* background-color: red; */
+  }
+
+  .faculty-table td,
+  .faculty-table th {
+    font-size: 9px !important;
   }
 
   .header {

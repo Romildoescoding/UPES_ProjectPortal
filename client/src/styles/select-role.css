@@ -49,29 +49,3 @@
   height: 100%;
   justify-content: center;
 }
-
-/* .role {
-  width: 100%;
-  height: 30%;
-  display: flex;
-  align-items: center;
-  border-radius: 10px;
-  padding-left: 30px;
-  font-size: 20px;
-  cursor: pointer;
-  transition: all 0.15s;
-  background-color: rgb(244, 244, 244);
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.176);
-}
-
-.role:hover {
-  background-color: black;
-  color: white;
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.612);
-  transform: translateY(-5px);
-}
-
-.role:active {
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.612);
-  transform: translateY(0px);
-} */

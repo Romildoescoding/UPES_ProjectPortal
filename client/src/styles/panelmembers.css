@@ -76,6 +76,37 @@
   border-radius: 20px;
 }
 
+@media (max-width: 905px) {
+  .contents-top-panel {
+    padding: 20px;
+  }
+
+  .contents-top-panel > div {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 1030px) {
+  .panel-members-table th,
+  .panel-members-table td {
+    font-size: 10px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .panel-members-table th,
+  .panel-members-table td {
+    font-size: 8px !important;
+  }
+}
+
+@media (max-width: 450px) {
+  .panel-members-table th,
+  .panel-members-table td {
+    font-size: 6px !important;
+  }
+}
+
 .contents-top-panel > div {
   display: flex;
   align-items: center;

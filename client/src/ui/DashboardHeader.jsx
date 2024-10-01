@@ -17,42 +17,44 @@ function DashboardHeader() {
     ? "Project Portal- Faculty Panel Members"
     : "Project Portal- Activity Co-Ordinator";
   return (
-    <div className="header">
-      {showModal === "select-role" && (
-        <Modal setShowModal={setShowModal}>
-          <ModalSelectRole setShowModal={setShowModal} />
-        </Modal>
-      )}
-      <img src="/images/upes-logo.png" alt="logo" className="logo-image" />
-      <span className="header-span-dashboard">{headerText}</span>
-      <div className="switch-role-pill-div">
-        {!isStudent && (
-          <div
-            className="switch-role-header"
-            onClick={() => setShowModal("select-role")}
-          >
-            <img
-              src="/images/switch-role-arrows.png"
-              alt="swirch-role-arrows"
-              className="switch-role-header-img"
-            />
-            <span>Switch Role</span>
-          </div>
+    <div className="header-wrapper">
+      <div className="header">
+        {showModal === "select-role" && (
+          <Modal setShowModal={setShowModal}>
+            <ModalSelectRole setShowModal={setShowModal} />
+          </Modal>
         )}
-        <div className="username-pill">
-          <img
-            src="/images/user-image.png"
-            alt="user-image"
-            className="pill-image"
-          />
-          <div className="pill-div">
-            <span className="pill-bold-text">{user?.user?.name}</span>
-            <span className="pill-normal-text">
-              {location.pathname === "/student"
-                ? user?.user?.program
-                : "Assistant Professor-SS"}
-            </span>
-            {/* <span className="pill-normal-text">{role}</span> */}
+        <img src="/images/upes-logo.png" alt="logo" className="logo-image" />
+        <span className="header-span-dashboard">{headerText}</span>
+        <div className="switch-role-pill-div">
+          {!isStudent && (
+            <div
+              className="switch-role-header"
+              onClick={() => setShowModal("select-role")}
+            >
+              <img
+                src="/images/switch-role-arrows.png"
+                alt="swirch-role-arrows"
+                className="switch-role-header-img"
+              />
+              <span>Switch Role</span>
+            </div>
+          )}
+          <div className="username-pill">
+            <img
+              src="/images/user-image.png"
+              alt="user-image"
+              className="pill-image"
+            />
+            <div className="pill-div">
+              <span className="pill-bold-text">{user?.user?.name}</span>
+              <span className="pill-normal-text">
+                {location.pathname === "/student"
+                  ? user?.user?.program
+                  : "Assistant Professor-SS"}
+              </span>
+              {/* <span className="pill-normal-text">{role}</span> */}
+            </div>
           </div>
         </div>
       </div>

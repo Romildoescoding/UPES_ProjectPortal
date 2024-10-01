@@ -8,10 +8,12 @@ function Header() {
     return <DashboardHeader />;
   } else {
     return (
-      <div className="header">
-        <img src="/images/upes-logo.png" alt="logo" className="logo-image" />
-        <span className="header-span">Welcome to UPES Project Portal</span>
-        <div className="pill-div"></div>
+      <div className="header-wrapper">
+        <div className="header">
+          <img src="/images/upes-logo.png" alt="logo" className="logo-image" />
+          <span className="header-span">Welcome to UPES Project Portal</span>
+          <div className="pill-div"></div>
+        </div>
       </div>
     );
   }

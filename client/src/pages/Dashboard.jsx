@@ -8,6 +8,7 @@ import Feedback from "../ui/Feedback";
 import GroupMembers from "../ui/GroupMembers";
 import Loader from "../ui/Loader";
 import Objectives from "../ui/Objectives";
+import CalenderEvents from "../ui/CalenderEvents";
 
 function Dashboard() {
   const { data, isPending, isFetching, isLoading } = useUser();
@@ -52,8 +53,7 @@ function Dashboard() {
           </div>
         </div>
         <div className="calender-div">
-          <Calender />
-          <Events />
+          <CalenderEvents />
         </div>
       </div>
       <div className="contents-bottom">
