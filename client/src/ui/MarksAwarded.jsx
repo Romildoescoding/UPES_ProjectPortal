@@ -2,11 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import TextPill from "./TextPill";
 import Pagination from "./Pagination";
 import { useUser } from "../features/authentication/signin/useUser";
-import useRequests from "../features/mentorship/useRequests";
 import useProjects from "../features/mentorship/useProjects";
 import MentorProjects from "./MentorProjects";
 import Modal from "./Modal";
-import ModalAddStudents from "../features/members/ModalAddStudents";
 import ModalFacultyProjects from "../features/mentorship/ModalFacultyProjects";
 import Spinner from "./Spinner";
 
@@ -15,6 +13,7 @@ function MarksAwarded() {
   const [projectForModal, setProjectForModal] = useState("");
   const { data: user, isLoading } = useUser();
   const name = user?.user?.name;
+
   let {
     data: mentorProjects,
     isLoading2,
@@ -31,26 +30,31 @@ function MarksAwarded() {
   );
   const tableContainerRef = useRef(null);
 
-  console.log(projectsToDisplay);
-
   useEffect(() => {
     function calculateRowsToDisplay() {
+      if (!tableContainerRef.current) return;
+
       const containerHeight = tableContainerRef.current.clientHeight - 130;
-      const rowHeight =
-        tableContainerRef.current.querySelector("tr").clientHeight;
+      const rowElement = tableContainerRef.current.querySelector("tr");
+
+      if (!rowElement) return; // Safeguard against missing rows during render
+
+      const rowHeight = rowElement.clientHeight || 1; // Avoid zero height
       const rowsToDisplay = Math.floor(containerHeight / rowHeight) - 1;
-      setNumResultsToDisplay(rowsToDisplay);
+
+      setNumResultsToDisplay(Math.max(rowsToDisplay, 1)); // Ensure there's at least one row displayed
     }
 
-    // THE HEIGHT IS CALCULATED AFTER EVERYTHING IS LOADED ON THE APP, ELSE IT RESULTS IN FALSE HEIGHT CALCULATION
-    window.onload = calculateRowsToDisplay;
+    const observer = new ResizeObserver(calculateRowsToDisplay);
+    if (tableContainerRef.current) {
+      observer.observe(tableContainerRef.current);
+    }
 
-    // Recalculate rows whenever the window is resized
-    window.addEventListener("resize", calculateRowsToDisplay);
     return () => {
-      window.removeEventListener("resize", calculateRowsToDisplay);
+      observer.disconnect();
     };
-  }, []);
+  }, [isFetching]);
+
   return (
     <div className="contents-bottom-faculty" ref={tableContainerRef}>
       <TextPill

@@ -3,7 +3,6 @@ import TextPill from "./TextPill";
 import Pagination from "./Pagination";
 import ActivityRequest from "./ActivityRequest";
 import { useUser } from "../features/authentication/signin/useUser";
-import useRequests from "../features/mentorship/useRequests";
 import useProjects from "../features/mentorship/useProjects";
 import Modal from "./Modal";
 import ModalFacultyProjects from "../features/mentorship/ModalFacultyProjects";
@@ -11,67 +10,57 @@ import Spinner from "./Spinner";
 
 function ActivityCoMarksTable() {
   const [showModal, setShowModal] = useState("");
-  console.log(showModal);
   const [projectForModal, setProjectForModal] = useState("");
   const { data: user, isLoading } = useUser();
   const name = user?.user?.name;
-  console.log(name);
-  let { data: mentorProjects, isFetching } = useProjects({
-    name,
-  });
+  let { data: mentorProjects, isFetching } = useProjects({ name });
 
   const [numResultsToDisplay, setNumResultsToDisplay] = useState(2);
-  const [requestsToDisplay, setRequestsToDisplay] = useState(
-    mentorProjects?.data
-  );
+  const [requestsToDisplay, setRequestsToDisplay] = useState([]);
+  const [calculating, setCalculating] = useState(true); // State to manage calculation
   const tableContainerRef = useRef(null);
-
-  console.log(mentorProjects);
-  console.log(requestsToDisplay);
 
   useEffect(() => {
     function calculateRequestsToDisplay() {
+      if (!tableContainerRef.current) return;
+
+      setCalculating(true); // Start calculation process
+
       const containerHeight = tableContainerRef.current.clientHeight - 130;
       const containerWidth = tableContainerRef.current.clientWidth;
-      const requestWidth =
-        tableContainerRef.current.querySelector(".ac-request")?.clientWidth;
+      const requestElement =
+        tableContainerRef.current.querySelector(".ac-request");
+
+      if (!requestElement) {
+        setCalculating(false); // If no elements found, stop calculating
+        return;
+      }
+
+      const requestWidth = requestElement.clientWidth || 1;
       const requestInWidth = Math.floor(
         (containerWidth - Math.floor(containerWidth / requestWidth) * 10) /
           requestWidth
       );
-
-      console.log(
-        containerWidth +
-          "---------------" +
-          requestWidth +
-          "--------------" +
-          requestInWidth
-      );
-      const requestHeight =
-        tableContainerRef.current.querySelector(".ac-request")?.clientHeight;
+      const requestHeight = 175;
       const requestInHeight = Math.floor(containerHeight / requestHeight);
-      const requestsToDisplay = requestInWidth * requestInHeight;
 
-      console.log(
-        containerHeight +
-          "---------------" +
-          requestHeight +
-          "--------------" +
-          requestInHeight
-      );
-      console.log(requestsToDisplay);
+      const requestsToDisplay = Math.max(requestInWidth * requestInHeight, 1);
+
       setNumResultsToDisplay(requestsToDisplay);
+      setRequestsToDisplay(mentorProjects?.data?.slice(0, requestsToDisplay)); // Slice data for display
+      setCalculating(false); // End calculation process
     }
 
-    // THE HEIGHT IS CALCULATED AFTER EVERYTHING IS LOADED ON THE APP, ELSE IT RESULTS IN FALSE HEIGHT CALCULATION
-    window.onload = calculateRequestsToDisplay;
+    const observer = new ResizeObserver(calculateRequestsToDisplay);
+    if (tableContainerRef.current) {
+      observer.observe(tableContainerRef.current);
+    }
 
-    // Recalculate rows whenever the window is resized
-    window.addEventListener("resize", calculateRequestsToDisplay);
     return () => {
-      window.removeEventListener("resize", calculateRequestsToDisplay);
+      observer.disconnect();
     };
-  }, []);
+  }, [isFetching, mentorProjects]);
+
   return (
     <div className="contents-bottom-faculty" ref={tableContainerRef}>
       <TextPill
@@ -90,7 +79,9 @@ function ActivityCoMarksTable() {
           />
         </Modal>
       )}
-      {isFetching ? (
+
+      {/* Show Spinner while fetching or calculating */}
+      {isFetching || calculating ? (
         <Spinner />
       ) : (
         <>

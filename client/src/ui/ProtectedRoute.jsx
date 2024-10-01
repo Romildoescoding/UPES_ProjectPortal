@@ -8,10 +8,9 @@ function ProtectedRoute({ children }) {
   const { data: user, Pending } = useUser();
   if (Pending) return <Loader />;
 
-  if (!Pending && !user?.user) {
-    // Ensure navigation happens once user is determined to be null
-    navigate("/signin", { replace: true });
-  }
+  // if (!Pending && !user?.user) {
+  //   navigate("/signin", { replace: true });
+  // }
 
   // If still loading, show the loader
 

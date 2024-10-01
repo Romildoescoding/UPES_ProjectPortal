@@ -1,5 +1,5 @@
 .dashboard {
-  height: 100%;
+  height: inherit;
   width: 100vw;
   max-width: 1680px;
   display: flex;

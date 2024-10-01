@@ -12,13 +12,12 @@ import ModalAddStudents from "../features/members/ModalAddStudents";
 import ModalRequestMentorship from "../features/mentorship/ModalRequestMentorship";
 import ModalGroupInitiation from "../features/members/ModalGroupinitiation";
 import ModalImportStudents from "../features/mentorship/ModalImportStudents";
-import LogoutSVG from "../../public/svg/LogoutSVG";
 import Logout from "../features/authentication/logout/Logout";
 import { useUser } from "../features/authentication/signin/useUser";
 import ModalUploadProject from "../features/members/ModalUploadProject";
 import ModalAssignPanels from "../features/mentorship/ModalAssignPanels";
 import ModalAssignPanelSm from "../features/mentorship/ModalAssignPanelSm";
-import ModalLogout from "../features/authentication/logout/ModalLogout";
+import ModalScheduleEvents from "../features/events/ModalScheduleEvents";
 
 function Sidebar() {
   const location = useLocation();
@@ -82,6 +81,12 @@ function Sidebar() {
       {showModal === "project-details" && (
         <Modal setShowModal={setShowModal}>
           <ModalUploadProject setShowModal={setShowModal} />
+        </Modal>
+      )}
+
+      {showModal === "schedule-events" && (
+        <Modal setShowModal={setShowModal}>
+          <ModalScheduleEvents setShowModal={setShowModal} />
         </Modal>
       )}
       {/*---------MODAL WINDOW--------- */}
@@ -201,7 +206,10 @@ function Sidebar() {
             </li> */}
             </>
           ) : isCoordinator ? (
-            <li className="option">
+            <li
+              className="option"
+              onClick={() => setShowModal("schedule-events")}
+            >
               <div>
                 <span className="option-icon">
                   <Meeting />

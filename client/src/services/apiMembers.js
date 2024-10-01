@@ -267,3 +267,17 @@ export async function setPanelMembers(updatedData) {
     console.log(err);
   }
 }
+
+// EVENTS
+export async function createEvent(event) {
+  const res = await fetch(`${serverPort}/api/v1/events`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(event),
+  });
+  const data = await res.json();
+
+  //THIS LINE IS NECESSARY FOR ONERROR
+  if (res.status !== 200) throw new Error(data.message);
+  return data;
+}

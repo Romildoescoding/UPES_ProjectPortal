@@ -11,6 +11,7 @@ import studentRoutes from "./routes/studentRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import groupRoutes from "./routes/groupRoutes.js";
 import projectRoutes from "./routes/projectRoutes.js";
+import eventRoutes from "./routes/eventRoutes.js";
 import { isAuthorized } from "./controllers/authController.js";
 
 const app = express();
@@ -52,6 +53,7 @@ app.use("/api/v1/students", studentRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/groups", groupRoutes);
 app.use("/api/v1/projects", projectRoutes);
+app.use("/api/v1/events", eventRoutes);
 // Routes
 
 app.post("/register", async (req, res) => {
