@@ -3,11 +3,11 @@ import { getRequests } from "../../services/apiMembers";
 
 export default function useRequests(faculty) {
   // const queryClient = useQueryClient();
-  const { data, isPending, isFetching } = useQuery({
+  const { data, isFetching } = useQuery({
     queryFn: () => getRequests(faculty),
     queryKey: ["requests"],
   });
 
   console.log(data);
-  return { data, isPending, isFetching };
+  return { data, isFetching };
 }

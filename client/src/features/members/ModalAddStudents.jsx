@@ -7,25 +7,33 @@ import EmptyComponent from "../../ui/EmptyComponent";
 import { useUser } from "../authentication/signin/useUser";
 import useTeamInformation from "./useTeamInformation";
 import toast from "react-hot-toast";
+import Loader from "../../ui/Loader";
 
 function ModalAddStudents({ setShowModal }) {
   const queryClient = useQueryClient();
   const [remainingMembers, setRemainingMembers] = useState([]);
   const [members, setMembers] = useState([]);
-  const { updateMembers, isLoading } = useMembers();
+  const { updateMembers, isPending } = useMembers();
   const group = queryClient.getQueryData(["team"]);
 
-  const { data, isPending } = useUser();
+  const { data, isFetching } = useUser();
   const user = data?.user;
 
-  const { data: team, isPending: isPending2 } = useTeamInformation({ user });
+  const { data: team, isFetching: isFetching2 } = useTeamInformation({ user });
+  const [isSubmitted, setIsSubmitted] = useState(false); // New state to track form submission
 
   useEffect(() => {
     let remainingLen = 4 - group?.data?.length;
     console.log(remainingLen, 4 - remainingMembers.length);
     setRemainingMembers(Array.from({ length: remainingLen }, () => 0));
   }, [group?.data?.length, remainingMembers.length]);
-  console.log();
+
+  // New useEffect hook to handle modal closing after submission is done
+  useEffect(() => {
+    if (isSubmitted && !isPending) {
+      setShowModal("");
+    }
+  }, [isSubmitted, isPending, setShowModal]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -45,32 +53,31 @@ function ModalAddStudents({ setShowModal }) {
 
     console.log(membersToSubmit);
     updateMembers({ group: group.group.group_name, ...membersToSubmit });
-    setShowModal("");
+    setIsSubmitted(true);
   }
+
+  if (isFetching || isFetching2) return <Loader />;
 
   return (
     <div className="add-students">
+      <button
+        className="btn-close"
+        onClick={(e) => {
+          e.preventDefault();
+          setShowModal("");
+        }}
+      >
+        &times;
+      </button>
       <form className="add-students-form" onSubmit={handleSubmit}>
-        <button
-          className="btn-close"
-          onClick={(e) => {
-            e.preventDefault();
-            setShowModal("");
-          }}
-        >
-          &times;
-        </button>
         {!team?.data?.length ? (
-          <EmptyComponent msg={"❗Initialize a Group First❗"} size={32} />
+          <EmptyComponent msg={"❗Initiate a Group First❗"} size={30} />
         ) : !remainingMembers.length ? (
-          <EmptyComponent
-            msg={"❗Group is full. Unable to add more members❗"}
-            size={32}
-          />
+          <EmptyComponent msg={"❗Group is full❗"} size={30} />
         ) : (
           <>
             <h3>STUDENTS DETAILS</h3>
-            <div className="centered-input">
+            <div className="full-length-input">
               <label htmlFor="teamName">TEAM NAME</label>
               <input
                 type="text"
@@ -90,8 +97,8 @@ function ModalAddStudents({ setShowModal }) {
                 setMembers={setMembers}
               />
             ))}
-            <button type="submit" className="btn-black" disabled={isLoading}>
-              {isLoading ? "SENDING..." : "SEND"}
+            <button type="submit" className="view-report" disabled={isPending}>
+              {isPending ? "SENDING..." : "SEND"}
             </button>
           </>
         )}

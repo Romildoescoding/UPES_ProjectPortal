@@ -1,5 +1,5 @@
 .modal-background {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
@@ -12,8 +12,11 @@
 }
 
 .add-students {
-  height: 80vh;
-  width: 70vw;
+  border: 1px solid rgb(204, 204, 204);
+  position: relative;
+  height: fit-content;
+  width: fit-content;
+  padding: 10px;
   background-color: white;
   display: flex;
   justify-content: center;
@@ -24,31 +27,75 @@
 .add-students-form {
   position: relative;
   height: 100%;
-  width: 60%;
+  width: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px;
-  padding: 20px 0;
+  padding: 20px 60px;
 }
 
 .add-students h3 {
   letter-spacing: 0px;
-  font-size: 15px;
-  font-weight: 900;
-}
-
-.centered-input {
-  display: flex;
-  flex-direction: column;
-  width: 70%;
+  font-size: 20px;
+  font-weight: 800;
 }
 
 .full-length-input {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 400px;
+}
+/* ------------------------ */
+
+@media (max-width: 600px) {
+  .full-length-input {
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-students h3 {
+    text-decoration: underline;
+    letter-spacing: 0px;
+    font-size: 15px;
+    font-weight: 800;
+  }
+
+  /* .btn-colored {
+    font-size: 8px !important;
+  } */
+
+  .add-students-form {
+    padding: 20px 20px;
+  }
+}
+/* 
+@media (max-width: 500px) {
+  .full-length-input {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+  }
+} */
+
+/* @media (max-width: 600px) {
+  .full-length-input {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+  }
+} */
+
+/* ------------------------ */
+
+.centered-input {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
 }
 
 .add-students input {
@@ -85,18 +132,19 @@
 
 .btn-close {
   position: absolute;
-  height: 100px;
-  width: 100px;
+  height: 50px;
+  width: 50px;
   border-radius: 50%;
   background-color: transparent;
   border: none;
-  font-size: 50px;
-  top: 0px;
-  right: -13.5vw;
+  font-size: 25px;
+  top: 5px;
+  right: 5px;
   cursor: pointer;
+  z-index: 9999;
 }
 
-.btn-close-import {
+/* .btn-close-import {
   position: absolute;
   height: 100px;
   width: 100px;
@@ -107,11 +155,12 @@
   top: 0px;
   right: 20px;
   cursor: pointer;
-}
+} */
 
 .btn-colored {
   height: 50px;
-  width: 150px;
+  width: fit-content;
+  padding: 0px 5px;
   font-weight: 700;
   border-style: solid;
   border-color: blueviolet;
@@ -133,15 +182,39 @@
 }
 
 .requests-div {
+  overflow-x: hidden;
   height: 90%;
   width: 100%;
-  /* background-color: red; */
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   overflow-y: scroll;
+  max-width: 70vw !important;
+  max-height: 60vh;
+}
+
+@media (max-width: 480px) {
+  .request {
+    width: 250px !important;
+  }
+
+  .requests-div {
+    max-width: 300px !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .import-students-div {
+    padding: 40px 0px;
+  }
+}
+
+@media (max-width: 1050px) and (min-width: 550px) {
+  .requests-div {
+    max-width: 400px !important;
+  }
 }
 
 .request {
@@ -190,6 +263,12 @@
   align-items: center;
   padding-left: 10px;
   white-space: nowrap;
+}
+
+@media (min-width: 500px) {
+  /* .assign-panels-sm {
+    max-width: 50vw !important;
+  } */
 }
 
 .btn-black-import {
@@ -259,15 +338,30 @@
   font-size: 15px;
   color: #6e6e6e;
   font-weight: 500;
+  width: 100px;
+}
+
+.text-none {
+  text-transform: none !important;
 }
 
 .tech-project-h3 {
   text-transform: none !important;
 }
-.project-field h3 {
+.project-field-h3 {
   font-weight: 500;
   text-transform: uppercase;
-  /* font-size: 15px; */
+  font-size: 15px;
+}
+
+@media (max-width: 550px) {
+  .project-field-h3 {
+    font-size: 12px !important;
+  }
+
+  .project-field {
+    gap: 10px;
+  }
 }
 
 /* Hide the default input */
@@ -346,7 +440,7 @@
   flex-direction: column !important;
   align-items: center !important;
   gap: 5px;
-  width: 50%;
+  width: 100%;
 }
 
 .modal-header h2 {
@@ -377,9 +471,14 @@
   color: #333;
 }
 
+.assign-panels-div {
+  width: 500px;
+  overflow: hidden;
+}
+
 .select-input {
   padding: 0.5rem;
-  font-size: 1rem;
+  font-size: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
   background-color: #f9f9f9;
@@ -416,6 +515,14 @@
   width: 100%;
 }
 
+.green {
+  background-color: rgb(43, 147, 226);
+}
+
+.mt {
+  margin-top: 5px;
+}
+
 .view-report:hover {
   scale: 1.025;
 }
@@ -441,6 +548,31 @@
   border: 1px solid rgb(255, 100, 100);
   background-color: rgb(255, 220, 220);
   color: rgb(255, 100, 100);
+  border-radius: 5px;
+  padding: 5px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .danger-note {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .danger-note {
+    font-size: 8px;
+  }
+
+  .add-students-form {
+    padding: 40px 20px;
+  }
+}
+
+.safe-note {
+  border: 1px solid rgb(79, 206, 79);
+  background-color: rgb(220, 255, 220);
+  color: rgb(80, 206, 80);
   border-radius: 5px;
   padding: 5px;
   text-align: center;

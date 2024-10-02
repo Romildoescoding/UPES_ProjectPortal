@@ -4,26 +4,28 @@ import { useQueryClient } from "@tanstack/react-query";
 import useNullPanelProjects from "./useNullPanelProjects";
 import NullPanelGroup from "../../ui/NullPanelGroup";
 import EmptyComponent from "../../ui/EmptyComponent";
+import Loader from "../../ui/Loader";
 
 function ModalAssignPanels({ setShowModal }) {
-  const queryClient = useQueryClient();
-  const { data: groups, isLoading } = useNullPanelProjects({
+  const { data: groups, isFetching } = useNullPanelProjects({
     isPanelNull: true,
   });
   const nullPanelGroups = groups?.data;
+  console.log(nullPanelGroups);
 
+  if (isFetching) return <Loader />;
   return (
     <div className="add-students">
-      <div className="import-students-div assign-panels">
-        <button
-          className="btn-close-import"
-          onClick={(e) => {
-            e.preventDefault();
-            setShowModal("");
-          }}
-        >
-          &times;
-        </button>
+      <button
+        className="btn-close"
+        onClick={(e) => {
+          e.preventDefault();
+          setShowModal("");
+        }}
+      >
+        &times;
+      </button>
+      <div className="import-students-div ">
         {!nullPanelGroups?.length ? (
           <EmptyComponent
             msg={"❗No groups with unset Panel Members❗"}
@@ -31,14 +33,16 @@ function ModalAssignPanels({ setShowModal }) {
           />
         ) : (
           <>
-            <h1 className="project-field-heading">Assign panels</h1>
-            {nullPanelGroups?.map((group, i) => (
-              <NullPanelGroup
-                setShowModal={setShowModal}
-                key={i}
-                group={group}
-              />
-            ))}
+            <h3>Assign panels</h3>
+            <div className="requests-div">
+              {nullPanelGroups?.map((group, i) => (
+                <NullPanelGroup
+                  setShowModal={setShowModal}
+                  key={i}
+                  group={group}
+                />
+              ))}
+            </div>
           </>
         )}
       </div>

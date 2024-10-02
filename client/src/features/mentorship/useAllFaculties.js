@@ -3,11 +3,11 @@ import { getAllFaculties } from "../../services/apiMembers";
 
 export default function useAllFaculties() {
   // const queryClient = useQueryClient();
-  const { data, isLoading } = useQuery({
+  const { data, isFetching } = useQuery({
     queryFn: getAllFaculties,
     queryKey: ["faculties"],
   });
 
   console.log(data);
-  return { data, isLoading };
+  return { data, isFetching };
 }

@@ -174,69 +174,105 @@ export async function createProject(req, res) {
     // Log body and files to see the data received
     const { title, technologies, group_name, report, isUpdating, oldFilePath } =
       req.body;
+    if (report) {
+      // Decode the base64 file
+      const reportBuffer = decodeBase64(report);
 
-    if (!report) {
-      return res.status(400).json({ message: "Report file is required" });
-    }
+      // Extract file extension
+      const fileExtension = getFileExtension(report);
+      const fileName = `${Math.random()}-report.${fileExtension}`;
 
-    // Decode the base64 file
-    const reportBuffer = decodeBase64(report);
+      // Construct the file path
+      const filePath = `${process.env.SUPABASE_URL}/storage/v1/object/public/reports/${fileName}`;
+      console.log(filePath, fileName);
 
-    // Extract file extension
-    const fileExtension = getFileExtension(report);
-    const fileName = `${Math.random()}-report.${fileExtension}`;
+      // IF THE USER IS UPLDATING THE PROJECT DETAILS WHEN HE HAS ALREADY UPLOADED THOSE DETAILS PREVIOUSLY
+      if (isUpdating && group_name) {
+        // Update the existing project based on group_name
+        const { data: updateData, error: updateError } = await supabase
+          .from("projects")
+          .update({
+            group_name,
+            technologies,
+            title,
+            report: filePath,
+          })
+          .eq("group_name", group_name) // Update based on group_name
+          .select()
+          .single();
 
-    // Construct the file path
-    const filePath = `${process.env.SUPABASE_URL}/storage/v1/object/public/reports/${fileName}`;
-    console.log(filePath, fileName);
+        if (updateError) {
+          console.error(updateError);
+          return res.status(404).json({ status: "fail", message: updateError });
+        }
 
-    if (isUpdating && group_name) {
-      // Update the existing project based on group_name
-      const { data: updateData, error: updateError } = await supabase
-        .from("projects")
-        .update({
-          group_name,
-          technologies,
-          title,
-          report: filePath,
-        })
-        .eq("group_name", group_name) // Update based on group_name
-        .select()
-        .single();
+        // Upload the decoded file to Supabase storage
+        const { error: uploadError } = await supabase.storage
+          .from("reports")
+          .upload(fileName, reportBuffer);
 
-      if (updateError) {
-        console.error(updateError);
-        return res.status(404).json({ status: "fail", message: updateError });
+        if (uploadError) {
+          console.error(uploadError);
+          return res.status(500).json({ message: "Failed to upload report" });
+        }
+
+        // Extract the file name from the old URL
+        if (oldFilePath) {
+          const oldFileName = oldFilePath.split("/").pop();
+
+          // Delete the previous file from the storage bucket
+          const { error: deleteError } = await supabase.storage
+            .from("reports")
+            .remove([oldFileName]);
+
+          if (deleteError) {
+            console.error("Error deleting the old file:", deleteError);
+            return res
+              .status(500)
+              .json({ message: "Failed to delete old report" });
+          }
+
+          console.log(`Deleted old file: ${oldFileName}`);
+        }
+
+        return res.status(200).json({ status: "success", data: updateData });
+      } else {
+        // IF THE USER IS UPLOADING THE PROJECT DETAILS THE FIRST TIME AND IS NOT REQUIRED
+        // TO UPLOAD THE PROJECT REPORT BUT STILL UPLOADS THE PROJECT
+        const { data, error } = await supabase
+          .from("projects")
+          .insert([
+            {
+              group_name,
+              technologies,
+              title,
+              report: filePath,
+            },
+          ])
+          .select()
+          .single();
+
+        if (error) {
+          console.error(error);
+          return res.status(404).json({ status: "fail", message: error });
+        }
+
+        // Upload the decoded file to Supabase storage
+        const { error: uploadError } = await supabase.storage
+          .from("reports")
+          .upload(fileName, reportBuffer);
+
+        if (uploadError) {
+          console.error(uploadError);
+          return res.status(500).json({ message: "Failed to upload report" });
+        }
+
+        // Success response
+        return res.status(200).json({ status: "success", data });
       }
-
-      // Upload the decoded file to Supabase storage
-      const { error: uploadError } = await supabase.storage
-        .from("reports")
-        .upload(fileName, reportBuffer);
-
-      if (uploadError) {
-        console.error(uploadError);
-        return res.status(500).json({ message: "Failed to upload report" });
-      }
-
-      // Extract the file name from the old URL
-      const oldFileName = oldFilePath.split("/").pop();
-
-      // Delete the previous file from the storage bucket
-      const { error: deleteError } = await supabase.storage
-        .from("reports")
-        .remove([oldFileName]);
-
-      if (deleteError) {
-        console.error("Error deleting the old file:", deleteError);
-        return res.status(500).json({ message: "Failed to delete old report" });
-      }
-
-      console.log(`Deleted old file: ${oldFileName}`);
-
-      return res.status(200).json({ status: "success", data: updateData });
     } else {
-      // Insert new project
+      // IF THE USER IS UPLOADING THE PROJECT DETAILS THE FIRST TIME AND IS NOT REQUIRED
+      // TO UPLOAD THE PROJECT REPORT
       const { data, error } = await supabase
         .from("projects")
         .insert([
@@ -244,7 +280,6 @@ export async function createProject(req, res) {
             group_name,
             technologies,
             title,
-            report: filePath,
           },
         ])
         .select()
@@ -253,16 +288,6 @@ export async function createProject(req, res) {
       if (error) {
         console.error(error);
         return res.status(404).json({ status: "fail", message: error });
-      }
-
-      // Upload the decoded file to Supabase storage
-      const { error: uploadError } = await supabase.storage
-        .from("reports")
-        .upload(fileName, reportBuffer);
-
-      if (uploadError) {
-        console.error(uploadError);
-        return res.status(500).json({ message: "Failed to upload report" });
       }
 
       // Success response

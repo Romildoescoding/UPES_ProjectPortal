@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import validateEmail from "../../helpers/emailValidate";
 import useRequestMembership from "./useRequestMembership";
 import { useQueryClient } from "@tanstack/react-query";
 import EmptyComponent from "../../ui/EmptyComponent";
 import useProjectByGroup from "../members/useProjectByGroup";
 import toast from "react-hot-toast";
-import Spinner from "../../ui/Spinner";
+import Loader from "../../ui/Loader";
 
 function ModalRequestMentorship({ setShowModal }) {
   const [facultyMail, setFacultyMail] = useState("");
@@ -13,11 +13,21 @@ function ModalRequestMentorship({ setShowModal }) {
   const queryClient = useQueryClient();
   const team = queryClient.getQueryData(["team"]);
   const group = team?.group?.group_name;
-  const { project, isPending: isPending2 } = useProjectByGroup({
+  const { project, isFetching } = useProjectByGroup({
     group_name: group,
   });
 
-  if (isPending2) return <Spinner isAbsolute={true} isBlack={true} />;
+  //TO MAKE LOADER WORK
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // New useEffect hook to handle modal closing after submission is done
+  useEffect(() => {
+    if (isSubmitted && !isPending) {
+      setShowModal("");
+    }
+  }, [isSubmitted, isPending, setShowModal]);
+
+  if (isFetching || isPending) return <Loader />;
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -28,26 +38,43 @@ function ModalRequestMentorship({ setShowModal }) {
     console.log(facultyMail, group);
     requestMentorship({ faculty: facultyMail, group });
     setFacultyMail("");
-    setShowModal("");
+    setIsSubmitted(true);
   }
+
+  console.log(
+    !team?.data?.length,
+    !project?.data?.length,
+    project?.data[0]?.mentor && project?.data[0]?.is_mentor_accepted
+  );
   return (
     <div className="add-students">
+      <button
+        className="btn-close"
+        onClick={(e) => {
+          e.preventDefault();
+          setShowModal("");
+        }}
+      >
+        &times;
+      </button>
       <form className="add-students-form" onSubmit={handleSubmit}>
-        <button
-          className="btn-close"
-          onClick={(e) => {
-            e.preventDefault();
-            setShowModal("");
-          }}
-        >
-          &times;
-        </button>
         {!team?.data?.length ? (
           <EmptyComponent
             color="white"
-            msg="❗You are not in any group yet❗ Join a group first"
-            size={24}
+            msg="❗Initiate a group first❗"
+            size={30}
           />
+        ) : !project?.data?.length ? (
+          <>
+            <EmptyComponent
+              color="white"
+              msg="❗Upload Group Details First❗"
+              size={24}
+            />
+            <div className="full-length-input safe-note">
+              You can always change them later
+            </div>
+          </>
         ) : project?.data[0]?.mentor && project?.data[0]?.is_mentor_accepted ? (
           <EmptyComponent
             color="white"
@@ -61,13 +88,13 @@ function ModalRequestMentorship({ setShowModal }) {
                 Note: You&apos;ve already requested to
                 <span className="bold">
                   Prof.{" "}
-                  <span className="uppercase">{project?.data[0]?.mentor}</span>
+                  <span className="uppercase">{project?.data[0]?.mentor}.</span>
                 </span>
-                . If you request again, Your previous request will be overridden
+                Your previous request will be overridden
               </div>
             )}
             <h3>MENTORSHIP DETAILS</h3>
-            <div className="centered-input">
+            <div className="full-length-input">
               <label htmlFor="facultyMail">FACULTY MAIL ID</label>
               <input
                 type="text"
@@ -78,7 +105,7 @@ function ModalRequestMentorship({ setShowModal }) {
                 onChange={(e) => setFacultyMail(e.target.value)}
               />
             </div>
-            <div className="centered-input">
+            <div className="full-length-input">
               <button
                 type="submit"
                 className="view-report"

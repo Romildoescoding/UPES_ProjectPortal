@@ -5,7 +5,7 @@ import Spinner from "../../ui/Spinner";
 import useProjectMembers from "./useProjectMembers";
 
 function ModalFacultyProjects({ setShowModal, projectForModal }) {
-  const { data, isLoading, isPending, isFetching } = useProjectMembers({
+  const { data, isFetching } = useProjectMembers({
     group_name: projectForModal.group_name,
   });
   const group = data?.data;

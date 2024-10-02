@@ -5,12 +5,12 @@ import Loader from "./Loader";
 
 function ProtectedRoute({ children }) {
   const navigate = useNavigate();
-  const { data: user, Pending } = useUser();
-  if (Pending) return <Loader />;
+  const { data: user, isLoading } = useUser();
+  if (isLoading) return <Loader />;
 
-  // if (!Pending && !user?.user) {
-  //   navigate("/signin", { replace: true });
-  // }
+  if (!isLoading && !user?.user) {
+    navigate("/signin", { replace: true });
+  }
 
   // If still loading, show the loader
 

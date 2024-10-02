@@ -169,21 +169,38 @@ export async function uploadProject(formData) {
   const technologies = formData.get("tech");
   const group_name = formData.get("group");
   const report = formData.get("report");
-  const fileType = report.type;
-  console.log(fileType);
-  console.log({ title, technologies, group_name, report });
+  // console.log({ title, technologies, group_name, report });
+
+  let payload = {
+    title,
+    technologies,
+    group_name,
+  };
 
   try {
-    const reportBase64 = await convertFileToBase64(report);
+    //IF THERE IS REPORT, THEN PROCEED THE PPTX TO base64 conversion
+    if (report) {
+      //VALIDATE THAT ONLY PPTS ARE ALLOWED
+      const fileType = report?.type;
+      console.log(fileType);
+      if (
+        fileType !==
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+      ) {
+        throw new Error("Only PPTX files are allowed");
+      }
 
-    const payload = {
-      title,
-      technologies,
-      group_name,
-      report: reportBase64, // Send the base64 encoded file
-    };
+      const reportBase64 = await convertFileToBase64(report);
 
-    console.log(payload);
+      payload = {
+        title,
+        technologies,
+        group_name,
+        report: reportBase64, // Send the base64 encoded file
+      };
+
+      console.log(payload);
+    }
 
     const res = await fetch(`${serverPort}/api/v1/projects`, {
       method: "POST",
@@ -196,7 +213,7 @@ export async function uploadProject(formData) {
     const data = await res.json();
     return data;
   } catch (err) {
-    console.log(err);
+    throw new Error(err);
   }
 }
 

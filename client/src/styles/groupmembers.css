@@ -8,13 +8,17 @@
   height: 90%;
   width: 100%;
   overflow-y: scroll;
+  overflow-x: hidden;
   position: relative;
+  display: grid;
+  place-items: center;
 }
 
 .members-list {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  width: 90%;
 }
 
 /* Header styling */
@@ -42,6 +46,7 @@
 .member-column {
   flex: 1; /* Each column takes equal space */
   word-wrap: break-word;
+  min-width: 33% !important;
 }
 
 /* Styling for the first column to be wider */

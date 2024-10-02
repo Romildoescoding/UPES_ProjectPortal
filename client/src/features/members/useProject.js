@@ -11,14 +11,13 @@ export default function useProject() {
   const { mutate: uploadProject, isPending } = useMutation({
     mutationFn: uploadProjectApi,
     onError: (err) => {
-      console.log(err);
-      toast.error("Error while Uploading");
+      console.log(err.message);
+      toast.error(err.message);
     },
     onSuccess: (team) => {
       // console.log(team);
       toast.success("Successfully Uploaded the Details");
       queryClient.setQueryData(["project"], team);
-      // queryClient.invalidateQueries(["team"]);
     },
   });
   return { uploadProject, isPending };

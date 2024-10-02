@@ -6,9 +6,9 @@ import useRequests from "./useRequests";
 import EmptyComponent from "../../ui/EmptyComponent";
 
 function ModalImportStudents({ setShowModal }) {
-  const { data: user, isLoading } = useUser();
+  const { data: user, isFetching } = useUser();
   const name = user?.user?.name;
-  let { data: mentorshipRequests, isLoading2 } = useRequests({
+  let { data: mentorshipRequests, isFetching: isFetching2 } = useRequests({
     name,
     isMentor: true,
     isMentorAccepted: "false",
@@ -20,20 +20,21 @@ function ModalImportStudents({ setShowModal }) {
     isMentorAccepted: "false",
   });
 
-  //IF ISLOADING
-  if (isLoading || isLoading2) <Loader />;
+  //IF isFetching
+  console.log(isFetching || isFetching2);
+  if (isFetching || isFetching2) <Loader />;
   return (
     <div className="add-students">
+      <button
+        className="btn-close"
+        onClick={(e) => {
+          e.preventDefault();
+          setShowModal("");
+        }}
+      >
+        &times;
+      </button>
       <div className="import-students-div">
-        <button
-          className="btn-close-import"
-          onClick={(e) => {
-            e.preventDefault();
-            setShowModal("");
-          }}
-        >
-          &times;
-        </button>
         {!mentorshipRequests?.data?.length ? (
           <EmptyComponent
             size={32}
@@ -41,8 +42,7 @@ function ModalImportStudents({ setShowModal }) {
           />
         ) : (
           <>
-            {" "}
-            <h1 className="project-field-heading">MENTORSHIP REQUESTS</h1>
+            <h3>MENTORSHIP REQUESTS</h3>
             <div className="requests-div">
               {mentorshipRequests?.data?.map((request) => (
                 <Request request={request} key={request.id} />

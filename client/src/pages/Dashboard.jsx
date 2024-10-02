@@ -12,7 +12,6 @@ import CalenderEvents from "../ui/CalenderEvents";
 
 function Dashboard() {
   const { data, isPending, isFetching, isLoading } = useUser();
-  if (isLoading) return <Loader />;
 
   let user = data?.user;
   let role = user?.role;
@@ -21,13 +20,7 @@ function Dashboard() {
   if (role !== "student") return <Error />;
 
   return (
-    <div
-      className="contents"
-      // onClick={() => {
-      //   console.log("CLICKED");
-      //   toast.success("CLICK!");
-      // }}
-    >
+    <div className="contents">
       <div className="contents-top">
         <div className="contents-top-left">
           <div className="greetings-div">

@@ -19,9 +19,10 @@ function ModalGroupInitiation({ setShowModal }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (group === "" || !validateEmail(leader)) {
-      console.log("INVALID EMAIL OR TEAM NAME");
-      return;
+    if (!group || !leader) return toast.error("All Fields are required");
+
+    if (!validateEmail(leader)) {
+      return toast.error("Invalid email");
     }
 
     initializeGroup({
@@ -53,22 +54,22 @@ function ModalGroupInitiation({ setShowModal }) {
 
   return (
     <div className="add-students">
+      <button
+        className="btn-close"
+        onClick={(e) => {
+          e.preventDefault();
+          setShowModal(false);
+        }}
+      >
+        &times;
+      </button>
       <form className="add-students-form" onSubmit={handleSubmit}>
-        <button
-          className="btn-close"
-          onClick={(e) => {
-            e.preventDefault();
-            setShowModal(false);
-          }}
-        >
-          &times;
-        </button>
         {inGroup?.data?.length ? (
           <EmptyComponent msg={"❗You are already in a group❗"} size={32} />
         ) : (
           <>
             <h3>GROUP INITIATION</h3>
-            <div className="centered-input">
+            <div className="full-length-input">
               <label htmlFor="group">GROUP NAME</label>
               <input
                 type="text"
@@ -80,7 +81,7 @@ function ModalGroupInitiation({ setShowModal }) {
               />
             </div>
             <h3>TEAM LEADER DETAILS</h3>
-            <div className="full-length-names">
+            <div className="full-length-input">
               <label htmlFor="leader">MAIL</label>
               <input
                 type="text"
@@ -91,7 +92,7 @@ function ModalGroupInitiation({ setShowModal }) {
                 onChange={(e) => setLeader(e.target.value)}
               />
             </div>
-            <button type="submit" className="btn-colored" disabled={isPending}>
+            <button type="submit" className="view-report" disabled={isPending}>
               {isPending || isPending2 ? "CREATING GROUP..." : "CREATE GROUP"}
             </button>
           </>
