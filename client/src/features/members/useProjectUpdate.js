@@ -8,7 +8,6 @@ export default function useProjectUpdate() {
     mutationFn: updateProjectApi,
     onError: (err) => {
       toast.error("Error while Updating");
-      console.log(err);
     },
     onSuccess: (project) => {
       toast.success("Details Updated Successfully");

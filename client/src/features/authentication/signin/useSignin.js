@@ -14,7 +14,7 @@ export default function useSignin() {
       console.log(user);
       if (user.data.authenticated) {
         console.log("USER AUTHENTICATED");
-        queryClient.setQueryData(["user"], user);
+        // queryClient.setQueryData(["user"], user);
       } else {
         console.log("ACCESS DENIED!");
       }

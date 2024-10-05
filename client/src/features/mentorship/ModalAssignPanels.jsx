@@ -7,6 +7,7 @@ import EmptyComponent from "../../ui/EmptyComponent";
 import Loader from "../../ui/Loader";
 
 function ModalAssignPanels({ setShowModal }) {
+  const [shouldConfirm, setShouldConfirm] = useState(true);
   const { data: groups, isFetching } = useNullPanelProjects({
     isPanelNull: true,
   });
@@ -25,6 +26,7 @@ function ModalAssignPanels({ setShowModal }) {
       >
         &times;
       </button>
+
       <div className="import-students-div ">
         {!nullPanelGroups?.length ? (
           <EmptyComponent
@@ -40,6 +42,8 @@ function ModalAssignPanels({ setShowModal }) {
                   setShowModal={setShowModal}
                   key={i}
                   group={group}
+                  shouldConfirm={shouldConfirm}
+                  setShouldConfirm={setShouldConfirm}
                 />
               ))}
             </div>

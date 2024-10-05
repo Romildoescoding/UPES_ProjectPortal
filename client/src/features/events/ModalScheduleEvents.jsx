@@ -37,71 +37,70 @@ function ModalScheduleEvents({ setShowModal }) {
 
   return (
     <div className="add-students">
-      <div className="import-students-div">
-        <button
-          className="btn-close-import"
-          onClick={(e) => {
-            e.preventDefault();
-            setShowModal("");
-          }}
-        >
-          &times;
+      <button
+        className="btn-close"
+        onClick={(e) => {
+          e.preventDefault();
+          setShowModal("");
+        }}
+      >
+        &times;
+      </button>
+      {/* <div className="import-students-div"> */}
+      <form onSubmit={handleSubmit} className="add-students-form">
+        <h3>Schedule Events</h3>
+        <div className="full-length-input">
+          <label htmlFor="event-name">Event Name:</label>
+          <input
+            type="text"
+            id="event-name"
+            value={eventName}
+            onChange={(e) => setEventName(e.target.value)}
+          />
+        </div>
+
+        <div className="full-length-input">
+          <label htmlFor="event-date">Event Date:</label>
+          <input
+            type="date"
+            id="event-date"
+            value={eventDate}
+            onChange={(e) => setEventDate(e.target.value)}
+          />
+        </div>
+
+        <div className="full-length-input">
+          <label htmlFor="event-description">Event Description:</label>
+          <textarea
+            className="full-length-input txt-area"
+            id="event-description"
+            value={eventDescription}
+            onChange={(e) => setEventDescription(e.target.value)}
+            rows="4"
+          />
+        </div>
+
+        <div className="full-length-input">
+          <label htmlFor="event-type">Event Type:</label>
+          <select
+            id="event-type"
+            value={eventType}
+            onChange={(e) => setEventType(e.target.value)}
+            className="styled-select"
+          >
+            <option value="Minor-I">Minor-I</option>
+            <option value="Minor-II">Minor-II</option>
+            <option value="Major-I">Major-I</option>
+            <option value="Major-II">Major-II</option>
+          </select>
+        </div>
+
+        <button type="submit" className="view-report">
+          Submit
         </button>
-
-        <form onSubmit={handleSubmit} className="event-form">
-          <h1 className="heading-modal">Schedule Events</h1>
-          <div className="form-group">
-            <label htmlFor="event-name">Event Name:</label>
-            <input
-              type="text"
-              id="event-name"
-              value={eventName}
-              onChange={(e) => setEventName(e.target.value)}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="event-date">Event Date:</label>
-            <input
-              type="date"
-              id="event-date"
-              value={eventDate}
-              onChange={(e) => setEventDate(e.target.value)}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="event-description">Event Description:</label>
-            <textarea
-              className="full-length-input txt-area"
-              id="event-description"
-              value={eventDescription}
-              onChange={(e) => setEventDescription(e.target.value)}
-              rows="4"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="event-type">Event Type:</label>
-            <select
-              id="event-type"
-              value={eventType}
-              onChange={(e) => setEventType(e.target.value)}
-              className="styled-select"
-            >
-              <option value="Minor-I">Minor-I</option>
-              <option value="Minor-II">Minor-II</option>
-              <option value="Major-I">Major-I</option>
-              <option value="Major-II">Major-II</option>
-            </select>
-          </div>
-
-          <button type="submit" className="view-report">
-            Submit
-          </button>
-        </form>
-      </div>
+      </form>
     </div>
+    // </div>
   );
 }
 

@@ -6,14 +6,37 @@ import toast from "react-hot-toast";
 function SigninForm({ setShowModal }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const { signin, isLoading } = useSignin();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Load saved email and password if "Remember me" was checked
+    const savedEmail = localStorage.getItem("email");
+    const savedPassword = localStorage.getItem("password");
+    if (savedEmail && savedPassword) {
+      setEmail(savedEmail);
+      setPassword(savedPassword);
+      setRememberMe(true); // Set the checkbox to true
+    }
+  }, []);
 
   function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) {
       return toast.error("Fields must not be empty");
     }
+
+    // Store email and password in localStorage if "Remember me" is checked
+    if (rememberMe) {
+      localStorage.setItem("email", email);
+      localStorage.setItem("password", password);
+    } else {
+      // Clear localStorage if "Remember me" is unchecked
+      localStorage.removeItem("email");
+      localStorage.removeItem("password");
+    }
+
     signin(
       { email, password },
       {
@@ -33,6 +56,7 @@ function SigninForm({ setShowModal }) {
       }
     );
   }
+
   return (
     <form className="signin-form" onSubmit={handleSubmit}>
       <span className="form-heading">Nice to see you again</span>
@@ -67,19 +91,19 @@ function SigninForm({ setShowModal }) {
       </div>
 
       <div className="checkbox-div checkbox-container">
-        {/* <div className="checkbox">
-          <input type="checkbox" id="remember-me" name="remember-me" />
-          <label htmlFor="remember-me">Remember me</label>
-        </div> */}
-        {/*  */}
         <div className="checkbox-wrapper-17 checkbox-div">
-          <input type="checkbox" id="remember-me" />
+          <input
+            type="checkbox"
+            id="remember-me"
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)} // Update state
+          />
           <label htmlFor="remember-me"></label>
           <span className="form-label-small">Remember me</span>
         </div>
-        {/*  */}
         <span className="form-label-small color-blue">Forgot Password?</span>
       </div>
+
       <button type="submit" className="btn-primary">
         {isLoading ? "Signing in..." : "Sign in"}
       </button>

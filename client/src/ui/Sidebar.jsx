@@ -18,6 +18,9 @@ import ModalUploadProject from "../features/members/ModalUploadProject";
 import ModalAssignPanels from "../features/mentorship/ModalAssignPanels";
 import ModalAssignPanelSm from "../features/mentorship/ModalAssignPanelSm";
 import ModalScheduleEvents from "../features/events/ModalScheduleEvents";
+import ModalConfirmPanels from "../features/mentorship/ModalConfirmPanels";
+import ModalGradeStudents from "../features/mentorship/ModalGradeStudents";
+import ModalGradeStudentsSm from "../features/mentorship/ModalGradeStudentsSm";
 
 function Sidebar() {
   const location = useLocation();
@@ -60,6 +63,18 @@ function Sidebar() {
         </Modal>
       )}
 
+      {showModal === "grade-students" && (
+        <Modal setShowModal={setShowModal}>
+          <ModalGradeStudents setShowModal={setShowModal} />
+        </Modal>
+      )}
+
+      {showModal === "grade-students-sm" && (
+        <Modal setShowModal={setShowModal}>
+          <ModalGradeStudentsSm setShowModal={setShowModal} />
+        </Modal>
+      )}
+
       {showModal === "group-initiation" && (
         <Modal setShowModal={setShowModal}>
           <ModalGroupInitiation setShowModal={setShowModal} />
@@ -84,6 +99,12 @@ function Sidebar() {
         </Modal>
       )}
 
+      {showModal === "confirm-panels" && (
+        <Modal setShowModal={setShowModal}>
+          <ModalConfirmPanels setShowModal={setShowModal} />
+        </Modal>
+      )}
+
       {showModal === "schedule-events" && (
         <Modal setShowModal={setShowModal}>
           <ModalScheduleEvents setShowModal={setShowModal} />
@@ -94,7 +115,8 @@ function Sidebar() {
       <div className="sidebar-options">
         {isStudent ? <Whitehat /> : <Alphabet />}
         <ul className="options-list">
-          {isStudent ? (
+          {/* SEND MENTORSHIP REQUEST */}
+          {isStudent && (
             <li
               className="option"
               onClick={() => setShowModal("request-mentorship")}
@@ -106,20 +128,10 @@ function Sidebar() {
                 <span>Request For Mentorship</span>
               </div>
             </li>
-          ) : (
-            <>
-              {/* <li className="option">
-              <div>
-                <span className="option-icon">
-                  <Rectangles />
-                </span>
-                <span>Dashboard</span>
-              </div>
-            </li> */}
-            </>
           )}
-          {isStudent ? (
-            //STUDENT
+
+          {/* ADD MEMBERS */}
+          {isStudent && (
             <li className="option" onClick={() => setShowModal("add-students")}>
               <div>
                 <span className="option-icon">
@@ -128,35 +140,9 @@ function Sidebar() {
                 <span>Add Members</span>
               </div>
             </li>
-          ) : isFaculty ? (
-            //FACULTY
-            <li
-              className="option"
-              onClick={() => setShowModal("import-students")}
-            >
-              <div>
-                <span className="option-icon">
-                  <Pen />
-                </span>
-                <span>Import Students</span>
-              </div>
-            </li>
-          ) : //COORDINATOR
-          isCoordinator ? (
-            <li
-              className="option"
-              onClick={() => setShowModal("assign-panels")}
-            >
-              <div>
-                <span className="option-icon">
-                  <Pen />
-                </span>
-                <span>Assign Panel Members</span>
-              </div>
-            </li>
-          ) : (
-            <></>
           )}
+
+          {/* GROUP INITIATION */}
           {isStudent && (
             <li
               className="option"
@@ -170,7 +156,9 @@ function Sidebar() {
               </div>
             </li>
           )}
-          {isStudent ? (
+
+          {/* UPLOAD/UPDATE PROJECT DETAILS */}
+          {isStudent && (
             <li
               className="option"
               onClick={() => setShowModal("project-details")}
@@ -182,30 +170,43 @@ function Sidebar() {
                 <span>Upload Project Details</span>
               </div>
             </li>
-          ) : (
-            <>
-              {/* <li className="option">
-              <div>
-                <span className="option-icon">
-                  <Messages />
-                </span>
-                <span>Technical Support</span>
-              </div>
-            </li> */}
-            </>
           )}
-          {isStudent || isFaculty ? (
-            <>
-              {/* <li className="option">
+
+          {/* FACULTY */}
+
+          {/* IMPORT STUDENTS */}
+          {isFaculty && (
+            <li
+              className="option"
+              onClick={() => setShowModal("import-students")}
+            >
               <div>
                 <span className="option-icon">
-                  <Meeting />
+                  <Pen />
                 </span>
-                <span>Schedule a Meeting</span>
+                <span>Import Students</span>
               </div>
-            </li> */}
-            </>
-          ) : isCoordinator ? (
+            </li>
+          )}
+
+          {/* ACTIVITY-COORDINATOR */}
+          {/* ASSIGN PANELS */}
+          {isCoordinator && (
+            <li
+              className="option"
+              onClick={() => setShowModal("assign-panels")}
+            >
+              <div>
+                <span className="option-icon">
+                  <Pen />
+                </span>
+                <span>Assign Panel Members</span>
+              </div>
+            </li>
+          )}
+
+          {/* SCHEDULE EVENTS */}
+          {isCoordinator && (
             <li
               className="option"
               onClick={() => setShowModal("schedule-events")}
@@ -217,17 +218,22 @@ function Sidebar() {
                 <span>Schedule Events</span>
               </div>
             </li>
-          ) : (
-            <>
-              {/* <li className="option">
+          )}
+
+          {/* PANELIST */}
+          {/* GRADE STUDENTS */}
+          {isPanelMember && (
+            <li
+              className="option"
+              onClick={() => setShowModal("grade-students")}
+            >
               <div>
                 <span className="option-icon">
-                  <Meeting />
+                  <Pen />
                 </span>
-                <span>Join a meeting</span>
+                <span>Grade Students</span>
               </div>
-            </li> */}
-            </>
+            </li>
           )}
         </ul>
       </div>

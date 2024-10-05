@@ -4,7 +4,7 @@ import { getCurrentMonthDays } from "../helpers/formatDate";
 
 function Calender({ selectedDate, setSelectedDate }) {
   const [monthDays, setMonthDays] = useState([]);
-  // const [currentDate, setcurrentDate] = useState(() => new Date());
+  // const { data: events, isLoading, isFetching, isError } = useEvents();
 
   useEffect(
     function () {
@@ -13,6 +13,8 @@ function Calender({ selectedDate, setSelectedDate }) {
     },
     [setSelectedDate]
   );
+
+  useEffect(() => console.log(selectedDate), [selectedDate]);
 
   return (
     <div className="calender">

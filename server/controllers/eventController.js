@@ -9,6 +9,7 @@ export async function getEvents(req, res) {
     console.log(err);
   }
 }
+
 export async function createEvent(req, res) {
   console.log("CREATEGROUP");
   try {
@@ -34,5 +35,39 @@ export async function createEvent(req, res) {
   } catch (err) {
     console.log(err);
     res.status(400).json({ status: "fail", message: err });
+  }
+}
+
+export async function deleteEvent(req, res) {
+  console.log("DELETEEVENT");
+
+  try {
+    console.log(req.body);
+    const { eventName } = req.body;
+
+    const { error } = await supabase
+      .from("events")
+      .delete()
+      .eq("name", eventName);
+
+    if (error) {
+      console.error(error);
+      return res.status(400).json({
+        status: "fail",
+        message: error.message,
+      });
+    }
+
+    // Success case
+    return res.status(200).json({
+      status: "success",
+      message: "Event deleted successfully",
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      status: "fail",
+      message: "Server error",
+    });
   }
 }

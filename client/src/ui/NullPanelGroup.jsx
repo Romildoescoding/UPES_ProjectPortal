@@ -34,15 +34,25 @@ function NullPanelGroup({ group, setShowModal }) {
 
   function handleAssignRandomPanels(e) {
     e.preventDefault();
+    queryClient.setQueryData(["selected-group"], group);
     const panel1 = getRandomEntry(faculties);
     const panel2 = getRandomEntry(faculties, panel1.name);
     console.log(panel1, panel2);
 
     console.log(panel1.mail, panel2.mail, group.group_name);
 
+    console.log("RANDOM PANELS RUN");
+    queryClient.setQueryData(["random-panels"], {
+      panel1: panel1,
+      panel2: panel2,
+    });
+    const shouldAsk = queryClient.getQueryData(["should-ask"]) ?? true;
+    if (shouldAsk) return setShowModal("confirm-panels");
+
     setPanelMembers({
       panelists: [panel1.mail, panel2.mail],
       group: group.group_name,
+      title: group.title,
     });
     setIsSubmitted(true);
     getRandomEntry();

@@ -1,6 +1,17 @@
+import { useState } from "react";
+import ModalEvent from "../features/mentorship/ModalEvent";
+import Modal from "./Modal";
+
 function Event({ event }) {
+  const [showModal, setShowModal] = useState("");
+
   return (
-    <li className="event">
+    <li className="event" onClick={() => setShowModal("show-event")}>
+      {showModal === "show-event" && (
+        <Modal setShowModal={setShowModal}>
+          <ModalEvent setShowModal={setShowModal} event={event} />
+        </Modal>
+      )}
       <p className="event-name">{event.name}</p>
       <p className="event-date">{event.date}</p>
     </li>
@@ -10,11 +21,3 @@ function Event({ event }) {
 // ADD EVENT VIEW MODAL
 
 export default Event;
-
-// {
-//   "id": 1,
-//   "name": "Mid-Semester Presentation",
-//   "date": "2024-11-09",
-//   "description": "Mid-Semester Presentation of the minor project - I",
-//   "type": "Minor-I"
-// }

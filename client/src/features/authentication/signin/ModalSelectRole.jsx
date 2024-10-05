@@ -6,7 +6,7 @@ function ModalSelectRole({ setShowModal }) {
   return (
     <div className="select-role">
       <button
-        className="btn-close-role"
+        className="btn-close"
         onClick={(e) => {
           e.preventDefault();
           setShowModal("");

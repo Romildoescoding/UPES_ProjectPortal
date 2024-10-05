@@ -22,7 +22,7 @@ function ModalImportStudents({ setShowModal }) {
 
   //IF isFetching
   console.log(isFetching || isFetching2);
-  if (isFetching || isFetching2) <Loader />;
+  if (isFetching || isFetching2) return <Loader />;
   return (
     <div className="add-students">
       <button
@@ -37,7 +37,7 @@ function ModalImportStudents({ setShowModal }) {
       <div className="import-students-div">
         {!mentorshipRequests?.data?.length ? (
           <EmptyComponent
-            size={32}
+            size={24}
             msg="❗You do not have any pending mentorship request(s)❗"
           />
         ) : (

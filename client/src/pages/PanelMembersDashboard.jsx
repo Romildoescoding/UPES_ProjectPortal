@@ -14,13 +14,9 @@ import CalenderEvents from "../ui/CalenderEvents";
 //DEMO PROJECTS OR DATA
 
 function PanelMembersDashboard() {
-  // const [numResultsToDisplay, setNumResultsToDisplay] = useState(5);
-  // // const [projects, setProjects] = useState();
-  // const [projectsToDisplay, setProjectsToDisplay] = useState(projects);
-  // const tableContainerRef = useRef(null);
-
-  const { data: session, isLoading } = useUser();
-  let role = session?.user?.role;
+  const { data: user, isLoading } = useUser();
+  let role = user?.user?.role;
+  // const [shouldConfirm, setShouldConfirm] = useState(true);
 
   if (role !== "faculty") return <Error />;
 
@@ -28,12 +24,22 @@ function PanelMembersDashboard() {
     <>
       <div className="contents-top-left">
         <div className="contents-top-faculty">
-          <div className="contents-top-panel">
-            <span className="dashboard-heading">Actions</span>
+          <div className="contents-top-left-faculty">
+            <div className="contents-top-left-upper">
+              <div>
+                <p className="greetings-text-sm">{getFormattedDate()}</p>
+                <p className="greetings-text-xl">
+                  Welcome back, {user?.user?.name}!
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="contents-top-right-faculty">
             <div>
-              <TextPill text={"Check Groups"} />
-              <TextPill text={"Assigned Students"} />
-              <TextPill text={"Marks Awarded"} />
+              <span className="dashboard-heading">Actions</span>
+              <TextPill text={"Projects List"} />
+              <TextPill text={"Grade Students"} />
+              {/* <TextPill text={"Schedule Events"} /> */}
             </div>
           </div>
         </div>

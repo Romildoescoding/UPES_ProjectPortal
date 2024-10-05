@@ -13,7 +13,7 @@ function ActivityRequest({ setShowModal, setProjectForModal, request }) {
       }}
     >
       <span className="ac-marks-heading">{group_name}</span>
-      <div className="members-container overflow-hidden">
+      <div className="members-container overflow-hidden gap">
         <p className="ellipsis">Project Title: {title}</p>
         <p className="ellipsis">Technologies: {technologies}</p>
         <p className="ellipsis">

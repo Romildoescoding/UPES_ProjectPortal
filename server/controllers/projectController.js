@@ -91,12 +91,11 @@ export async function setMentor(req, res) {
   }
 }
 
-//TAKES IN THE MAIL OF THE PANELISTS AS ARRAY FOR INPUT ALONG WITH THE GROUP NAME
 export async function setPanelMembers(req, res) {
   console.log("SETPANELS");
   console.log(req.body);
   try {
-    let { panelists, group } = req.body;
+    let { panelists, group, title } = req.body;
 
     //CHECK IF THE FACULTY EVEN EXISTS OR NOT
     //CHECK FOR PANEL MEMBER1
@@ -105,11 +104,13 @@ export async function setPanelMembers(req, res) {
       .select("name")
       .eq("mail", panelists[0]);
 
-    if (!panel1.length)
-      res.status(404).json({
+    if (!panel1.length) {
+      console.log(`Faculty ${panelists[0]} does not exist`);
+      return res.status(404).json({
         status: "fail",
         message: `Faculty ${panelists[0]} does not exist`,
       });
+    }
 
     //CHECK FOR PANEL MEMBER2
     let { data: panel2 } = await supabase
@@ -117,27 +118,31 @@ export async function setPanelMembers(req, res) {
       .select("name")
       .eq("mail", panelists[1]);
 
-    if (!panel2.length)
-      res.status(404).json({
+    if (!panel2.length) {
+      console.log(`Faculty ${panelists[1]} does not exist`);
+      return res.status(404).json({
         status: "fail",
         message: `Faculty ${panelists[1]} does not exist`,
       });
+    }
 
     //IF BOTH THE FACULTY EXISTS, THEN UPDATE THEM...
-
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("projects")
       .update({
         panel_member1: panel1[0].name,
         panel_member2: panel2[0].name,
       })
       .eq("group_name", group)
+      .eq("title", title)
       .select("*");
+    console.log(data);
+    console.log(error);
 
-    res.status(200).json({ status: "success", data });
+    return res.status(200).json({ status: "success", data });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ status: "fail", message: err });
+    return res.status(500).json({ status: "fail", message: err });
   }
 }
 
@@ -172,8 +177,15 @@ export async function createProject(req, res) {
 
   try {
     // Log body and files to see the data received
-    const { title, technologies, group_name, report, isUpdating, oldFilePath } =
-      req.body;
+    const {
+      title,
+      technologies,
+      group_name,
+      report,
+      projectType,
+      isUpdating,
+      oldFilePath,
+    } = req.body;
     if (report) {
       // Decode the base64 file
       const reportBuffer = decodeBase64(report);
@@ -195,15 +207,21 @@ export async function createProject(req, res) {
             group_name,
             technologies,
             title,
+            // type: projectType,
             report: filePath,
           })
           .eq("group_name", group_name) // Update based on group_name
+          .eq("type", projectType)
           .select()
           .single();
 
         if (updateError) {
           console.error(updateError);
-          return res.status(404).json({ status: "fail", message: updateError });
+          return res.status(404).json({
+            status: "fail",
+            message: updateError,
+            error: "Error while UPDATING",
+          });
         }
 
         // Upload the decoded file to Supabase storage
@@ -246,6 +264,7 @@ export async function createProject(req, res) {
               group_name,
               technologies,
               title,
+              type: projectType,
               report: filePath,
             },
           ])
@@ -279,6 +298,7 @@ export async function createProject(req, res) {
           {
             group_name,
             technologies,
+            type: projectType,
             title,
           },
         ])
@@ -328,5 +348,119 @@ export async function handleRequest(req, res) {
   } catch (err) {
     console.log(err);
     res.status(500).json({ status: "fail", message: err });
+  }
+}
+
+export async function getPanelStudents(req, res) {
+  console.log("PANEL-GROUPS-PROJECT");
+  const { panel } = req.body;
+
+  // Fetch projects where the panel member matches panel_member1 or panel_member2
+  let { data: projects, error } = await supabase
+    .from("projects")
+    .select("group_name, type") // Select both group_name and type
+    .or(`panel_member1.eq.${panel},panel_member2.eq.${panel}`);
+
+  if (error) {
+    return res.status(400).json({ status: "fail", message: error.message });
+  }
+
+  // Extract group names from the projects
+  const groupNames = projects.map((project) => project.group_name);
+
+  // If no projects found, return empty response
+  if (groupNames.length === 0) {
+    return res.status(200).json({ status: "success", data: [] });
+  }
+
+  // Fetch all groups where group_name is in the list of groupNames
+  let { data: groups, error: groupError } = await supabase
+    .from("groups")
+    .select("*")
+    .in("group_name", groupNames);
+
+  if (groupError) {
+    return res
+      .status(400)
+      .json({ status: "fail", message: groupError.message });
+  }
+
+  // Map the type from projects into each group
+  const groupsWithType = groups.map((group) => {
+    const project = projects.find(
+      (proj) => proj.group_name === group.group_name
+    );
+    return { ...group, type: project?.type }; // Include the type in the group data
+  });
+
+  res.status(200).json({ status: "success", data: groupsWithType });
+}
+
+export async function updateMarks(req, res) {
+  const { mail, grades, type } = req.body;
+
+  try {
+    // Check if a record already exists
+    const { data, error: selectError } = await supabase
+      .from("grades")
+      .select("*")
+      .eq("mail", mail);
+
+    if (selectError) {
+      return res.status(500).json({
+        status: "error",
+        message: "Error fetching the grades data",
+        error: selectError.message,
+      });
+    }
+
+    // If no existing data, insert a new record
+    if (!data.length) {
+      const { data: insertData, error: insertError } = await supabase
+        .from("grades")
+        .insert([{ mail, grades, type }])
+        .select("*")
+        .single();
+
+      if (insertError) {
+        return res.status(500).json({
+          status: "error",
+          message: "Error while inserting the grades",
+          error: insertError.message,
+        });
+      }
+
+      return res.status(201).json({
+        status: "success",
+        data: insertData,
+      });
+    }
+
+    // If data exists, update the record
+    const { data: updatedData, error: updateError } = await supabase
+      .from("grades")
+      .update({ grades, type })
+      .eq("mail", mail)
+      .select("*")
+      .single();
+
+    if (updateError) {
+      return res.status(500).json({
+        status: "error",
+        message: "Error while updating the grades",
+        error: updateError.message,
+      });
+    }
+
+    return res.status(200).json({
+      status: "success",
+      data: updatedData,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      status: "error",
+      message: "Unexpected error occurred",
+      error: err.message,
+    });
   }
 }

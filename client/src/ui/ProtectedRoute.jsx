@@ -5,12 +5,15 @@ import Loader from "./Loader";
 
 function ProtectedRoute({ children }) {
   const navigate = useNavigate();
-  const { data: user, isLoading } = useUser();
-  if (isLoading) return <Loader />;
+  const { data: user, isLoading, isFetching } = useUser();
+  console.log(isLoading, isFetching);
 
-  if (!isLoading && !user?.user) {
-    navigate("/signin", { replace: true });
-  }
+  useEffect(() => {
+    if (!isLoading && !user?.user) {
+      navigate("/signin", { replace: true });
+    }
+  }, [isLoading, user, navigate]);
+  if (isLoading) return <Loader />;
 
   // If still loading, show the loader
 

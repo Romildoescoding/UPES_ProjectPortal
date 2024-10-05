@@ -41,6 +41,22 @@ function ModalUploadProject({ setShowModal }) {
   const { data, isPending } = useUser();
   const user = data?.user;
 
+  //PROJECT TYPE
+  const projectType = useMemo(() => {
+    switch (user.semester) {
+      case 5:
+        return "Minor-I";
+      case 6:
+        return "Minor-II";
+      case 7:
+        return "Major-I";
+      case 8:
+        return "Major-II";
+      default:
+        return "Unknown Project Type";
+    }
+  }, [user.semester]);
+
   const { data: team, isFetching: isFetching2 } = useTeamInformation({ user });
 
   // New useEffect hook to handle modal closing after submission is done
@@ -67,6 +83,7 @@ function ModalUploadProject({ setShowModal }) {
     formData.append("tech", technologies);
     formData.append("report", report);
     formData.append("group", groupData?.group?.group_name);
+    formData.append("type", projectType);
 
     // Call the uploadProject function with FormData
     uploadProject(formData);
@@ -91,6 +108,7 @@ function ModalUploadProject({ setShowModal }) {
     formData.append("tech", technologies);
     formData.append("report", report); // Append the file itself
     formData.append("group", groupData?.group?.group_name);
+    formData.append("type", projectType);
 
     // Call the uploadProject function with FormData
     console.log(title, technologies, groupData?.group?.group_name, report);
@@ -155,6 +173,18 @@ function ModalUploadProject({ setShowModal }) {
                 placeholder="TECHNOLOGIES USED (separate by comma , )"
                 value={technologies || ""}
                 onChange={(e) => setTechnologies(e.target.value)}
+              />
+            </div>
+
+            <div className="full-length-input">
+              <label htmlFor="type">PROJECT TYPE</label>
+              <input
+                type="text"
+                name="type"
+                id="type"
+                placeholder="PROJECT TYPE"
+                value={projectType || ""}
+                disabled={true}
               />
             </div>
             <div className="full-length-input ">

@@ -61,7 +61,11 @@ function ModalAssignPanelSm({ setShowModal }) {
 
     console.log(mail1, mail2, group.group_name);
 
-    setPanelMembers({ panelists: [mail1, mail2], group: group.group_name });
+    setPanelMembers({
+      panelists: [mail1, mail2],
+      group: group.group_name,
+      title: group.title,
+    });
     setIsSubmitted(true);
   }
 
@@ -120,7 +124,9 @@ function ModalAssignPanelSm({ setShowModal }) {
           ))}
 
           {isPending || !faculties.length || isFetching ? (
-            <Spinner isNotAbsolute={true} isBlack={true} />
+            <div className="full-length-input grid-center">
+              <Spinner isNotAbsolute={true} isBlack={true} />
+            </div>
           ) : (
             <>
               <div className="full-length-input">

@@ -74,6 +74,37 @@ export async function getGroupDetails(group) {
   }
 }
 
+export async function getPanelGroups(panel) {
+  console.log(panel);
+  try {
+    const res = await fetch(`${serverPort}/api/v1/projects/group`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(panel),
+    });
+    const data = res.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function updateGrades(updateData) {
+  //DATA HAS TO BE LIKE mail, grades and type
+  console.log(updateData);
+  try {
+    const res = await fetch(`${serverPort}/api/v1/projects/group`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updateData),
+    });
+    const data = res.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 //UPDATING...
 export async function updateMembers(group) {
   console.log(group);
@@ -168,6 +199,7 @@ export async function uploadProject(formData) {
   const title = formData.get("title");
   const technologies = formData.get("tech");
   const group_name = formData.get("group");
+  const projectType = formData.get("type");
   const report = formData.get("report");
   // console.log({ title, technologies, group_name, report });
 
@@ -175,6 +207,7 @@ export async function uploadProject(formData) {
     title,
     technologies,
     group_name,
+    projectType,
   };
 
   try {
@@ -196,6 +229,7 @@ export async function uploadProject(formData) {
         title,
         technologies,
         group_name,
+        projectType,
         report: reportBase64, // Send the base64 encoded file
       };
 
@@ -222,16 +256,18 @@ export async function updateProject({ formData, oldFilePath }) {
   const title = formData.get("title");
   const technologies = formData.get("tech");
   const group_name = formData.get("group");
+  const projectType = formData.get("type");
   const report = formData.get("report");
   const fileType = report.type;
   console.log(fileType);
-  console.log({ title, technologies, group_name, report });
+  console.log({ title, technologies, projectType, group_name, report });
 
   try {
     const reportBase64 = await convertFileToBase64(report);
 
     const payload = {
       title,
+      projectType,
       technologies,
       group_name,
       isUpdating: true,
@@ -253,6 +289,7 @@ export async function updateProject({ formData, oldFilePath }) {
     return data;
   } catch (err) {
     console.log(err);
+    throw new Error("Error while updating");
   }
 }
 
@@ -289,6 +326,20 @@ export async function setPanelMembers(updatedData) {
 export async function createEvent(event) {
   const res = await fetch(`${serverPort}/api/v1/events`, {
     method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(event),
+  });
+  const data = await res.json();
+
+  //THIS LINE IS NECESSARY FOR ONERROR
+  if (res.status !== 200) throw new Error(data.message);
+  return data;
+}
+
+// EVENTS
+export async function deleteEvent(event) {
+  const res = await fetch(`${serverPort}/api/v1/events`, {
+    method: "DELETE",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(event),
   });

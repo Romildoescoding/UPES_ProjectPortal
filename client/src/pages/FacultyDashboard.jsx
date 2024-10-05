@@ -45,9 +45,9 @@ function FacultyDashboard() {
           <div className="contents-top-right-faculty">
             <div>
               <span className="dashboard-heading">Actions</span>
-              <TextPill text={"Schedule Project"} />
-              <TextPill text={"Panel Members"} />
-              <TextPill text={"Panel Members"} />
+              <TextPill text={"View Requests"} />
+              <TextPill text={"Mentor Projects"} />
+              <TextPill text={"Access Events"} />
             </div>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import PdfLogo from "../../../public/svg/PdfLogo";
 import { docServiceURL } from "../../helpers/backendApi";
+import capitalize from "../../helpers/capitalize";
 import Member from "../../ui/Member";
 import Spinner from "../../ui/Spinner";
 import useProjectMembers from "./useProjectMembers";
@@ -12,36 +13,43 @@ function ModalFacultyProjects({ setShowModal, projectForModal }) {
   console.log(group);
   return (
     <div className="add-students">
-      <div className="projects-div-faculty">
-        <button
-          className="btn-close-import"
-          onClick={(e) => {
-            e.preventDefault();
-            setShowModal("");
-          }}
-        >
-          &times;
-        </button>
-        <h1 className="project-field-heading">GROUP DETAILS</h1>
+      <button
+        className="btn-close"
+        onClick={(e) => {
+          e.preventDefault();
+          setShowModal("");
+        }}
+      >
+        &times;
+      </button>
+      <div className="add-students-form modal-group-details">
+        <h3 className="">GROUP DETAILS</h3>
+
         <div className="project-field">
-          <h1>Group name</h1>
-          <h3>{projectForModal?.group_name}</h3>
+          <h1>GROUP NAME</h1>
+          <h4 className="project-field-h3 text-none">
+            {projectForModal?.group_name}
+          </h4>
         </div>
 
         <div className="project-field">
-          <h1>Project Title</h1>
-          <h3>{projectForModal?.title}</h3>
+          <h1>PROJECT TITLE</h1>
+          <h4 className="project-field-h3 text-none">
+            {projectForModal?.title}
+          </h4>
         </div>
 
         <div className="project-field">
-          <h1>Technologies</h1>
-          <h3 className="tech-project-h3">{projectForModal?.technologies}</h3>
+          <h1>TECHNOLOGIES</h1>
+          <h4 className="project-field-h3 text-none">
+            {projectForModal?.technologies}
+          </h4>
         </div>
 
         <div className="project-field">
           <h1>REPORT</h1>
           {projectForModal?.report ? (
-            <h3
+            <span
               className="view-report"
               onClick={() => {
                 // Open the fileURL in a new tab
@@ -56,7 +64,7 @@ function ModalFacultyProjects({ setShowModal, projectForModal }) {
             >
               <span>Click here to view</span>
               <PdfLogo />
-            </h3>
+            </span>
           ) : (
             <span className=" view-report danger-note">
               No Report Uploaded Yet.

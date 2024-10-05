@@ -39,19 +39,6 @@ function ModalGroupInitiation({ setShowModal }) {
     setLeader("");
   }
 
-  // useEffect to handle success and error for group initiation
-  // useEffect(() => {
-  //   console.log(isSuccess, isError);
-  //   if (isSuccess) {
-  //     toast.success("Group Initiated Successfully");
-  //     queryClient.invalidateQueries(["team"]);
-  //   }
-
-  //   if (isError) {
-  //     toast.error("Group Initiation Failed");
-  //   }
-  // }, [isSuccess, isError, queryClient]);
-
   return (
     <div className="add-students">
       <button

@@ -8,6 +8,7 @@ function DashboardHeader() {
   const [showModal, setShowModal] = useState("");
   const location = useLocation();
   const isStudent = location.pathname === "/student";
+  const isFaculty = location.pathname === "/faculty";
   const isPanelMember = location.pathname === "/panel-members";
   const { data: user, isLoading } = useUser();
 
@@ -15,6 +16,8 @@ function DashboardHeader() {
     ? "Project Portal"
     : isPanelMember
     ? "Project Portal- Faculty Panel Members"
+    : isFaculty
+    ? "Project Portal- Faculty"
     : "Project Portal- Activity Co-Ordinator";
   return (
     <div className="header-wrapper">

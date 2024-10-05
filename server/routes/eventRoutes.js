@@ -2,8 +2,12 @@ import express from "express";
 
 const router = express.Router();
 
-import { createEvent, getEvents } from "../controllers/eventController.js";
+import {
+  createEvent,
+  deleteEvent,
+  getEvents,
+} from "../controllers/eventController.js";
 
-router.route("/").get(getEvents).post(createEvent);
+router.route("/").get(getEvents).post(createEvent).delete(deleteEvent);
 
 export default router;

@@ -4,7 +4,7 @@ function Member({ member }) {
   return (
     <div className="project-field">
       <h1>{capitalize(member.position)}</h1>
-      <h3 className="tech-project-h3">{member.name}</h3>
+      <h4 className="project-field-h3 text-none">{member.name}</h4>
     </div>
   );
 }
