@@ -3,6 +3,7 @@ import { useUser } from "../authentication/signin/useUser";
 import usePanelGroups from "./usePanelGroups";
 import Loader from "../../ui/Loader";
 import { useQueryClient } from "@tanstack/react-query";
+import Spinner from "../../ui/Spinner";
 
 function ModalGradeStudents({ setShowModal }) {
   const { data, isPending } = useUser();
@@ -70,7 +71,7 @@ function ModalGradeStudents({ setShowModal }) {
     setFilterType("Major"); // Set the filter type to "Major"
   }
 
-  if (isFetching) return <Loader />;
+  if (isFetching) return <Spinner />;
 
   return (
     <div className="add-students">

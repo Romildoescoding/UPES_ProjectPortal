@@ -8,6 +8,7 @@ import { useUser } from "../authentication/signin/useUser";
 import useTeamInformation from "./useTeamInformation";
 import toast from "react-hot-toast";
 import Loader from "../../ui/Loader";
+import Spinner from "../../ui/Spinner";
 
 function ModalAddStudents({ setShowModal }) {
   const queryClient = useQueryClient();
@@ -56,7 +57,7 @@ function ModalAddStudents({ setShowModal }) {
     setIsSubmitted(true);
   }
 
-  if (isFetching || isFetching2) return <Loader />;
+  if (isFetching || isFetching2) return <Spinner />;
 
   return (
     <div className="add-students">

@@ -11,7 +11,7 @@ function ModalGroupInitiation({ setShowModal }) {
   const queryClient = useQueryClient();
   const user = queryClient.getQueryData(["user"]);
   const inGroup = queryClient.getQueryData(["team"]);
-  const { initializeGroup, isPending, isSuccess, isError } = useGroup();
+  const { initializeGroup, isPending } = useGroup();
   const { updateMembers, isPending: isPending2 } = useUpdateMembers();
   const [group, setGroup] = useState("");
   const [leader, setLeader] = useState("");

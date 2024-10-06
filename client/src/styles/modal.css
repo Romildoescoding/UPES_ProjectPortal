@@ -141,6 +141,18 @@
   cursor: pointer;
 }
 
+.tech-support {
+  max-height: 75vh;
+  overflow: hidden;
+  justify-content: start !important;
+}
+
+.tech-content {
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 .student:hover {
   background-color: rgb(240 240 240);
 }

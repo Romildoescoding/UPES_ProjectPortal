@@ -5,6 +5,7 @@ import useNullPanelProjects from "./useNullPanelProjects";
 import NullPanelGroup from "../../ui/NullPanelGroup";
 import EmptyComponent from "../../ui/EmptyComponent";
 import Loader from "../../ui/Loader";
+import Spinner from "../../ui/Spinner";
 
 function ModalAssignPanels({ setShowModal }) {
   const [shouldConfirm, setShouldConfirm] = useState(true);
@@ -14,7 +15,7 @@ function ModalAssignPanels({ setShowModal }) {
   const nullPanelGroups = groups?.data;
   console.log(nullPanelGroups);
 
-  if (isFetching) return <Loader />;
+  if (isFetching) return <Spinner />;
   return (
     <div className="add-students">
       <button

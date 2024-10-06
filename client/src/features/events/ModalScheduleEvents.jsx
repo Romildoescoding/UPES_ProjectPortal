@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Loader from "../../ui/Loader";
 import toast from "react-hot-toast";
 import useCreateEvent from "./useCreateEvent";
+import Spinner from "../../ui/Spinner";
 
 function ModalScheduleEvents({ setShowModal }) {
   // State for form inputs
@@ -33,7 +34,7 @@ function ModalScheduleEvents({ setShowModal }) {
     setShowModal("");
   };
 
-  if (isPending) return <Loader />;
+  if (isPending) return <Spinner />;
 
   return (
     <div className="add-students">

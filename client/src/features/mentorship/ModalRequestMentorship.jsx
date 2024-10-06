@@ -6,6 +6,7 @@ import EmptyComponent from "../../ui/EmptyComponent";
 import useProjectByGroup from "../members/useProjectByGroup";
 import toast from "react-hot-toast";
 import Loader from "../../ui/Loader";
+import Spinner from "../../ui/Spinner";
 
 function ModalRequestMentorship({ setShowModal }) {
   const [facultyMail, setFacultyMail] = useState("");
@@ -27,7 +28,7 @@ function ModalRequestMentorship({ setShowModal }) {
     }
   }, [isSubmitted, isPending, setShowModal]);
 
-  if (isFetching || isPending) return <Loader />;
+  if (isFetching || isPending) return <Spinner />;
 
   function handleSubmit(e) {
     e.preventDefault();

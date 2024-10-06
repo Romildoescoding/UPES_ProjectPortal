@@ -21,6 +21,7 @@ import ModalScheduleEvents from "../features/events/ModalScheduleEvents";
 import ModalConfirmPanels from "../features/mentorship/ModalConfirmPanels";
 import ModalGradeStudents from "../features/mentorship/ModalGradeStudents";
 import ModalGradeStudentsSm from "../features/mentorship/ModalGradeStudentsSm";
+import ModalTechSupport from "../features/mentorship/ModalTechSupport";
 
 function Sidebar() {
   const location = useLocation();
@@ -96,6 +97,12 @@ function Sidebar() {
       {showModal === "project-details" && (
         <Modal setShowModal={setShowModal}>
           <ModalUploadProject setShowModal={setShowModal} />
+        </Modal>
+      )}
+
+      {showModal === "tech-support" && (
+        <Modal setShowModal={setShowModal}>
+          <ModalTechSupport setShowModal={setShowModal} />
         </Modal>
       )}
 
@@ -235,6 +242,15 @@ function Sidebar() {
               </div>
             </li>
           )}
+
+          <li className="option" onClick={() => setShowModal("tech-support")}>
+            <div>
+              <span className="option-icon">
+                <Messages />
+              </span>
+              <span>Technical Support</span>
+            </div>
+          </li>
         </ul>
       </div>
       <Logout setShowModal={setShowModal} showModal={showModal} />

@@ -14,7 +14,7 @@ function ModalGradeStudentsSm({ setShowModal }) {
     if (!grades) return toast.error("Grades must not be empty!");
     updateGrades({ mail, type, grades });
     setGrades(0);
-    setShowModal("");
+    setShowModal("grade-students");
   }
 
   return (
@@ -24,13 +24,13 @@ function ModalGradeStudentsSm({ setShowModal }) {
           className="btn-close"
           onClick={(e) => {
             e.preventDefault();
-            setShowModal(false);
+            setShowModal("grade-students");
           }}
         >
           &times;
         </button>
 
-        <h3>PROJECT DETAILS</h3>
+        <h3>GRADE STUDENT</h3>
         <div className="full-length-input">
           <label htmlFor="mail">STUDENT MAIL</label>
           <input
