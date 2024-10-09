@@ -32,19 +32,19 @@
 }
 
 .contents-top {
-  height: calc(100% - 200px);
+  height: calc(65%);
   display: flex;
   gap: 16px;
-  min-height: 343px;
+  /* min-height: 343px; */
   width: 100%;
   /* min-width: 845px; */
 }
 
 .contents-bottom {
-  height: 200px;
+  height: 35%;
   display: flex;
   justify-content: space-between;
-  min-height: 200px;
+  min-height: 35%;
   width: 100%;
   /* min-width: 845px; */
 }
@@ -53,9 +53,22 @@
   height: 100%;
   /* min-width: calc(100% - 244px); */
   width: 74.42%;
+  width: calc(100% - 275px);
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+@media (min-width: 1030px) and (max-width: 1240px) {
+  .contents-top-left {
+    width: calc(100% - 300px);
+  }
+}
+
+@media (min-width: 1030px) and (max-width: 1240px) {
+  .contents-bottom {
+    width: 73vw;
+  }
 }
 
 .calender-div {
@@ -66,6 +79,7 @@
   background: #ffffff57;
   border-radius: 20px;
   /* border: 1px solid #9d9e9f99; */
+  overflow: hidden;
 }
 
 .calender-div-faculty {
@@ -111,7 +125,9 @@
   padding: 18px;
 }
 
-.objectives-div {
+.project-details {
+  /* min-width: 150px; */
+  position: relative;
   width: 58.5%;
   height: 100%;
   background: #ffffff57;
@@ -203,7 +219,7 @@
     width: 100%;
   }
 
-  .objectives-div {
+  .project-details {
     width: 100%;
   }
 

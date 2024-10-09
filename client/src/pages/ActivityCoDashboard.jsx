@@ -19,19 +19,27 @@ import ActivityCoMarksTableWrapper from "../ui/ActivityCoMarksTableWrapper";
 import CalenderEvents from "../ui/CalenderEvents";
 
 // Create Context
-// const ConfirmContext = createContext();
+// const ContextProvider = createContext();
 // Custom hook to use the context
-// const useConfirm = () => useContext(ConfirmContext);
+// const useConfirm = () => useContext(ContextProvider);
 
 function ActivityCoDashboard() {
   const { data: user, isLoading } = useUser();
   let role = user?.user?.role;
   // const [shouldConfirm, setShouldConfirm] = useState(true);
+  // const [isUpdatingPanels, setIsUpdatingPanels] = useState(false);
 
   if (role !== "faculty") return <Error />;
 
   return (
-    // <ConfirmContext.Provider value={{ shouldConfirm, setShouldConfirm }}>
+    // <ContextProvider.Provider
+    //   value={{
+    //     shouldConfirm,
+    //     setShouldConfirm,
+    //     isUpdatingPanels,
+    //     setIsUpdatingPanels,
+    //   }}
+    // >
     <>
       <div className="contents-top-left">
         <div className="contents-top-faculty">
@@ -60,7 +68,7 @@ function ActivityCoDashboard() {
         <CalenderEvents />
       </div>
     </>
-    // </ConfirmContext.Provider>
+    // </ContextProvider.Provider>
   );
 }
 

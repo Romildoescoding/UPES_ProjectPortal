@@ -3,11 +3,13 @@ import Header from "./Header";
 import ProtectedRoute from "./ProtectedRoute";
 import Sidebar from "./Sidebar";
 import SidebarToggle from "../../public/svg/SidebarToggle";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import useOutsideClick from "../hooks/useOutsideClick";
 
+// const ContextProvider = createContext();
 function AppLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  // const [confirm, setConfirm] = useState(true);
 
   useEffect(() => {
     const bodyWidth = document.body.getBoundingClientRect().width;
@@ -20,6 +22,7 @@ function AppLayout() {
   }, []);
   return (
     <ProtectedRoute>
+      {/* <ContextProvider.Provider value={{confirm, setConfirm}}> */}
       <main>
         <Header />
         <div className="main">
@@ -41,6 +44,7 @@ function AppLayout() {
           </div>
         </div>
       </main>
+      {/* </ContextProvider.Provider> */}
     </ProtectedRoute>
   );
 }

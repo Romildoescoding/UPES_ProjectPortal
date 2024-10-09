@@ -8,7 +8,9 @@ import Loader from "../../ui/Loader";
 function ModalConfirmPanels({ setShowModal }) {
   const queryClient = useQueryClient();
   const { panel1, panel2 } = queryClient.getQueryData(["random-panels"]);
-  const [shouldAsk, setShouldAsk] = useState(true);
+  const confirm = queryClient.getQueryData(["confirm-random"]);
+  const isUpdating = queryClient.getQueryData(["updating-panels"]);
+  const [confirm1, setConfirm1] = useState(confirm);
   const group = queryClient.getQueryData(["selected-group"]);
   const { setPanelMembers, isPending } = usePanelists();
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -24,7 +26,7 @@ function ModalConfirmPanels({ setShowModal }) {
 
   function handleAssignRandomPanels(e) {
     e.preventDefault();
-    queryClient.setQueryData(["should-ask"], shouldAsk);
+    queryClient.setQueryData(["confirm-random"], confirm1);
     setPanelMembers({
       panelists: [panel1.mail, panel2.mail],
       group: group.group_name,
@@ -46,7 +48,7 @@ function ModalConfirmPanels({ setShowModal }) {
       </button>
       <div className="role-ques">
         <p>
-          Assigning Panels
+          {isUpdating ? "Updating Panels" : "Assigning Panels"}
           <span className="logout-svg">
             <LogoutSVG />
           </span>
@@ -66,7 +68,7 @@ function ModalConfirmPanels({ setShowModal }) {
             <input type="checkbox" id="remember-me" />
             <label
               htmlFor="remember-me"
-              onClick={() => setShouldAsk((should) => !should)}
+              onClick={() => setConfirm1((confirm1) => !confirm1)}
             ></label>
           </div>
         </div>
@@ -74,7 +76,9 @@ function ModalConfirmPanels({ setShowModal }) {
       <div className="logout-btns">
         <button
           className="logout-cancel"
-          onClick={() => setShowModal("assign-panels")}
+          onClick={() =>
+            setShowModal(() => (isUpdating ? "update-panels" : "assign-panels"))
+          }
         >
           Cancel
         </button>

@@ -89,6 +89,19 @@ export async function getPanelGroups(panel) {
   }
 }
 
+export async function getAllProjects() {
+  try {
+    const res = await fetch(`${serverPort}/api/v1/projects/group`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = res.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export async function updateGrades(updateData) {
   //DATA HAS TO BE LIKE mail, grades and type
   console.log(updateData);
@@ -133,6 +146,23 @@ export async function getProjectByGroup(group_name) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(group_name),
     });
+    const data = res.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function getProjectByUser(user) {
+  console.log(user);
+  // name: user,
+  try {
+    const res = await fetch(
+      `${serverPort}/api/v1/projects/group/${user.name}`,
+      {
+        method: "GET",
+      }
+    );
     const data = res.json();
     return data;
   } catch (err) {
@@ -217,10 +247,11 @@ export async function uploadProject(formData) {
       const fileType = report?.type;
       console.log(fileType);
       if (
+        fileType !== "application/vnd.ms-powerpoint" && // For .ppt
         fileType !==
-        "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation" // For .pptx
       ) {
-        throw new Error("Only PPTX files are allowed");
+        throw new Error("Only PPT and PPTX files are allowed");
       }
 
       const reportBase64 = await convertFileToBase64(report);
@@ -263,6 +294,15 @@ export async function updateProject({ formData, oldFilePath }) {
   console.log({ title, technologies, projectType, group_name, report });
 
   try {
+    const fileType = report?.type;
+    console.log(fileType);
+    if (
+      fileType !== "application/vnd.ms-powerpoint" && // For .ppt
+      fileType !==
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation" // For .pptx
+    ) {
+      throw new Error("Only PPT and PPTX files are allowed");
+    }
     const reportBase64 = await convertFileToBase64(report);
 
     const payload = {
@@ -289,7 +329,7 @@ export async function updateProject({ formData, oldFilePath }) {
     return data;
   } catch (err) {
     console.log(err);
-    throw new Error("Error while updating");
+    throw new Error(err);
   }
 }
 

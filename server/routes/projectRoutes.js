@@ -4,8 +4,10 @@ const router = express.Router();
 
 import {
   createProject,
+  getAllProjects,
   getPanelStudents,
   getProjectByGroup,
+  getProjectByUser,
   getProjects,
   handleRequest,
   setMentor,
@@ -22,9 +24,12 @@ router
 
 router
   .route("/group")
+  .get(getAllProjects)
   .post(getProjectByGroup)
   .put(getPanelStudents)
   .patch(updateMarks);
+
+router.route("/group/:user").get(getProjectByUser);
 
 router.route("/request").post(handleRequest);
 

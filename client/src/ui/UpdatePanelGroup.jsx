@@ -2,11 +2,15 @@ import { useQueryClient } from "@tanstack/react-query";
 import useProjectByGroup from "../features/members/useProjectByGroup";
 import useProjectMembers from "../features/mentorship/useProjectMembers";
 import getRandomEntry from "../helpers/getRandomEntry";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import useAllFaculties from "../features/mentorship/useAllFaculties";
 import usePanelists from "../features/mentorship/usePanelists";
+import Modal from "./Modal";
+import ModalConfirmPanels from "../features/mentorship/ModalConfirmPanels";
 
-function NullPanelGroup({ group, setShowModal }) {
+function UpdatePanelGroup({ group, setShowModal, showModal }) {
+  //   const [confirm, setShouldAsk] = useState(true);
+  //   const { showModal } = useContext(ModalProvider);
   const queryClient = useQueryClient();
   // const { data, isFetching } = useProjectMembers({
   //   group_name: group?.group_name,
@@ -48,7 +52,7 @@ function NullPanelGroup({ group, setShowModal }) {
       panel2: panel2,
     });
     const confirm = queryClient.getQueryData(["confirm-random"]) ?? true;
-    queryClient.setQueryData(["updating-panels"], false);
+    queryClient.setQueryData(["updating-panels"], true);
 
     queryClient.setQueryData(["confirm-random"], confirm);
     if (confirm) return setShowModal("confirm-panels");
@@ -71,6 +75,11 @@ function NullPanelGroup({ group, setShowModal }) {
 
   return (
     <div className="request">
+      {/* {showModal === "confirm-panels" && (
+        <Modal setShowModal={setShowModal}>
+          <ModalConfirmPanels setShowModal={setShowModal} isUpdating={true} />
+        </Modal>
+      )} */}
       <div className="request-area">
         <span>TITLE</span>
         <div className="request-text">
@@ -93,8 +102,11 @@ function NullPanelGroup({ group, setShowModal }) {
       <button className="view-report mt" onClick={handleAssignRandomPanels}>
         Assign Random Panels
       </button>
+      <button className="view-report mt" onClick={handleAssignRandomPanels}>
+        Assign Previous Panels
+      </button>
     </div>
   );
 }
 
-export default NullPanelGroup;
+export default UpdatePanelGroup;

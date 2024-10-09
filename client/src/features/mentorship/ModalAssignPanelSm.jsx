@@ -12,6 +12,7 @@ function ModalAssignPanelSm({ setShowModal }) {
   const { setPanelMembers, isPending } = usePanelists();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const group = queryClient.getQueryData(["selected-group"]);
+  const isUpdating = queryClient.getQueryData(["updating-panels"]);
   const { data, isFetching } = useProjectMembers({
     group_name: group.group_name,
   });
@@ -97,7 +98,7 @@ function ModalAssignPanelSm({ setShowModal }) {
         className="btn-close"
         onClick={(e) => {
           e.preventDefault();
-          setShowModal("assign-panels");
+          setShowModal(() => (isUpdating ? "update-panels" : "assign-panels"));
         }}
       >
         &times;

@@ -1,8 +1,11 @@
-function EmptyComponent({ msg, color, size, isTable }) {
+function EmptyComponent({ msg, color, size, isTable, isAbsolute }) {
   return isTable ? (
     <tr
       className="empty-comp"
-      style={{ backgroundColor: color || "transparent", fontSize: size || 16 }}
+      style={{
+        backgroundColor: color || "transparent",
+        fontSize: size || 16,
+      }}
     >
       <td>{msg}</td>
     </tr>

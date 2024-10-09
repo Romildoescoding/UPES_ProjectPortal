@@ -7,7 +7,7 @@ export default function useProjectUpdate() {
   const { mutate: updateProject, isPending } = useMutation({
     mutationFn: updateProjectApi,
     onError: (err) => {
-      toast.error("Error while Updating");
+      toast.error(err.message);
     },
     onSuccess: (project) => {
       toast.success("Details Updated Successfully");

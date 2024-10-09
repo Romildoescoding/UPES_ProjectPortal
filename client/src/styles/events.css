@@ -24,7 +24,7 @@
 }
 
 .events {
-  height: calc(100% - 35px);
+  height: calc(100% - 25px);
   overflow-y: scroll;
   width: 100%;
   list-style: none;

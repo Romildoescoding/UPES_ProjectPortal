@@ -81,6 +81,17 @@ body {
   margin-top: 8px;
 }
 
+@media (max-height: 670px) {
+  .text-pill {
+    height: 30px;
+    font-size: 15px !important;
+  }
+  .text-pill-checkbox {
+    height: 20px !important;
+    width: 20px !important;
+  }
+}
+
 @media (max-width: 1150px) and (min-width: 905px) {
   .text-pill {
     width: 90%;

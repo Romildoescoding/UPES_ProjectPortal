@@ -22,6 +22,7 @@ import ModalConfirmPanels from "../features/mentorship/ModalConfirmPanels";
 import ModalGradeStudents from "../features/mentorship/ModalGradeStudents";
 import ModalGradeStudentsSm from "../features/mentorship/ModalGradeStudentsSm";
 import ModalTechSupport from "../features/mentorship/ModalTechSupport";
+import ModalUpdatePanels from "../features/mentorship/ModalUpdatePanels";
 
 function Sidebar() {
   const location = useLocation();
@@ -44,6 +45,12 @@ function Sidebar() {
     return;
 
   return (
+    // <ModalProvider.Provider
+    //   value={{
+    //     showModal,
+    //     setShowModal,
+    //   }}
+    // >
     <div className="sidebar">
       {/*---------MODAL WINDOW--------- */}
       {showModal === "add-students" && (
@@ -94,6 +101,18 @@ function Sidebar() {
         </Modal>
       )}
 
+      {showModal === "update-panels" && (
+        <Modal setShowModal={setShowModal}>
+          <ModalUpdatePanels setShowModal={setShowModal} />
+        </Modal>
+      )}
+
+      {showModal === "confirm-panels" && (
+        <Modal setShowModal={setShowModal}>
+          <ModalConfirmPanels setShowModal={setShowModal} />
+        </Modal>
+      )}
+
       {showModal === "project-details" && (
         <Modal setShowModal={setShowModal}>
           <ModalUploadProject setShowModal={setShowModal} />
@@ -103,12 +122,6 @@ function Sidebar() {
       {showModal === "tech-support" && (
         <Modal setShowModal={setShowModal}>
           <ModalTechSupport setShowModal={setShowModal} />
-        </Modal>
-      )}
-
-      {showModal === "confirm-panels" && (
-        <Modal setShowModal={setShowModal}>
-          <ModalConfirmPanels setShowModal={setShowModal} />
         </Modal>
       )}
 
@@ -212,6 +225,20 @@ function Sidebar() {
             </li>
           )}
 
+          {isCoordinator && (
+            <li
+              className="option"
+              onClick={() => setShowModal("update-panels")}
+            >
+              <div>
+                <span className="option-icon">
+                  <Pen />
+                </span>
+                <span>Update Panel Members</span>
+              </div>
+            </li>
+          )}
+
           {/* SCHEDULE EVENTS */}
           {isCoordinator && (
             <li
@@ -255,6 +282,7 @@ function Sidebar() {
       </div>
       <Logout setShowModal={setShowModal} showModal={showModal} />
     </div>
+    // </ModalProvider.Provider>
   );
 }
 

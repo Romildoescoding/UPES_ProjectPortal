@@ -1,4 +1,4 @@
-.objectives {
+.stu-project {
   padding: 20px;
   height: 100%;
   width: 100%;
@@ -7,39 +7,60 @@
   gap: 10px;
 }
 
-.objectives-options-list {
-  display: flex;
-  list-style: none;
-  gap: 50px;
-  border-bottom: 1.5px solid #0000001a;
-}
-
-.objectives-options-list > li {
-  cursor: pointer;
-}
-
-.active-list {
-  border-bottom: 2px solid #2b5ce6;
-  margin-bottom: -1px;
-}
-
-.objectives-list {
-  overflow-y: scroll;
-  list-style: none;
-  font-size: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.objectives-list > li {
-  justify-content: space-between;
-  padding-right: 30px;
+.stu-project-details {
+  border-top: 1px solid rgb(146, 146, 146);
+  padding-top: 5px;
+  height: 100%;
+  width: 100%;
   display: flex;
 }
 
-.objectives-list > li > div {
+.project-field-stu {
+  padding: 5px 0px;
   display: flex;
-  gap: 10px;
-  align-items: center;
+  gap: 30px;
+  width: 100%;
+  font-size: 16px;
+  /* font-weight: 600; */
+  color: rgb(49, 49, 49);
+  /* border-bottom: 1px solid black; */
+}
+
+.project-heading {
+  font-weight: 500;
+}
+
+.stu-project-left {
+  padding: 0px 10px;
+  height: 100%;
+  width: 50%;
+}
+
+@media (max-width: 465px) {
+  .project-field-stu {
+    font-size: 9px !important;
+  }
+  .project-details-report {
+    font-size: 8px !important;
+  }
+}
+
+@media (max-width: 1080px) {
+  .project-field-stu {
+    font-size: 12px;
+  }
+
+  .project-details-report {
+    font-size: 12px;
+  }
+}
+
+.bg-light {
+  background-color: rgba(255, 0, 0, 0.603) !important;
+  color: white;
+}
+
+.stu-project-right {
+  height: 100%;
+  width: 50%;
 }

@@ -36,6 +36,24 @@ export async function getProjects(req, res) {
   }
 }
 
+export async function getAllProjects(req, res) {
+  // const { page, pageSize } = req.query;
+  console.log("GET-ALL-PROJECTS");
+  try {
+    console.log(req.query);
+    let query = supabase.from("projects").select("*");
+    let { data, error } = await query;
+
+    if (error) {
+      console.log(error);
+    }
+    res.status(200).json({ status: "success", data });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ status: "fail", message: err });
+  }
+}
+
 //POST /projects/group
 export async function getProjectByGroup(req, res) {
   console.log("GET_PROJECTS_BY_GROUP_NAME");
@@ -55,6 +73,74 @@ export async function getProjectByGroup(req, res) {
   } catch (err) {
     console.log(err);
     res.status(400).json({ status: "fail", message: err });
+  }
+}
+
+export async function getProjectByUser(req, res) {
+  console.log("GET_PROJECTS_BY_USER");
+  console.log(req.params);
+
+  try {
+    const { user: student } = req.params;
+    console.log(student);
+
+    // Fetch the group information
+    const { data: group, error: groupError } = await supabase
+      .from("groups")
+      .select("*")
+      .or(
+        `leader.eq.${student},member1.eq.${student},member2.eq.${student},member3.eq.${student}`
+      );
+
+    if (groupError) {
+      console.error("Error fetching group:", groupError);
+      return res.status(400).json({
+        status: "fail",
+        message: "Error fetching group",
+        error: groupError,
+      });
+    }
+
+    // Ensure that group data exists before proceeding
+    if (!group || group.length === 0) {
+      return res
+        .status(404)
+        .json({ status: "fail", message: "Group not found" });
+    }
+
+    const groupName = group[0].group_name; // Assuming you want the first group result
+
+    // Fetch the project based on the group name
+    const { data: projects, error: projectError } = await supabase
+      .from("projects")
+      .select("*")
+      .eq("group_name", groupName);
+
+    if (projectError) {
+      console.error("Error fetching project:", projectError);
+      return res.status(500).json({
+        status: "fail",
+        message: "Error fetching project",
+        error: projectError,
+      });
+    }
+
+    // Ensure that project data exists before proceeding
+    if (!projects || projects.length === 0) {
+      return res
+        .status(404)
+        .json({ status: "fail", message: "No projects found for this group" });
+    }
+
+    console.log("Projects fetched successfully:", projects);
+    return res.status(200).json({ status: "success", data: projects });
+  } catch (err) {
+    console.error("Server error:", err);
+    return res.status(500).json({
+      status: "fail",
+      message: "Internal server error",
+      error: err.message,
+    });
   }
 }
 
@@ -169,9 +255,6 @@ function getFileExtension(base64Str) {
   return "bin"; // Default to 'bin' if mime type is not found
 }
 
-//title
-//group_name
-//technologies
 export async function createProject(req, res) {
   console.log("CREATEPROJECTS");
 

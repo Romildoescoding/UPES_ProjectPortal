@@ -69,7 +69,7 @@ function ModalRequestMentorship({ setShowModal }) {
           <>
             <EmptyComponent
               color="white"
-              msg="❗Upload Group Details First❗"
+              msg="❗Upload Project Details First❗"
               size={24}
             />
             <div className="full-length-input safe-note">
