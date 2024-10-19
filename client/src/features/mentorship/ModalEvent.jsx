@@ -6,9 +6,12 @@ function ModalEvent({ setShowModal, event }) {
   const location = useLocation();
   const { deleteEvent, isPending } = useDeleteEvent();
   function handleDelete() {
-    deleteEvent({ eventName: event.name });
+    deleteEvent({ eventId: event.id });
   }
-  function handleEdit() {}
+  function handleEdit(e) {
+    console.log("EDIT");
+    setShowModal("edit-event");
+  }
 
   if (isPending) return <Loader />;
   return (
@@ -16,7 +19,6 @@ function ModalEvent({ setShowModal, event }) {
       <button
         className="btn-close"
         onClick={() => {
-          console.log("CLICKED");
           setShowModal("");
         }}
       >
@@ -35,7 +37,12 @@ function ModalEvent({ setShowModal, event }) {
           </div>
           <div className="project-field">
             <h1>DESCRIPTION</h1>
-            <h4 className="project-field-h3">{event.description}</h4>
+            <h4
+              className="project-field-h3"
+              style={{ minWidth: "unset !important" }}
+            >
+              {event.description}
+            </h4>
           </div>
           <div className="project-field">
             <h1>EVENT TYPE</h1>
@@ -43,15 +50,9 @@ function ModalEvent({ setShowModal, event }) {
           </div>
           {location.pathname === "/activity-coordinator" && (
             <div className="logout-btns">
-              {/* <button
-                className="logout-cancel"
-                onClick={() => {
-                  handleEdit();
-                  setShowModal("");
-                }}
-              >
+              <button className="logout-cancel" onClick={handleEdit}>
                 Edit
-              </button> */}
+              </button>
               <button
                 className="logout-main"
                 onClick={() => {

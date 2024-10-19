@@ -17,6 +17,8 @@ import MarksAwarded from "../ui/MarksAwarded";
 import ActivityCoMarksTable from "../ui/ActivityCoMarksTable";
 import ActivityCoMarksTableWrapper from "../ui/ActivityCoMarksTableWrapper";
 import CalenderEvents from "../ui/CalenderEvents";
+import Modal from "../ui/Modal";
+import ModalConfirmToggleMarks from "../features/mentorship/ModalConfirmToggleMarks";
 
 // Create Context
 // const ContextProvider = createContext();
@@ -24,6 +26,7 @@ import CalenderEvents from "../ui/CalenderEvents";
 // const useConfirm = () => useContext(ContextProvider);
 
 function ActivityCoDashboard() {
+  const [showModal, setShowModal] = useState("");
   const { data: user, isLoading } = useUser();
   let role = user?.user?.role;
   // const [shouldConfirm, setShouldConfirm] = useState(true);
@@ -64,8 +67,22 @@ function ActivityCoDashboard() {
         </div>
         <ActivityCoMarksTable />
       </div>
-      <div className="calender-div-faculty">
-        <CalenderEvents />
+
+      <div className="calender-div-faculty calender-div-faculty-ac">
+        <div className="calender-div-faculty-ac-wrapper">
+          <CalenderEvents />
+        </div>
+        {showModal === "toggle-marks" && (
+          <Modal setShowModal={setShowModal}>
+            <ModalConfirmToggleMarks setShowModal={setShowModal} />
+          </Modal>
+        )}
+        <div
+          className="view-report"
+          onClick={() => setShowModal("toggle-marks")}
+        >
+          Toggle Marks Visibility
+        </div>
       </div>
     </>
     // </ContextProvider.Provider>

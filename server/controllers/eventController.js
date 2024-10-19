@@ -11,7 +11,7 @@ export async function getEvents(req, res) {
 }
 
 export async function createEvent(req, res) {
-  console.log("CREATEGROUP");
+  console.log("CREATE-EVENT");
   try {
     console.log(req.body);
     const { eventName, eventDate, eventDescription, eventType } = req.body;
@@ -39,16 +39,13 @@ export async function createEvent(req, res) {
 }
 
 export async function deleteEvent(req, res) {
-  console.log("DELETEEVENT");
+  console.log("DELETE-EVENT");
 
   try {
     console.log(req.body);
-    const { eventName } = req.body;
+    const { eventId } = req.body;
 
-    const { error } = await supabase
-      .from("events")
-      .delete()
-      .eq("name", eventName);
+    const { error } = await supabase.from("events").delete().eq("id", eventId);
 
     if (error) {
       console.error(error);
@@ -69,5 +66,36 @@ export async function deleteEvent(req, res) {
       status: "fail",
       message: "Server error",
     });
+  }
+}
+
+export async function updateEvent(req, res) {
+  console.log("UPDATE-EVENT");
+  try {
+    console.log(req.body);
+    const { eventId, eventName, eventDate, eventDescription, eventType } =
+      req.body;
+
+    // Perform the update operation
+    const { data: updatedEvent, error } = await supabase
+      .from("events")
+      .update({
+        name: eventName,
+        date: eventDate,
+        description: eventDescription,
+        type: eventType,
+      })
+      .eq("id", eventId) // Match the event by its unique id
+      .select("*");
+
+    if (error) {
+      res.status(400).json({ status: "fail", message: error.message });
+      console.log(error);
+    } else {
+      res.status(200).json({ status: "success", updatedEvent });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ status: "fail", message: err.message });
   }
 }

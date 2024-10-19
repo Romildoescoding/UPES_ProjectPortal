@@ -17,7 +17,7 @@ function Dashboard() {
   let user = data?.user;
   let role = user?.role;
 
-  if (isLoading || !role) return <Loader />;
+  if (isPending || !role) return <Loader />;
   if (role !== "student") return <Error />;
 
   return (

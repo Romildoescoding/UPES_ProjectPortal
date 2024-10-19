@@ -54,8 +54,13 @@ function FacultyDashboard() {
         {/* MARKS AWARDED TABLE */}
         <MarksAwarded />
       </div>
-      <div className="calender-div-faculty">
+      {/* <div className="calender-div-faculty calender-div-faculty-ac">
         <CalenderEvents />
+      </div> */}
+      <div className="calender-div-faculty calender-div-faculty-ac">
+        <div className="calender-div-faculty-ac-wrapper">
+          <CalenderEvents />
+        </div>
       </div>
     </>
   );

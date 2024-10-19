@@ -286,3 +286,45 @@ export async function currentUser(req, res) {
     });
   }
 }
+
+//REMOTE VARIABLES FOR THE APP
+export async function getRemoteVariables(req, res) {
+  try {
+    let { data: variables, error } = await supabase
+      .from("variables")
+      .select("*");
+
+    if (error)
+      res.status(400).json({ status: "fail", message: "Error while fetching" });
+
+    res.status(200).json({ status: "success", variables });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      status: "error",
+      message: "Internal Server Error",
+    });
+  }
+}
+
+export async function updateRemoteVariables(req, res) {
+  try {
+    const { variableName, value } = req.body;
+    const { data, error } = await supabase
+      .from("variables")
+      .update({ value })
+      .eq("variable-name", variableName)
+      .select();
+
+    if (error)
+      res.status(400).json({ status: "fail", message: "Error while updating" });
+
+    res.status(200).json({ status: "fail", data });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      status: "error",
+      message: "Internal Server Error",
+    });
+  }
+}

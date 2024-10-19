@@ -6,7 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import Spinner from "../../ui/Spinner";
 import { useEvents } from "../events/useEvents";
 
-function ModalGradeStudents({ setShowModal }) {
+function ModalGradeStudentsMentor({ setShowModal }) {
   const { data, isPending } = useUser();
   const queryClient = useQueryClient();
   const user = data?.user;
@@ -21,16 +21,16 @@ function ModalGradeStudents({ setShowModal }) {
     isError,
   } = useEvents();
 
-  const filterOptions = queryClient.getQueryData(["filter-options"]);
+  //   const filterOptions = queryClient.getQueryData(["filter-options"]);
 
-  const filterType1 = filterOptions?.filterType || "";
-  const event1 = filterOptions?.event || "";
+  //   const filterType1 = filterOptions?.filterType || "";
+  //   const event1 = filterOptions?.event || "";
   const [filteredEvents, setFilteredEvents] = useState(events);
-  const [event, setEvent] = useState(event1);
+  const [event, setEvent] = useState("");
 
   const [mail, setMail] = useState("");
   const [filteredGroups, setFilteredGroups] = useState([]);
-  const [filterType, setFilterType] = useState(filterType1); // New state for filtering type
+  const [filterType, setFilterType] = useState(""); // New state for filtering type
 
   // Memoized panel groups to avoid recalculation on each render
   const panelGroups = useMemo(() => {
@@ -228,4 +228,4 @@ function ModalGradeStudents({ setShowModal }) {
   );
 }
 
-export default ModalGradeStudents;
+export default ModalGradeStudentsMentor;

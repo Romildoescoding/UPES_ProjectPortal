@@ -103,7 +103,7 @@ export async function getAllProjects() {
 }
 
 export async function updateGrades(updateData) {
-  //DATA HAS TO BE LIKE mail, grades and type
+  //DATA HAS TO BE LIKE mail, grades, eventId and type
   console.log(updateData);
   try {
     const res = await fetch(`${serverPort}/api/v1/projects/group`, {
@@ -376,6 +376,19 @@ export async function createEvent(event) {
   return data;
 }
 
+export async function updateEvent(event) {
+  const res = await fetch(`${serverPort}/api/v1/events`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(event),
+  });
+  const data = await res.json();
+
+  //THIS LINE IS NECESSARY FOR ONERROR
+  if (res.status !== 200) throw new Error(data.message);
+  return data;
+}
+
 // EVENTS
 export async function deleteEvent(event) {
   const res = await fetch(`${serverPort}/api/v1/events`, {
@@ -396,6 +409,42 @@ export async function getEvents() {
 
   //THIS LINE IS NECESSARY FOR ONERROR
   if (res.status !== 200) throw new Error(data.message);
+  console.log(data);
+  return data;
+}
+
+//remote variables
+export async function getRemoteVariables() {
+  const res = await fetch(`${serverPort}/api/v1/auth/variables`);
+  const data = await res.json();
+
+  //THIS LINE IS NECESSARY FOR ONERROR
+  console.log(data);
+  return data;
+}
+
+export async function toggleRemoteVariables(variable) {
+  const res = await fetch(`${serverPort}/api/v1/auth/variables`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(variable),
+  });
+  const data = await res.json();
+
+  //THIS LINE IS NECESSARY FOR ONERROR
+  if (res.status !== 200) throw new Error(data.message);
+  return data;
+}
+
+export async function getGrades(mail) {
+  const res = await fetch(`${serverPort}/api/v1/students/grades`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(mail),
+  });
+  const data = await res.json();
+
+  //THIS LINE IS NECESSARY FOR ONERROR
   console.log(data);
   return data;
 }

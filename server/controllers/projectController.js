@@ -480,14 +480,15 @@ export async function getPanelStudents(req, res) {
 }
 
 export async function updateMarks(req, res) {
-  const { mail, grades, type } = req.body;
+  const { mail, grades, type, eventId } = req.body;
 
   try {
     // Check if a record already exists
     const { data, error: selectError } = await supabase
       .from("grades")
       .select("*")
-      .eq("mail", mail);
+      .eq("mail", mail)
+      .eq("event-id", eventId);
 
     if (selectError) {
       return res.status(500).json({
@@ -501,7 +502,7 @@ export async function updateMarks(req, res) {
     if (!data.length) {
       const { data: insertData, error: insertError } = await supabase
         .from("grades")
-        .insert([{ mail, grades, type }])
+        .insert([{ mail, grades, type, "event-id": eventId }])
         .select("*")
         .single();
 
@@ -522,8 +523,9 @@ export async function updateMarks(req, res) {
     // If data exists, update the record
     const { data: updatedData, error: updateError } = await supabase
       .from("grades")
-      .update({ grades, type })
+      .update({ grades })
       .eq("mail", mail)
+      .eq("event-id", eventId)
       .select("*")
       .single();
 

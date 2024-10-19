@@ -46,8 +46,13 @@ function PanelMembersDashboard() {
         {/* MARKS AWARDED TABLE */}
         <PanelMemberMarksTable />
       </div>
-      <div className="calender-div-faculty">
+      {/* <div className="calender-div-faculty">
         <CalenderEvents />
+      </div> */}
+      <div className="calender-div-faculty calender-div-faculty-ac">
+        <div className="calender-div-faculty-ac-wrapper">
+          <CalenderEvents />
+        </div>
       </div>
     </>
   );

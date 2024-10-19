@@ -197,6 +197,20 @@
   z-index: 9999;
 }
 
+.btn-back {
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  top: 5px;
+  left: 5px;
+  cursor: pointer;
+  z-index: 9999;
+}
+
 /* .btn-close-import {
   position: absolute;
   height: 100px;

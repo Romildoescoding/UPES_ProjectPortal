@@ -163,7 +163,27 @@
   cursor: pointer;
 }
 
+.calender-div-faculty-ac {
+  max-height: unset !important;
+  background-color: transparent !important;
+  border-radius: 0px !important;
+}
+
+.calender-div-faculty-ac-wrapper {
+  background: #ffffff57;
+  height: calc(100% - 50px);
+  max-height: 500px;
+  width: 100%;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
 @media (max-width: 905px) {
+  .calender-div-faculty-ac-wrapper > div {
+    width: 100%;
+    display: flex;
+  }
+
   .dashboard {
     display: flex;
     flex-direction: column;
@@ -202,7 +222,8 @@
 }
 
 @media (max-width: 555px) {
-  .calender-div-faculty > div {
+  .calender-div-faculty > div,
+  .calender-div-faculty-ac-wrapper > div {
     height: fit-content;
     width: 100%;
     display: flex;

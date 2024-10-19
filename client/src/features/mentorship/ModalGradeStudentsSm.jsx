@@ -5,14 +5,14 @@ import useUpdateGrades from "./useUpdateGrades";
 
 function ModalGradeStudentsSm({ setShowModal }) {
   const queryClient = useQueryClient();
-  const { mail, type } = queryClient.getQueryData(["selected-student"]);
+  const { mail, type, event } = queryClient.getQueryData(["selected-student"]);
   const { updateGrades, isPending: isUpdatingGrades } = useUpdateGrades();
   const [grades, setGrades] = useState(0);
 
   function handleUpdateMarks(e) {
     e.preventDefault();
     if (!grades) return toast.error("Grades must not be empty!");
-    updateGrades({ mail, type, grades });
+    updateGrades({ mail, type, grades, eventId: event.id });
     setGrades(0);
     setShowModal("grade-students");
   }
@@ -24,10 +24,20 @@ function ModalGradeStudentsSm({ setShowModal }) {
           className="btn-close"
           onClick={(e) => {
             e.preventDefault();
-            setShowModal("grade-students");
+            setShowModal("");
           }}
         >
           &times;
+        </button>
+
+        <button
+          className="btn-back"
+          onClick={(e) => {
+            e.preventDefault();
+            setShowModal("grade-students");
+          }}
+        >
+          &larr;
         </button>
 
         <h3>GRADE STUDENT</h3>
@@ -56,6 +66,17 @@ function ModalGradeStudentsSm({ setShowModal }) {
           />
         </div>
 
+        <div className="full-length-input">
+          <label htmlFor="type">EVENT NAME</label>
+          <input
+            type="text"
+            name="type"
+            id="type"
+            placeholder="PROJECT TYPE"
+            value={event.name}
+            disabled={true}
+          />
+        </div>
         <div className="full-length-input">
           <label htmlFor="type">PROJECT TYPE</label>
           <input

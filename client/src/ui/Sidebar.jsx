@@ -23,6 +23,7 @@ import ModalGradeStudents from "../features/mentorship/ModalGradeStudents";
 import ModalGradeStudentsSm from "../features/mentorship/ModalGradeStudentsSm";
 import ModalTechSupport from "../features/mentorship/ModalTechSupport";
 import ModalUpdatePanels from "../features/mentorship/ModalUpdatePanels";
+import ModalGradeStudentsMentor from "../features/mentorship/ModalGradeStudentsMentor";
 
 function Sidebar() {
   const location = useLocation();
@@ -74,6 +75,12 @@ function Sidebar() {
       {showModal === "grade-students" && (
         <Modal setShowModal={setShowModal}>
           <ModalGradeStudents setShowModal={setShowModal} />
+        </Modal>
+      )}
+
+      {showModal === "grade-students-mentor" && (
+        <Modal setShowModal={setShowModal}>
+          <ModalGradeStudentsMentor setShowModal={setShowModal} />
         </Modal>
       )}
 
@@ -198,13 +205,27 @@ function Sidebar() {
           {isFaculty && (
             <li
               className="option"
-              onClick={() => setShowModal("import-students")}
+              onClick={() => setShowModal("grade-students")}
+            >
+              <div>
+                <span className="option-icon">
+                  <People />
+                </span>
+                <span>Import Students</span>
+              </div>
+            </li>
+          )}
+
+          {isFaculty && (
+            <li
+              className="option"
+              onClick={() => setShowModal("grade-students-mentor")}
             >
               <div>
                 <span className="option-icon">
                   <Pen />
                 </span>
-                <span>Import Students</span>
+                <span>Grade Students</span>
               </div>
             </li>
           )}
