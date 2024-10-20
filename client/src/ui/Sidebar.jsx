@@ -205,7 +205,7 @@ function Sidebar() {
           {isFaculty && (
             <li
               className="option"
-              onClick={() => setShowModal("grade-students")}
+              onClick={() => setShowModal("import-students")}
             >
               <div>
                 <span className="option-icon">

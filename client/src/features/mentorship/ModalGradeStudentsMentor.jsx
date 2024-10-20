@@ -12,25 +12,20 @@ function ModalGradeStudentsMentor({ setShowModal }) {
   const user = data?.user;
   const { data: groups, isFetching } = usePanelGroups({
     panel: user.name,
+    isMentor: true,
   });
-  console.log("MODAL-GRADE-STUDENTS");
-  const {
-    data: events,
-    isLoading,
-    isFetching: isFetching2,
-    isError,
-  } = useEvents();
 
-  //   const filterOptions = queryClient.getQueryData(["filter-options"]);
-
-  //   const filterType1 = filterOptions?.filterType || "";
-  //   const event1 = filterOptions?.event || "";
-  const [filteredEvents, setFilteredEvents] = useState(events);
-  const [event, setEvent] = useState("");
+  const { data: events, isFetching: isFetching2 } = useEvents();
+  const mentorEventId = events?.data.filter(
+    (event) => event.name !== "Mentor Grading"
+  );
 
   const [mail, setMail] = useState("");
   const [filteredGroups, setFilteredGroups] = useState([]);
   const [filterType, setFilterType] = useState(""); // New state for filtering type
+
+  console.log(mentorEventId);
+  console.log(filteredGroups);
 
   // Memoized panel groups to avoid recalculation on each render
   const panelGroups = useMemo(() => {
@@ -77,42 +72,16 @@ function ModalGradeStudentsMentor({ setShowModal }) {
   // Correct way to filter and set filteredEvents without affecting original events
   function filterMinor(e) {
     e.preventDefault();
-    setFilteredEvents((prevEvents) => ({
-      ...prevEvents, // Spread the previous events object
-      data: prevEvents.data.filter(
-        (e) => e.type === "Minor-I" || e.type === "Minor-II"
-      ),
-    }));
     setFilterType("Minor"); // Set the filter type to "Minor"
   }
 
   // Filter for Major types
   function filterMajor(e) {
     e.preventDefault();
-    setFilteredEvents((prevEvents) => ({
-      ...prevEvents, // Spread the previous events object
-      data: prevEvents.data.filter(
-        (e) => e.type === "Major-I" || e.type === "Major-II"
-      ),
-    }));
     setFilterType("Major"); // Set the filter type to "Major"
   }
 
-  function handleBackNavigation() {
-    if (!event && filterType) setFilterType("");
-    else if (event && filterType) setEvent("");
-  }
-
-  useEffect(() => {
-    console.log(filterType, events.data.length);
-    if (filterType === "")
-      setFilteredEvents(() => {
-        console.log(events);
-        return events;
-      });
-  }, [events, filterType]);
-
-  if (isFetching) return <Spinner />;
+  if (isFetching && isFetching2) return <Spinner />;
 
   return (
     <div className="add-students">
@@ -127,27 +96,24 @@ function ModalGradeStudentsMentor({ setShowModal }) {
           &times;
         </button>
 
-        {filterType && (
-          <button
-            className="btn-back"
-            onClick={(e) => {
-              e.preventDefault();
-              handleBackNavigation();
-            }}
-          >
-            &larr;
-          </button>
-        )}
-
         <h3>GRADE STUDENTS</h3>
 
         {/* Buttons for filtering Minor and Major */}
 
-        {!event && !filterType && (
+        {!mentorEventId.length ? (
+          <>
+            <div className="full-length-input border-top">
+              No events to grade for
+            </div>
+            <div className="full-length-input border-top">
+              {`Ask the AC to schedule a "Mentor Grading" event.`}
+            </div>
+          </>
+        ) : (
           <>
             <div className="full-length-input gap border-top">
-              <h4>CHOOSE PROJECT TYPE</h4>
-              <div className="full-length-input  flex-gap-15">
+              <h4>FILTER PROJECT TYPE</h4>
+              <div className="full-length-input flex-gap-15">
                 <button className="view-report" onClick={filterMinor}>
                   MINOR
                 </button>
@@ -156,31 +122,7 @@ function ModalGradeStudentsMentor({ setShowModal }) {
                 </button>
               </div>
             </div>
-          </>
-        )}
 
-        {!event && filterType && (
-          <div className="full-length-input student-wrapper border-top">
-            {filteredEvents?.data?.length ? (
-              <h4>CHOOSE EVENT TO GRADE FOR</h4>
-            ) : (
-              <h4>
-                NO EVENTS SCHEDUELED FOR {filterType.toUpperCase()} PROJECTS
-              </h4>
-            )}
-            {filteredEvents?.data?.map((ev, i) => (
-              <div
-                key={i}
-                className="full-length-input view-report"
-                onClick={() => setEvent(ev)}
-              >
-                {ev.name}
-              </div>
-            ))}
-          </div>
-        )}
-        {event && (
-          <>
             <div className="full-length-input border-top">
               <label htmlFor="mail">FILTER STUDENT MAIL</label>
               <input
@@ -201,15 +143,8 @@ function ModalGradeStudentsMentor({ setShowModal }) {
                     key={i}
                     className="full-length-input student"
                     onClick={() => {
-                      queryClient.setQueryData(["selected-student"], {
-                        ...stu,
-                        event: event,
-                      });
-
-                      queryClient.setQueryData(["filter-options"], {
-                        filterType,
-                        event,
-                      });
+                      queryClient.setQueryData(["selected-student"], stu);
+                      queryClient.setQueryData(["is-mentor-grading"], true);
                       setShowModal("grade-students-sm");
                     }}
                   >
@@ -218,7 +153,12 @@ function ModalGradeStudentsMentor({ setShowModal }) {
                   </div>
                 ))
               ) : (
-                <div>No students found</div>
+                <div
+                  className="full-length-input"
+                  style={{ alignItems: "center" }}
+                >
+                  No students found
+                </div>
               )}
             </div>
           </>

@@ -14,12 +14,16 @@ function ModalGradeStudents({ setShowModal }) {
     panel: user.name,
   });
   console.log("MODAL-GRADE-STUDENTS");
-  const {
+  let {
     data: events,
     isLoading,
     isFetching: isFetching2,
     isError,
   } = useEvents();
+
+  // events.data = events.data.filter((event) => event.name === "Mentor Grading");
+
+  // console.log(panelEvents);
 
   const filterOptions = queryClient.getQueryData(["filter-options"]);
 
@@ -205,6 +209,8 @@ function ModalGradeStudents({ setShowModal }) {
                         ...stu,
                         event: event,
                       });
+
+                      queryClient.setQueryData(["is-mentor-grading"], false);
 
                       queryClient.setQueryData(["filter-options"], {
                         filterType,

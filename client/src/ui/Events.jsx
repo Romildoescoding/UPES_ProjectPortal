@@ -5,7 +5,11 @@ import Spinner from "./Spinner";
 import { useLocation } from "react-router-dom";
 
 function Events({ selectedDate }) {
-  const { data: events, isLoading, isFetching, isError } = useEvents();
+  let { data: events, isLoading, isFetching, isError } = useEvents();
+  if (events)
+    events.data = events.data.filter(
+      (event) => event.name !== "Mentor Grading"
+    );
   const location = useLocation();
 
   useEffect(() => {

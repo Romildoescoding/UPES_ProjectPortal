@@ -58,10 +58,11 @@ function MarksAwarded() {
   return (
     <div className="contents-bottom-faculty" ref={tableContainerRef}>
       <TextPill
-        text={<span className="dashboard-heading">Marks awarded</span>}
-        width={220}
+        text={<span className="dashboard-heading">Assigned Groups</span>}
+        width={"100%"}
         height={35}
         isHeading={true}
+        isCentered={true}
       />
       {isFetching ? (
         <Spinner />

@@ -11,7 +11,7 @@ export default function useProjectUpdate() {
     },
     onSuccess: (project) => {
       toast.success("Details Updated Successfully");
-      queryClient.setQueryData(["project"], project);
+      queryClient.refetchQueries(["project"]);
     },
   });
   return { updateProject, isPending };

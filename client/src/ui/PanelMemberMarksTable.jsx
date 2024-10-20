@@ -1,92 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import TextPill from "./TextPill";
 import Pagination from "./Pagination";
-import ActivityRequest from "./ActivityRequest";
 import { useUser } from "../features/authentication/signin/useUser";
-import useRequests from "../features/mentorship/useRequests";
 import "../styles/panelmembers.css";
-import PdfLogo from "../../public/svg/PdfLogo";
 import Modal from "./Modal";
-import ModalReport from "../features/ModalReport";
 import useProjects from "../features/mentorship/useProjects";
 import ModalFacultyProjects from "../features/mentorship/ModalFacultyProjects";
 import PanelProject from "./PanelProject";
-
-const projects = [
-  {
-    name: "Romil",
-    report: "https://URL.com",
-    marks1: 8,
-    marks2: 7,
-    marks3: 10,
-    marks4: 9,
-  },
-  {
-    name: "Romil",
-    report: "https://URL.com",
-    marks1: 8,
-    marks2: 7,
-    marks3: 10,
-    marks4: 9,
-  },
-  {
-    name: "Romil",
-    report: "https://URL.com",
-    marks1: 8,
-    marks2: 7,
-    marks3: 10,
-    marks4: 9,
-  },
-
-  {
-    name: "Romil",
-    report: "https://URL.com",
-    marks1: 8,
-    marks2: 7,
-    marks3: 10,
-    marks4: 9,
-  },
-  {
-    name: "Romil",
-    report: "https://URL.com",
-    marks1: 8,
-    marks2: 7,
-    marks3: 10,
-    marks4: 9,
-  },
-  {
-    name: "Romil",
-    report: "https://URL.com",
-    marks1: 8,
-    marks2: 7,
-    marks3: 10,
-    marks4: 9,
-  },
-  {
-    name: "Romil",
-    report: "https://URL.com",
-    marks1: 8,
-    marks2: 7,
-    marks3: 10,
-    marks4: 9,
-  },
-  {
-    name: "Romil",
-    report: "https://URL.com",
-    marks1: 8,
-    marks2: 7,
-    marks3: 10,
-    marks4: 9,
-  },
-  {
-    name: "Romil",
-    report: "https://URL.com",
-    marks1: 8,
-    marks2: 7,
-    marks3: 10,
-    marks4: 9,
-  },
-];
 
 function PanelMemberMarksTable({ mentorshipRequests }) {
   const [showModal, setShowModal] = useState("");
@@ -143,7 +63,7 @@ function PanelMemberMarksTable({ mentorshipRequests }) {
       {/* ------------------------------------------------------------------ */}
       <div className="panel-marks-div">
         <TextPill
-          text={<span className="dashboard-heading">Marks Alloted</span>}
+          text={<span className="dashboard-heading">Assigned Groups</span>}
           width={"100%"}
           height={35}
           isHeading={true}
@@ -158,9 +78,6 @@ function PanelMemberMarksTable({ mentorshipRequests }) {
                 <th>Title</th>
                 <th>XYZ Technologies</th>
                 <th>Project Report</th>
-                {/* <th>Member</th>
-                <th>XYZ Marks</th>
-                <th>Total Marks</th> */}
               </tr>
             </thead>
             <tbody>

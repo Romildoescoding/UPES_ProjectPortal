@@ -64,7 +64,7 @@ function ActivityCoMarksTable() {
   return (
     <div className="contents-bottom-faculty" ref={tableContainerRef}>
       <TextPill
-        text={<span className="dashboard-heading">Marks awarded</span>}
+        text={<span className="dashboard-heading">Assigned Groups</span>}
         width={"100%"}
         height={35}
         isHeading={true}

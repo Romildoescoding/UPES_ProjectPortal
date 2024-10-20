@@ -434,16 +434,18 @@ export async function handleRequest(req, res) {
   }
 }
 
+//Here, the fuction is re-used using panel as a faculty field instead of ust panel only
 export async function getPanelStudents(req, res) {
   console.log("PANEL-GROUPS-PROJECT");
-  const { panel } = req.body;
+  const { panel, isMentor } = req.body;
 
   // Fetch projects where the panel member matches panel_member1 or panel_member2
-  let { data: projects, error } = await supabase
-    .from("projects")
-    .select("group_name, type") // Select both group_name and type
-    .or(`panel_member1.eq.${panel},panel_member2.eq.${panel}`);
+  let query = supabase.from("projects").select("group_name, type"); // Select both group_name and type
 
+  if (isMentor) query = query.eq("mentor", panel);
+  else query = query.or(`panel_member1.eq.${panel},panel_member2.eq.${panel}`);
+
+  let { data: projects, error } = await query;
   if (error) {
     return res.status(400).json({ status: "fail", message: error.message });
   }
@@ -478,6 +480,8 @@ export async function getPanelStudents(req, res) {
 
   res.status(200).json({ status: "success", data: groupsWithType });
 }
+
+// export async function getFacultyStudents(req,res){}
 
 export async function updateMarks(req, res) {
   const { mail, grades, type, eventId } = req.body;

@@ -4,6 +4,8 @@ import useGrades from "../features/mentorship/useGrades";
 import useRemoteVariables from "../features/mentorship/useRemoteVariables";
 import Pill from "./Pill";
 import Spinner from "./Spinner";
+import { useEvents } from "../features/events/useEvents";
+import { useMemo } from "react";
 
 function Feedback() {
   const { data: user, isLoading } = useUser();
@@ -12,10 +14,33 @@ function Feedback() {
   const visibility = variables?.variables?.[0]?.["value"] || "false";
   console.log(visibility);
 
-  const { data, isFetching: isFetching2 } = useGrades({
+  const { data: grades, isFetching: isFetching2 } = useGrades({
     mail,
   });
-  console.log(data);
+
+  const { data: events, isFetching: isFetching3 } = useEvents();
+  const gradesInformation = useMemo(() => {
+    const gradesMap = new Map();
+
+    // Pre-map events by their id for quick access
+    const eventsMap = new Map(events?.data?.map((event) => [event.id, event]));
+
+    // Process grades
+    return grades?.data?.map((grade) => {
+      const cachedEvent = gradesMap.get(grade["event-id"]);
+      if (cachedEvent) return cachedEvent;
+
+      // Look up the respective event using the pre-mapped events
+      const respectiveEvent = eventsMap.get(grade["event-id"]);
+
+      const gradeInfo = { grade, respectiveEvent };
+      gradesMap.set(grade["event-id"], gradeInfo);
+
+      return gradeInfo;
+    });
+  }, [grades?.data, events?.data]);
+
+  console.log(gradesInformation);
   if (isFetching || isFetching2) return <Spinner />;
   return (
     <div className="feedback">
@@ -29,79 +54,29 @@ function Feedback() {
           <div className="feedback-container">
             <div className="feedback-row header-row">
               <div className="column">Event Name</div>
-              <div className="column">Grade Recieved</div>
-              <div className="column">Status</div>
+              <div className="column">Date</div>
+              <div className="column">Grade Received</div>
             </div>
 
             <div className="table-body">
-              <div className="feedback-row">
-                <div className="column">Nelson Web Development</div>
-                <div className="column">May 25, 2024</div>
-                <div className="column">
-                  <Pill text="Completed" type="safe" />
+              {gradesInformation?.map((grade, i) => (
+                <div key={i} className="feedback-row">
+                  <div className="column">{grade.respectiveEvent?.name}</div>
+                  <div className="column">{grade.respectiveEvent?.date}</div>
+                  <div className="column">
+                    <Pill
+                      text={`${grade.grade?.grades} / 100`}
+                      type={
+                        grade.grade?.grades > 75
+                          ? "safe"
+                          : grade.grade?.grades > 50
+                          ? "normal"
+                          : "danger"
+                      }
+                    />
+                  </div>
                 </div>
-              </div>
-
-              <div className="feedback-row">
-                <div className="column">Datacale app</div>
-                <div className="column">June 30, 2024</div>
-                <div className="column">
-                  <Pill text="Delayed" type="normal" />
-                </div>
-              </div>
-
-              <div className="feedback-row">
-                <div className="column">Media channel broadcast</div>
-                <div className="column">Sept 22, 2022</div>
-                <div className="column">
-                  <Pill text="At Risk" type="danger" />
-                </div>
-              </div>
-
-              <div className="feedback-row">
-                <div className="column">Media channel broadcast</div>
-                <div className="column">Sept 22, 2022</div>
-                <div className="column">
-                  <Pill text="At Risk" type="danger" />
-                </div>
-              </div>
-              <div className="feedback-row">
-                <div className="column">Media channel broadcast</div>
-                <div className="column">Sept 22, 2022</div>
-                <div className="column">
-                  <Pill text="At Risk" type="danger" />
-                </div>
-              </div>
-              <div className="feedback-row">
-                <div className="column">Media channel broadcast</div>
-                <div className="column">Sept 22, 2022</div>
-                <div className="column">
-                  <Pill text="At Risk" type="danger" />
-                </div>
-              </div>
-              <div className="feedback-row">
-                <div className="column">Media channel broadcast</div>
-                <div className="column">Sept 22, 2022</div>
-                <div className="column">
-                  <Pill text="At Risk" type="danger" />
-                </div>
-              </div>
-              <div className="feedback-row">
-                <div className="column">Media channel broadcast</div>
-                <div className="column">Sept 22, 2022</div>
-                <div className="column">
-                  <Pill text="At Risk" type="danger" />
-                </div>
-              </div>
-              <div className="feedback-row">
-                <div className="column">Media channel broadcast</div>
-                <div className="column">Sept 22, 2022</div>
-                <div className="column">
-                  <Pill text="At Risk" type="danger" />
-                </div>
-              </div>
-
-              {/* Add more rows as necessary */}
+              ))}
             </div>
           </div>
         </>
@@ -109,7 +84,7 @@ function Feedback() {
         <>
           <div className="hidden-feedback-overlay">
             <Lock />
-            <p>
+            <p style={{ color: "#464646" }}>
               Your AC has chosen not to allow students the access to their marks
             </p>
           </div>
@@ -121,9 +96,9 @@ function Feedback() {
 
             <div className="feedback-container">
               <div className="feedback-row header-row">
-                <div className="column">Name</div>
-                <div className="column">Received</div>
-                <div className="column">Action</div>
+                <div className="column">Event Name</div>
+                <div className="column">Date</div>
+                <div className="column">Grade Received</div>
               </div>
 
               <div className="feedback-row">
