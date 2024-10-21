@@ -1,8 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import "../../../styles/select-role.css";
+import { useUser } from "./useUser";
 
 function ModalSelectRole({ setShowModal }) {
   const navigate = useNavigate();
+  const { data: user, isLoading } = useUser();
+  const role = user?.user?.role;
   return (
     <div className="select-role">
       <button
@@ -25,15 +28,17 @@ function ModalSelectRole({ setShowModal }) {
         >
           As a Faculty
         </p>
-        <p
-          className="view-report custom-font"
-          onClick={() => {
-            navigate("/activity-coordinator");
-            setShowModal("");
-          }}
-        >
-          As an Activity Co-ordinator
-        </p>
+        {role === "ac" && (
+          <p
+            className="view-report custom-font"
+            onClick={() => {
+              navigate("/activity-coordinator");
+              setShowModal("");
+            }}
+          >
+            As an Activity Co-ordinator
+          </p>
+        )}
         <p
           className="view-report custom-font"
           onClick={() => {

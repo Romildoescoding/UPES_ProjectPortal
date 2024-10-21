@@ -7,12 +7,14 @@ export default function useUpdateMembers() {
   const { mutate: updateMembers, isPending } = useMutation({
     mutationFn: updateMembersApi,
     onError: (err) => {
-      toast.error("Failed to Add Members");
+      if (err.message === "Group Member(s) already in another group")
+        toast.error(err.message);
       console.log(err);
     },
     onSuccess: () => {
       toast.success("Member(s) added sucessfully");
       queryClient.invalidateQueries(["team"]);
+      queryClient.invalidateQueries(["project"]);
     },
   });
   return { updateMembers, isPending };

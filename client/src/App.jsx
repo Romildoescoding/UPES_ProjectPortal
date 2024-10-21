@@ -9,6 +9,7 @@ import FacultyDashboard from "./pages/FacultyDashboard";
 import ActivityCoDashboard from "./pages/ActivityCoDashboard";
 import PanelMembersDashboard from "./pages/PanelMembersDashboard";
 import toast, { Toaster } from "react-hot-toast";
+import PasswordReset from "./pages/PasswordReset";
 
 const queryClient = new QueryClient();
 
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
     ],
   },
   { path: "/signin", element: <Signin /> },
-  { path: "/signup", element: <Signup /> },
+  { path: "/reset-password/:token", element: <PasswordReset /> },
   {
     path: "*",
     element: <span>ERROR</span>,

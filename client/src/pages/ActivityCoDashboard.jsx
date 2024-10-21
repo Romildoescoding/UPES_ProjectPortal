@@ -32,7 +32,7 @@ function ActivityCoDashboard() {
   // const [shouldConfirm, setShouldConfirm] = useState(true);
   // const [isUpdatingPanels, setIsUpdatingPanels] = useState(false);
 
-  if (role !== "faculty") return <Error />;
+  if (role !== "faculty" && role !== "ac") return <Error />;
 
   return (
     // <ContextProvider.Provider

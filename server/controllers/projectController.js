@@ -1,3 +1,5 @@
+// const nodemailer = require("nodemailer");
+import nodemailer from "nodemailer";
 import { serverPort } from "../../client/src/helpers/backendApi.js";
 import supabase from "../supabase.js";
 
@@ -146,6 +148,53 @@ export async function getProjectByUser(req, res) {
 
 //TAKES IN MAIL OF THE FACULTY AS AN INPUT
 
+// Configure your transporter
+const transporter = nodemailer.createTransport({
+  service: "gmail", // Or any other email service you use (e.g., Outlook, Yahoo, etc.)
+  auth: {
+    user: process.env.EMAIL_USER, // Your email address
+    pass: process.env.EMAIL_PASS, // Your email password or app-specific password
+  },
+});
+
+async function sendMentorshipRequestMail({ groupName, facultyEmail }) {
+  const mailOptions = {
+    from: process.env.EMAIL_USER, // Your email address
+    to: facultyEmail, // Recipient's email address
+    subject: "Mentorship Request for Project Group",
+    html: `
+      <p>Dear Professor,</p>
+      <p>You have received a mentorship request from the project group <strong>${groupName}</strong>.</p>
+      <p>Please access the project portal to accept or reject the mentorship request:</p>
+      <a href="${process.env.PROJECT_URL}" style="background-color: #4CAF50; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Go to the Project Portal</a>
+      <p>Thank you for your time and consideration.</p>
+      <p>Best regards,<br>UPES Project Portal</p>
+    `,
+  };
+
+  // Send the email
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Mentorship request email sent successfully.");
+    console.log("Email response:", info); // Logs the full response from Nodemailer
+
+    // Check the response for delivery status
+    if (info.accepted.length > 0) {
+      console.log("Email was sent to the following recipients:", info.accepted);
+      return { success: true, message: "Email sent successfully" };
+    } else {
+      console.log("Email was not accepted by any recipients.");
+      return {
+        success: false,
+        message: "Email was not accepted by any recipients",
+      };
+    }
+  } catch (error) {
+    console.error("Error sending mentorship request email:", error);
+    return { success: false, message: `Error sending email: ${error.message}` };
+  }
+}
+
 //MAIL CONFIRMATION PENDING MAYBE FRONTEND MIGHT BE OKAY FOR THIS ONE.
 export async function setMentor(req, res) {
   console.log("SETMENTOR");
@@ -164,6 +213,11 @@ export async function setMentor(req, res) {
         .status(404)
         .json({ status: "fail", message: "Faculty does not exist" });
 
+    await sendMentorshipRequestMail({
+      groupName: group,
+      facultyEmail: faculty,
+    });
+
     const { data } = await supabase
       .from("projects")
       .update({ mentor: faculties[0].name })
@@ -171,6 +225,7 @@ export async function setMentor(req, res) {
       .select("*");
 
     res.status(200).json({ status: "success", data });
+    // res.status(200).json({ status: "success", data: "Mail successfully sent" });
   } catch (err) {
     console.log(err);
     res.status(500).json({ status: "fail", message: err });

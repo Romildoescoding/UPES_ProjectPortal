@@ -14,14 +14,21 @@ export async function createEvent(req, res) {
   console.log("CREATE-EVENT");
   try {
     console.log(req.body);
-    const { eventName, eventDate, eventDescription, eventType } = req.body;
+    const {
+      eventName,
+      eventStartDate,
+      eventEndDate,
+      eventDescription,
+      eventType,
+    } = req.body;
 
     const { data: newEvent, error } = await supabase
       .from("events")
       .insert([
         {
           name: eventName,
-          date: eventDate,
+          startDate: eventStartDate,
+          endDate: eventEndDate,
           description: eventDescription,
           type: eventType,
         },
@@ -73,15 +80,22 @@ export async function updateEvent(req, res) {
   console.log("UPDATE-EVENT");
   try {
     console.log(req.body);
-    const { eventId, eventName, eventDate, eventDescription, eventType } =
-      req.body;
+    const {
+      eventId,
+      eventName,
+      eventStartDate,
+      eventEndDate,
+      eventDescription,
+      eventType,
+    } = req.body;
 
     // Perform the update operation
     const { data: updatedEvent, error } = await supabase
       .from("events")
       .update({
         name: eventName,
-        date: eventDate,
+        startDate: eventStartDate,
+        endDate: eventEndDate,
         description: eventDescription,
         type: eventType,
       })

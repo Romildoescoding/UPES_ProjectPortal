@@ -6,7 +6,8 @@ import { useLocation } from "react-router-dom";
 
 function Events({ selectedDate }) {
   let { data: events, isLoading, isFetching, isError } = useEvents();
-  if (events)
+  const isNotAC = useLocation().pathname !== "/activity-coordinator";
+  if (events && isNotAC)
     events.data = events.data.filter(
       (event) => event.name !== "Mentor Grading"
     );

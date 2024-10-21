@@ -247,11 +247,10 @@ export async function uploadProject(formData) {
       const fileType = report?.type;
       console.log(fileType);
       if (
-        fileType !== "application/vnd.ms-powerpoint" && // For .ppt
         fileType !==
-          "application/vnd.openxmlformats-officedocument.presentationml.presentation" // For .pptx
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation" // For .pptx
       ) {
-        throw new Error("Only PPT and PPTX files are allowed");
+        throw new Error("Only .PPTX files are allowed");
       }
 
       const reportBase64 = await convertFileToBase64(report);
@@ -297,11 +296,10 @@ export async function updateProject({ formData, oldFilePath }) {
     const fileType = report?.type;
     console.log(fileType);
     if (
-      fileType !== "application/vnd.ms-powerpoint" && // For .ppt
       fileType !==
-        "application/vnd.openxmlformats-officedocument.presentationml.presentation" // For .pptx
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation" // For .pptx
     ) {
-      throw new Error("Only PPT and PPTX files are allowed");
+      throw new Error("Only .PPTX files are allowed");
     }
     const reportBase64 = await convertFileToBase64(report);
 

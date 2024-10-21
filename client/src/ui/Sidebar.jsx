@@ -42,7 +42,11 @@ function Sidebar() {
 
   //Added this code so that the faculty cannot access the student portal by changing the url after logging in and vice-versa
   if (isStudent && role !== "student") return;
-  if ((isFaculty || isCoordinator || isPanelMember) && role !== "faculty")
+  if (
+    (isFaculty || isCoordinator || isPanelMember) &&
+    role !== "faculty" &&
+    role !== "ac"
+  )
     return;
 
   return (

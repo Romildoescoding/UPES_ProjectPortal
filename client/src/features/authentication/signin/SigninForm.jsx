@@ -3,7 +3,7 @@ import useSignin from "./useSignin";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-function SigninForm({ setShowModal }) {
+function SigninForm({ setShowModal, setResetPassword }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
@@ -101,7 +101,12 @@ function SigninForm({ setShowModal }) {
           <label htmlFor="remember-me"></label>
           <span className="form-label-small">Remember me</span>
         </div>
-        <span className="form-label-small color-blue">Forgot Password?</span>
+        <span
+          className="form-label-small color-blue"
+          onClick={() => setResetPassword(true)}
+        >
+          Forgot Password?
+        </span>
       </div>
 
       <button type="submit" className="btn-primary">

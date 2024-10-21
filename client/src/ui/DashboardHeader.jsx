@@ -45,7 +45,7 @@ function DashboardHeader() {
           )}
           <div className="username-pill">
             <img
-              src="/images/user-image.png"
+              src="/images/user-image-1.png"
               alt="user-image"
               className="pill-image"
             />
@@ -54,7 +54,7 @@ function DashboardHeader() {
               <span className="pill-normal-text">
                 {location.pathname === "/student"
                   ? user?.user?.program
-                  : "Assistant Professor-SS"}
+                  : user?.user?.position}
               </span>
               {/* <span className="pill-normal-text">{role}</span> */}
             </div>

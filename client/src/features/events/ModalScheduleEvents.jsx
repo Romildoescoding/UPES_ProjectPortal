@@ -8,14 +8,21 @@ import useUpdateEvent from "./useUpdateEvent";
 function ModalScheduleEvents({ setShowModal, event = {} }) {
   // event -->  id, name , date, description, type
   console.log(event);
-  const { name, date, description, type, id } = event;
-  const [filterType, setFilterType] = useState("");
+  const { name, startDate, endDate, description, type, id } = event;
+  const [filterType, setFilterType] = useState(
+    name ? (name === "Mentor Grading" ? "mentor" : "panel") : ""
+  );
   const [eventName, setEventName] = useState(name || "");
-  const [eventDate, setEventDate] = useState(date || "");
+  const [eventStartDate, setEventStartDate] = useState(startDate || "");
+  const [eventEndDate, setEventEndDate] = useState(endDate || "");
   const [eventDescription, setEventDescription] = useState(description || "");
   const [eventType, setEventType] = useState(type || "Minor-I");
   const { createEvent, isPending } = useCreateEvent();
   const { updateEvent, isPending: isPending2 } = useUpdateEvent();
+
+  const isValidDateRange = (start, end) => {
+    return new Date(start) < new Date(end);
+  };
 
   useEffect(() => {
     if (filterType === "mentor" && !eventName) {
@@ -25,12 +32,28 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
 
   const handleSubmitEvent = (e) => {
     e.preventDefault();
-    if (!eventDate || !eventName || !eventDescription || !eventType)
+    if (
+      !eventStartDate ||
+      !eventEndDate ||
+      !eventName ||
+      !eventDescription ||
+      !eventType
+    )
       return toast.error("All Fields are required");
+
+    // Check if the start date is less than the end date
+    if (!isValidDateRange(eventStartDate, eventEndDate)) {
+      return toast.error("Start date must be earlier than End");
+    }
+
+    // if (new Date(eventStartDate) < new Date(Date.now())) {
+    // return toast.error("You cannot schedule events in the past");
+    // }
 
     createEvent({
       eventName,
-      eventDate,
+      eventStartDate,
+      eventEndDate,
       eventDescription,
       eventType,
     });
@@ -40,12 +63,24 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
 
   const handleUpdateEvent = (e) => {
     e.preventDefault();
-    if (!eventDate || !eventName || !eventDescription || !eventType)
+    if (
+      !eventStartDate ||
+      !eventEndDate ||
+      !eventName ||
+      !eventDescription ||
+      !eventType
+    )
       return toast.error("All Fields are required");
+
+    // Check if the start date is less than the end date
+    if (!isValidDateRange(eventStartDate, eventEndDate)) {
+      return toast.error("Start date must be earlier than End");
+    }
 
     updateEvent({
       eventName,
-      eventDate,
+      eventStartDate,
+      eventEndDate,
       eventDescription,
       eventType,
       eventId: id,
@@ -130,12 +165,21 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
             </div>
 
             <div className="full-length-input">
-              <label htmlFor="event-date">Event Date:</label>
+              <label htmlFor="event-date">Event Start Date:</label>
               <input
                 type="date"
                 id="event-date"
-                value={eventDate}
-                onChange={(e) => setEventDate(e.target.value)}
+                value={eventStartDate}
+                onChange={(e) => setEventStartDate(e.target.value)}
+              />
+            </div>
+            <div className="full-length-input">
+              <label htmlFor="event-date">Event End Date:</label>
+              <input
+                type="date"
+                id="event-date"
+                value={eventEndDate}
+                onChange={(e) => setEventEndDate(e.target.value)}
               />
             </div>
 

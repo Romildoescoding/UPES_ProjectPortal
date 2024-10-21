@@ -25,15 +25,15 @@ function ModalUploadProject({ setShowModal }) {
   const { uploadProject, isPending: isPendingProjectUpload } = useProject();
   const { updateProject, isPending: isPendingProjectUpdate } =
     useProjectUpdate();
-  const [title, setTitle] = useState(project?.data[0]?.title || ""); // Ensure controlled input
+  const [title, setTitle] = useState(project?.data?.[0]?.title || ""); // Ensure controlled input
   const [technologies, setTechnologies] = useState(
-    project?.data[0]?.technologies || ""
+    project?.data?.[0]?.technologies || ""
   );
   const [isSubmitted, setIsSubmitted] = useState(false); // New state to track form submission
 
   useEffect(() => {
-    setTitle(project?.data[0]?.title || ""); // Default to empty string
-    setTechnologies(project?.data[0]?.technologies || ""); // Default to empty string
+    setTitle(project?.data?.[0]?.title || ""); // Default to empty string
+    setTechnologies(project?.data?.[0]?.technologies || ""); // Default to empty string
   }, [project?.data]);
 
   const [report, setReport] = useState("");
@@ -112,7 +112,7 @@ function ModalUploadProject({ setShowModal }) {
 
     // Call the uploadProject function with FormData
     console.log(title, technologies, groupData?.group?.group_name, report);
-    updateProject({ formData, oldFilePath: project?.data[0]?.report });
+    updateProject({ formData, oldFilePath: project?.data?.[0]?.report });
 
     // setShowModal("");
     setIsSubmitted(true); // Mark form as submitted
@@ -208,17 +208,17 @@ function ModalUploadProject({ setShowModal }) {
                 </div>
               )}
             </div>
-            {project?.data[0]?.report && (
+            {project?.data?.[0]?.report && (
               <div className="full-length-input">
                 <button
                   style={{
-                    cursor: !project?.data[0]?.report
+                    cursor: !project?.data?.[0]?.report
                       ? "not-allowed"
                       : "pointer",
                   }}
-                  disabled={!project?.data[0]?.report}
+                  disabled={!project?.data?.[0]?.report}
                   onClick={() =>
-                    window.open(`${docServiceURL}${project?.data[0]?.report}`)
+                    window.open(`${docServiceURL}${project?.data?.[0]?.report}`)
                   }
                   className="view-report"
                 >

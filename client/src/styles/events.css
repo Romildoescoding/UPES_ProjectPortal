@@ -66,6 +66,8 @@
 .event-date {
   color: rgb(137, 81, 189);
   font-size: 12px;
+  display: flex;
+  justify-content: space-between;
 }
 .event-name {
   color: rgb(110, 36, 180);

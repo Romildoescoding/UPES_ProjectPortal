@@ -50,3 +50,39 @@ export async function logout() {
   console.log(data);
   return data;
 }
+
+export async function resetPassword({ email, password, token }) {
+  try {
+    const body = { mail: email, password, token };
+    const res = await fetch(`${serverPort}/api/v1/auth/login/resetPassword`, {
+      method: "PUT",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) throw new Error("Error while password reset");
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.log(err.message);
+    throw new Error(err.message);
+  }
+}
+
+export async function resetPasswordConfirm({ mail }) {
+  try {
+    const res = await fetch(`${serverPort}/api/v1/auth/login/resetPassword`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mail }),
+    });
+    if (!res.ok) throw new Error("Error while reqeusting password reset");
+    const data = await res.json();
+    console.log(data);
+    return data;
+  } catch (err) {
+    console.log(err.message);
+  }
+}

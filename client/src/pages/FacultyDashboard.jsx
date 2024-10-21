@@ -20,7 +20,7 @@ function FacultyDashboard() {
 
   if (isLoading) return <Loader />;
 
-  if (role !== "faculty") return <Error />;
+  if (role !== "faculty" && role !== "ac") return <Error />;
 
   return (
     <>

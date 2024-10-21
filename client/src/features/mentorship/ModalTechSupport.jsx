@@ -98,6 +98,31 @@ function ModalTechSupport({ setShowModal }) {
               </div>
             </>
           )}
+          {urlLocation === "/panel-members" && (
+            <>
+              <div className="full-length-input">
+                <b>1. View Assigned Groups</b>: Panel members can access all the
+                groups assigned to them for evaluation purposes. This ensures
+                that panel members are fully aware of their responsibilities and
+                the groups under their supervision.
+              </div>
+              <div className="full-length-input">
+                <b>2. Grade Students</b>: Panel members can assign grades to
+                students in their assigned groups based on various events
+                scheduled by the Activity Coordinator, such as synopsis or
+                mid-sem presentations. They can also filter projects by type
+                (e.g., Major or Minor), allowing for a more organized and
+                efficient grading process.
+              </div>
+
+              <div className="full-length-input">
+                <b>3. Access Scheduled Events</b>: Panel members can view all
+                scheduled events related to their assigned groups, ensuring they
+                are informed of key dates such as presentations or evaluation
+                sessions.
+              </div>
+            </>
+          )}
           <div className="full-length-input gap">
             Lastly, if you encounter any issues, errors, or anomalies while
             using the app, please do not hesitate to reach out. Your feedback is

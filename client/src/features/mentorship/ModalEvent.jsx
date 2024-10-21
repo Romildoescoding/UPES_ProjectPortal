@@ -32,8 +32,12 @@ function ModalEvent({ setShowModal, event }) {
             <h4 className="project-field-h3">{event.name}</h4>
           </div>
           <div className="project-field">
-            <h1>DATE</h1>
-            <h4 className="project-field-h3">{event.date}</h4>
+            <h1>START DATE</h1>
+            <h4 className="project-field-h3">{event.startDate}</h4>
+          </div>
+          <div className="project-field">
+            <h1>END DATE</h1>
+            <h4 className="project-field-h3">{event.endDate}</h4>
           </div>
           <div className="project-field">
             <h1>DESCRIPTION</h1>

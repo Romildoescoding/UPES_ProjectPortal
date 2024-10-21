@@ -8,10 +8,11 @@ import {
   isAuthorized,
   loginFaculty,
   loginStudent,
-  setPassword,
   setPassword1,
   setPasswords,
+  passwordReset,
   updateRemoteVariables,
+  setPassword,
 } from "../controllers/authController.js";
 
 router.route("/").get(isAuthorized, currentUser);
@@ -21,4 +22,6 @@ router.route("/login/student/passwords").get(setPasswords);
 router.route("/login/student/password").get(setPassword1);
 router.route("/variables").get(getRemoteVariables).patch(updateRemoteVariables);
 
+//RESET PASSWORD
+router.route("/login/resetPassword").post(passwordReset).put(setPassword);
 export default router;

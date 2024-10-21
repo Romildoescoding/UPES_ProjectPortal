@@ -243,11 +243,6 @@
 }
 
 @media (max-height: 720px), (max-width: 1368px) {
-  .weeks,
-  .days {
-    /* justify-content: center; */
-  }
-
   .weeks li,
   .days li {
     height: 17px !important;

@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken"; // Import JWT package
 import bcrypt from "bcrypt";
 import supabase from "../supabase.js";
+import nodemailer from "nodemailer";
+import { v4 as uuidv4 } from "uuid"; // For generating unique tokens
 
 export async function loginStudent(req, res) {
   try {
@@ -73,7 +75,7 @@ export async function loginFaculty(req, res) {
     const isPasswordValid = await bcrypt.compare(password, user[0].password);
     if (isPasswordValid) {
       const token = jwt.sign(
-        { role: "faculty", ...user[0] }, // payload
+        { ...user[0] }, // payload
         process.env.JWT_SECRET, // secret key
         { expiresIn: "1h" } // token expiration time
       );
@@ -198,48 +200,48 @@ export async function setPassword1(req, res) {
 }
 
 //FACULTY
-export async function setPassword(req, res) {
-  try {
-    // Retrieve the email and new password from the request body
-    const { mail, password } = req.body;
+// export async function setPassword(req, res) {
+//   try {
+//     // Retrieve the email and new password from the request body
+//     const { mail, password } = req.body;
 
-    // Query the faculty by email
-    let { data: faculty, error: selectError } = await supabase
-      .from("students") // Ensure the table name is correct
-      .select("mail")
-      .eq("mail", mail)
-      .single(); // Use .single() to get a single record
+//     // Query the faculty by email
+//     let { data: faculty, error: selectError } = await supabase
+//       .from("students") // Ensure the table name is correct
+//       .select("mail")
+//       .eq("mail", mail)
+//       .single(); // Use .single() to get a single record
 
-    if (selectError || !faculty) {
-      console.log(selectError);
-      return res
-        .status(404) // Use 404 for not found
-        .json({ status: "fail", message: "Faculty not found" });
-    }
+//     if (selectError || !faculty) {
+//       console.log(selectError);
+//       return res
+//         .status(404) // Use 404 for not found
+//         .json({ status: "fail", message: "Faculty not found" });
+//     }
 
-    // Hash the new password
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+//     // Hash the new password
+//     const saltRounds = 10;
+//     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // Update the faculty's password in the database
-    const { error: updateError } = await supabase
-      .from("students") // Ensure the table name is correct
-      .update({ password: hashedPassword })
-      .eq("mail", mail);
+//     // Update the faculty's password in the database
+//     const { error: updateError } = await supabase
+//       .from("students") // Ensure the table name is correct
+//       .update({ password: hashedPassword })
+//       .eq("mail", mail);
 
-    if (updateError) {
-      console.log(updateError);
-      return res
-        .status(400)
-        .json({ status: "fail", message: "Failed to update password" });
-    }
+//     if (updateError) {
+//       console.log(updateError);
+//       return res
+//         .status(400)
+//         .json({ status: "fail", message: "Failed to update password" });
+//     }
 
-    res.status(200).json({ status: "success", data: [] });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ status: "error", message: "An error occurred" });
-  }
-}
+//     res.status(200).json({ status: "success", data: [] });
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ status: "error", message: "An error occurred" });
+//   }
+// }
 
 export async function isAuthorized(req, res, next) {
   const token =
@@ -326,5 +328,126 @@ export async function updateRemoteVariables(req, res) {
       status: "error",
       message: "Internal Server Error",
     });
+  }
+}
+
+// Function to send email
+const sendResetEmail = async (mail, token) => {
+  const transporter = nodemailer.createTransport({
+    service: "gmail", // Use your email service
+    auth: {
+      user: process.env.EMAIL_USER, // Your email address
+      pass: process.env.EMAIL_PASS, // Your email password
+    },
+  });
+
+  const resetLink = `http://${process.env.PROJECT_URL}/reset-password/${token}`;
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: mail,
+    subject: "Password Reset Request",
+    html: `<p>You requested a password reset. Click the link below to reset your password:</p>
+           <a href="${resetLink}">Reset Password</a>`,
+  };
+
+  await transporter.sendMail(mailOptions);
+};
+
+export async function passwordReset(req, res) {
+  const { mail } = req.body;
+
+  // Determine user type
+  const userType = mail.includes("@stu") ? "students" : "faculty";
+
+  try {
+    // Check if the email exists in the corresponding table
+    const { data: user, error: selectError } = await supabase
+      .from(userType)
+      .select("mail")
+      .eq("mail", mail)
+      .single();
+
+    if (selectError || !user) {
+      return res
+        .status(404)
+        .json({ status: "fail", message: "Email does not exist" });
+    }
+
+    // Generate a unique token for the reset link
+    const token = uuidv4();
+    // Store the token in the database or a temporary store, linked to the user
+    // You might want to create a separate table for storing tokens or add a column to your existing user table
+
+    const { error } = await supabase
+      .from("password_reset_tokens") // Assuming you have a table to store reset tokens
+      .insert([
+        {
+          mail,
+          token,
+          expires_at: new Date(Date.now() + 60 * 60 * 1000), // Set to 1 hour from now
+        },
+      ]);
+
+    if (error) {
+      return res.status(404).json({ status: "fail", message: error });
+    }
+
+    // Send the reset email
+    console.log(token);
+    await sendResetEmail(mail, token);
+
+    res.status(200).json({ status: "success", message: "Reset email sent" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ status: "error", message: "An error occurred" });
+  }
+}
+
+export async function setPassword(req, res) {
+  const { mail, password, token } = req.body;
+
+  try {
+    // Verify the token exists and is valid
+    const { data: tokenData, error: tokenError } = await supabase
+      .from("password_reset_tokens") // Your token storage table
+      .select("*")
+      .eq("token", token)
+      .single();
+
+    if (tokenError || !tokenData) {
+      return res
+        .status(400)
+        .json({ status: "fail", message: "Invalid or expired token" });
+    }
+
+    // Hash the new password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Determine user type
+    const userType = mail.includes("@stu") ? "students" : "faculty";
+
+    // Update the user's password in the corresponding table
+    const { error: updateError } = await supabase
+      .from(userType)
+      .update({ password: hashedPassword })
+      .eq("mail", mail);
+
+    if (updateError) {
+      return res
+        .status(400)
+        .json({ status: "fail", message: "Failed to update password" });
+    }
+
+    // Optionally, delete the token after use
+    await supabase.from("password_reset_tokens").delete().eq("token", token);
+
+    res
+      .status(200)
+      .json({ status: "success", message: "Password has been reset" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ status: "error", message: "An error occurred" });
   }
 }

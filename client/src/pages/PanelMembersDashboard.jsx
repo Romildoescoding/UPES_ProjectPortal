@@ -18,7 +18,7 @@ function PanelMembersDashboard() {
   let role = user?.user?.role;
   // const [shouldConfirm, setShouldConfirm] = useState(true);
 
-  if (role !== "faculty") return <Error />;
+  if (role !== "faculty" && role !== "ac") return <Error />;
 
   return (
     <>

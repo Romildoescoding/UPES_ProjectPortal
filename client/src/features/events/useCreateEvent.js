@@ -11,8 +11,13 @@ export default function useCreateEvent() {
       toast.success("Updated Successfully");
       queryClient.refetchQueries(["events"]);
     },
-    onError: (res) => {
-      toast.error("Unexpected Error. Try again");
+    onError: (err) => {
+      toast.error(
+        err.message ===
+          'duplicate key value violates unique constraint "events_pkey"'
+          ? "This event already exists"
+          : "Unexpected Error. Try again"
+      );
       queryClient.refetchQueries(["events"]);
     },
   });

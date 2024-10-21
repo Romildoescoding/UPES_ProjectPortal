@@ -21,7 +21,10 @@ function Event({ event }) {
       )}
       <li className="event" onClick={() => setShowModal("show-event")}>
         <p className="event-name">{event.name}</p>
-        <p className="event-date">{event.date}</p>
+        <p className="event-date">
+          <span>{event.startDate}</span>
+          <span>{event.endDate}</span>
+        </p>
       </li>
     </>
   );
