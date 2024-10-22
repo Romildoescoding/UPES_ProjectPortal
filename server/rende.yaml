@@ -1,0 +1,10 @@
+version: 1
+services:
+  - type: web
+    name: upes_project_portal # Change to your app name
+    env: node # Specifies the environment
+    buildCommand: npm install # Assuming you want to install dependencies
+    startCommand: npm start # Command to start your server
+    autoDeploy: true # Automatically deploy on changes
+    plan: free # Specify free plan
+    rootDir: server # Point to your server directory

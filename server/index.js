@@ -20,7 +20,7 @@ const app = express();
 app.use(
   cors({
     //FRONTEND
-    origin: ["http://localhost:5173"],
+    origin: ["https://upes-project-portal.vercel.app"],
     methods: ["POST", "GET", "DELETE", "PUT", "PATCH"],
     credentials: true,
   })
@@ -31,23 +31,7 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.static("public"));
 
-// Debugging middleware to log session details
-// app.use((req, res, next) => {
-//   console.log("Session details:", req);
-//   next();
-// });
-
-// Nodemailer transporter setup
-// const transporter = nodemailer.createTransport({
-//   service: "Gmail",
-//   auth: {
-//     user: "vandanabhay1997@gmail.com", // Your Gmail email address
-//     pass: "tanishq@0512", // Your Gmail password
-//   },
-// });
-
 //Routes
-// app.use("/api/v1/faculty",isAuthorized,facultyRoutes);
 app.use("/api/v1/faculty", facultyRoutes);
 app.use("/api/v1/students", studentRoutes);
 app.use("/api/v1/auth", authRoutes);
