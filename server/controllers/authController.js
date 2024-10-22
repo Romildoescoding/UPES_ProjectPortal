@@ -348,7 +348,7 @@ const sendResetEmail = async (mail, token) => {
     },
   });
 
-  const resetLink = `http://${process.env.PROJECT_URL}/reset-password/${token}`;
+  const resetLink = `${process.env.PROJECT_URL}/reset-password/${token}`;
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
