@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import useResetPasswordConfirm from "../features/authentication/signin/useResetPasswordConfirm";
 import { useQueryClient } from "@tanstack/react-query";
 
-function ResetPasswordConfirmForm({ setShowModal }) {
+function ResetPasswordConfirmForm({ setShowModal, setResetPassword }) {
   const queryClient = useQueryClient();
   const [email, setEmail] = useState("");
   //   const navigate = useNavigate();
@@ -28,7 +28,19 @@ function ResetPasswordConfirmForm({ setShowModal }) {
 
   return (
     <form className="signin-form" onSubmit={handleSubmit}>
-      <span className="form-heading">Confirm Password Reset</span>
+      <span className="form-heading" style={{ position: "relative" }}>
+        <button
+          className="btn-back"
+          style={{ left: "-15px", top: "-50px" }}
+          onClick={(e) => {
+            e.preventDefault();
+            setResetPassword("");
+          }}
+        >
+          &larr;
+        </button>
+        Confirm Password Reset
+      </span>
       {!mailRequested && (
         <>
           <div className="form-field">

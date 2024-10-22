@@ -1,15 +1,17 @@
 import { useLocation } from "react-router-dom";
 import useDeleteEvent from "../events/useDeleteEvent";
 import Loader from "../../ui/Loader";
+import { useQueryClient } from "@tanstack/react-query";
 
 function ModalEvent({ setShowModal, event }) {
+  const queryClient = useQueryClient();
   const location = useLocation();
   const { deleteEvent, isPending } = useDeleteEvent();
   function handleDelete() {
     deleteEvent({ eventId: event.id });
   }
   function handleEdit(e) {
-    console.log("EDIT");
+    queryClient.setQueryData(["editing-event"], true);
     setShowModal("edit-event");
   }
 

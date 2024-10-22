@@ -10,6 +10,8 @@ import ActivityCoDashboard from "./pages/ActivityCoDashboard";
 import PanelMembersDashboard from "./pages/PanelMembersDashboard";
 import toast, { Toaster } from "react-hot-toast";
 import PasswordReset from "./pages/PasswordReset";
+import Error from "./ui/Error";
+import DoesNotExist from "./ui/DoesNotExist";
 
 const queryClient = new QueryClient();
 
@@ -28,7 +30,7 @@ const router = createBrowserRouter([
   { path: "/reset-password/:token", element: <PasswordReset /> },
   {
     path: "*",
-    element: <span>ERROR</span>,
+    element: <DoesNotExist />,
   },
 ]);
 

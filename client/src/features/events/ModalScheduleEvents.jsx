@@ -4,10 +4,13 @@ import toast from "react-hot-toast";
 import useCreateEvent from "./useCreateEvent";
 import Spinner from "../../ui/Spinner";
 import useUpdateEvent from "./useUpdateEvent";
+import { useQueryClient } from "@tanstack/react-query";
 
 function ModalScheduleEvents({ setShowModal, event = {} }) {
   // event -->  id, name , date, description, type
   console.log(event);
+  const queryClient = useQueryClient();
+  const isEditing = queryClient.getQueryData(["editing-event"]) || false;
   const { name, startDate, endDate, description, type, id } = event;
   const [filterType, setFilterType] = useState(
     name ? (name === "Mentor Grading" ? "mentor" : "panel") : ""
@@ -102,7 +105,7 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
       >
         &times;
       </button>
-      {filterType && (
+      {filterType && !isEditing && (
         <button
           className="btn-back"
           onClick={(e) => {
@@ -135,6 +138,7 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
               className="full-length-input view-report"
               onClick={(e) => {
                 e.preventDefault();
+                queryClient.setQueryData(["editing-event"], false);
                 setFilterType("panel");
               }}
             >
@@ -144,6 +148,7 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
               className="full-length-input view-report"
               onClick={(e) => {
                 e.preventDefault();
+                queryClient.setQueryData(["editing-event"], false);
                 setFilterType("mentor");
               }}
             >

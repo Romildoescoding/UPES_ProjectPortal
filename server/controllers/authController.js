@@ -157,6 +157,8 @@ export async function setPasswords(req, res) {
 
 //STUDENT
 export async function setPassword1(req, res) {
+  console.log("RESET PASSWORD");
+  console.log(req.body);
   try {
     // Retrieve the email and new password from the request body
     const { mail, password } = req.body;
@@ -175,11 +177,60 @@ export async function setPassword1(req, res) {
         .json({ status: "fail", message: "Student not found" });
     }
 
+    console.log(student);
+
     // Hash the new password
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Update the student's password in the database
+    const { data, error: updateError } = await supabase
+      .from("students") // Ensure the table name is correct
+      .update({ password: hashedPassword })
+      .eq("mail", mail);
+
+    if (updateError) {
+      console.log(updateError);
+      return res
+        .status(400)
+        .json({ status: "fail", message: "Failed to update password" });
+    }
+    console.log(data);
+
+    res.status(200).json({ status: "success", data: [] });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ status: "error", message: "An error occurred" });
+  }
+}
+
+export async function setPasswordForMail() {}
+
+//FACULTY
+export async function setPassword11(req, res) {
+  try {
+    // Retrieve the email and new password from the request body
+    const { mail, password } = req.body;
+
+    // Query the faculty by email
+    let { data: faculty, error: selectError } = await supabase
+      .from("students") // Ensure the table name is correct
+      .select("mail")
+      .eq("mail", mail)
+      .single(); // Use .single() to get a single record
+
+    if (selectError || !faculty) {
+      console.log(selectError);
+      return res
+        .status(404) // Use 404 for not found
+        .json({ status: "fail", message: "Faculty not found" });
+    }
+
+    // Hash the new password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Update the faculty's password in the database
     const { error: updateError } = await supabase
       .from("students") // Ensure the table name is correct
       .update({ password: hashedPassword })
@@ -198,50 +249,6 @@ export async function setPassword1(req, res) {
     res.status(500).json({ status: "error", message: "An error occurred" });
   }
 }
-
-//FACULTY
-// export async function setPassword(req, res) {
-//   try {
-//     // Retrieve the email and new password from the request body
-//     const { mail, password } = req.body;
-
-//     // Query the faculty by email
-//     let { data: faculty, error: selectError } = await supabase
-//       .from("students") // Ensure the table name is correct
-//       .select("mail")
-//       .eq("mail", mail)
-//       .single(); // Use .single() to get a single record
-
-//     if (selectError || !faculty) {
-//       console.log(selectError);
-//       return res
-//         .status(404) // Use 404 for not found
-//         .json({ status: "fail", message: "Faculty not found" });
-//     }
-
-//     // Hash the new password
-//     const saltRounds = 10;
-//     const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-//     // Update the faculty's password in the database
-//     const { error: updateError } = await supabase
-//       .from("students") // Ensure the table name is correct
-//       .update({ password: hashedPassword })
-//       .eq("mail", mail);
-
-//     if (updateError) {
-//       console.log(updateError);
-//       return res
-//         .status(400)
-//         .json({ status: "fail", message: "Failed to update password" });
-//     }
-
-//     res.status(200).json({ status: "success", data: [] });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ status: "error", message: "An error occurred" });
-//   }
-// }
 
 export async function isAuthorized(req, res, next) {
   const token =
