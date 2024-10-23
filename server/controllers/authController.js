@@ -22,9 +22,9 @@ export async function loginStudent(req, res) {
         authenticated: false,
       });
 
-    console.log(password, user[0].password);
+    // console.log(password, user[0].password);
     const isPasswordValid = await bcrypt.compare(password, user[0].password);
-    console.log(isPasswordValid);
+    // console.log(isPasswordValid);
     if (isPasswordValid) {
       const token = jwt.sign(
         { role: "student", ...user[0] }, // payload

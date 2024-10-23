@@ -11,8 +11,8 @@ function ModalGroupInitiation({ setShowModal }) {
   const queryClient = useQueryClient();
   const user = queryClient.getQueryData(["user"]);
   const inGroup = queryClient.getQueryData(["team"]);
-  const { initializeGroup, isPending, isPending2 } = useGroup();
-  // const { updateMembers, isPending: isPending2 } = useUpdateMembers();
+  const { initializeGroup, isPending } = useGroup();
+  const { updateMembers, isPending: isPending2 } = useUpdateMembers();
   const [group, setGroup] = useState("");
   const [leader, setLeader] = useState("");
 
@@ -30,9 +30,11 @@ function ModalGroupInitiation({ setShowModal }) {
       leader,
     });
 
-    // if (leader !== user?.user?.mail) {
-    //   updateMembers({ group, member1: user?.user?.mail });
-    // }
+    if (leader !== user?.user?.mail) {
+      console.log("LEADER IS NOT EQUAL TO THE USER");
+      updateMembers({ group, member1: user?.user?.mail });
+    }
+    console.log("LEADER IS EQUAL TO THE USER");
 
     setShowModal("");
     setGroup("");

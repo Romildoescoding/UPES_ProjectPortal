@@ -43,6 +43,7 @@ function ModalAddStudents({ setShowModal }) {
     console.log(membersToSubmit, remainingMembers);
     if (membersToSubmit.length !== remainingMembers.length) {
       console.log("INVALID EMAILS");
+      toast.error("All fields must not be empty");
       return;
     }
 

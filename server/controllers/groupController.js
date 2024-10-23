@@ -40,6 +40,7 @@ export async function getAllGroups(req, res) {
 
 export async function createGroup(req, res) {
   console.log("CREATEGROUP");
+  console.log(req.user);
   try {
     console.log(req.body);
     const { group, leader } = req.body;
@@ -60,9 +61,10 @@ export async function createGroup(req, res) {
 }
 
 export async function updateMembers(req, res) {
-  console.log("UPDATEMEMBERS");
+  console.log("UPDATEMEMBERS RUN");
   try {
     const { group, member1, member2, member3 } = req.body;
+    console.log(req.body);
     // Build the update object dynamically
     const updateData = {};
     if (member1) updateData.member1 = member1;
@@ -70,6 +72,7 @@ export async function updateMembers(req, res) {
     if (member3) updateData.member3 = member3;
     // if (member4) updateData.member4 = member4;
     // if (member5) updateData.member5 = member5;
+    console.log(updateData);
 
     // Only proceed with update if there's something to update
     if (Object.keys(updateData).length === 0) {
@@ -78,7 +81,7 @@ export async function updateMembers(req, res) {
         .json({ status: "fail", message: "No valid fields to update" });
     }
 
-    const { data: updatedGroup, error } = await supabase
+    const { data, error } = await supabase
       .from("groups")
       .update(updateData)
       .eq("group_name", group)
@@ -86,9 +89,10 @@ export async function updateMembers(req, res) {
 
     if (error) {
       console.log(error);
-      res.status(400).json({ status: "fail", updatedGroup });
+      res.status(400).json({ status: "fail", data });
     } else {
-      res.status(200).json({ status: "success", updatedGroup });
+      console.log(data);
+      res.status(200).json({ status: "success", data });
     }
   } catch (err) {
     console.log(err);

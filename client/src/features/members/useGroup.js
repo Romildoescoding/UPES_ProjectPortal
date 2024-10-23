@@ -9,8 +9,8 @@ import useUpdateMembers from "./useMembers";
 
 export default function useGroup() {
   const queryClient = useQueryClient();
-  const user = queryClient.getQueryData(["user"]);
-  const { updateMembers, isPending: isPending2 } = useUpdateMembers();
+  // const user = queryClient.getQueryData(["user"]);
+  // const { updateMembers, isPending: isPending2 } = useUpdateMembers();
   const { mutate: initializeGroup, isPending } = useMutation({
     mutationFn: initializeGroupApi,
     onError: (err) => {
@@ -21,16 +21,16 @@ export default function useGroup() {
       console.log("ONSUCESS");
       toast.success("Group Initiated Successfully");
       console.log(team);
-      if (team.newGroup.leader !== user?.user?.mail) {
-        updateMembers({
-          group: team?.newGroup?.group_name,
-          member1: user?.user?.mail,
-        });
-      }
+      // if (team.newGroup.leader !== user?.user?.mail) {
+      //   updateMembers({
+      //     group: team?.newGroup?.group_name,
+      //     member1: user?.user?.mail,
+      //   });
+      // }
       // console.log(team);
       // queryClient.setQueryData(["team"], team);
       queryClient.invalidateQueries(["team"]);
     },
   });
-  return { initializeGroup, isPending, isPending2 };
+  return { initializeGroup, isPending };
 }

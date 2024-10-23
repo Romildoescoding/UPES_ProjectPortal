@@ -3,7 +3,7 @@ export async function getEvents(req, res) {
   console.log("GET EVENTS");
   try {
     let { data, error } = await supabase.from("events").select("*");
-    console.log(data);
+    // console.log(data);
     res.status(200).json({ status: "success", results: data.length, data });
   } catch (err) {
     console.log(err);
