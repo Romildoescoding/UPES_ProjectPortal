@@ -11,8 +11,8 @@ function ModalGroupInitiation({ setShowModal }) {
   const queryClient = useQueryClient();
   const user = queryClient.getQueryData(["user"]);
   const inGroup = queryClient.getQueryData(["team"]);
-  const { initializeGroup, isPending } = useGroup();
-  const { updateMembers, isPending: isPending2 } = useUpdateMembers();
+  const { initializeGroup, isPending, isPending2 } = useGroup();
+  // const { updateMembers, isPending: isPending2 } = useUpdateMembers();
   const [group, setGroup] = useState("");
   const [leader, setLeader] = useState("");
 
@@ -25,23 +25,14 @@ function ModalGroupInitiation({ setShowModal }) {
       return toast.error("Invalid email");
     }
 
-    initializeGroup(
-      {
-        group,
-        leader,
-      },
-      {
-        onSuccess: (team) => {
-          console.log("ONSUCESS");
-          toast.success("Group Initiated Successfully");
-          console.log(team);
-          if (leader !== user?.user?.mail) {
-            updateMembers({ group, member1: user?.user?.mail });
-          }
-          queryClient.invalidateQueries(["team"]);
-        },
-      }
-    );
+    initializeGroup({
+      group,
+      leader,
+    });
+
+    // if (leader !== user?.user?.mail) {
+    //   updateMembers({ group, member1: user?.user?.mail });
+    // }
 
     setShowModal("");
     setGroup("");
