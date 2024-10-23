@@ -17,7 +17,7 @@ export default function useProject() {
     onSuccess: (team) => {
       // console.log(team);
       toast.success("Successfully Uploaded the Details");
-      queryClient.setQueryData(["project"], team);
+      queryClient.invalidateQueries(["project"]);
     },
   });
   return { uploadProject, isPending };

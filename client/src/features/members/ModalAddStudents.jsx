@@ -40,6 +40,13 @@ function ModalAddStudents({ setShowModal }) {
     e.preventDefault();
 
     let membersToSubmit = members.filter((member) => member);
+    // Check for duplicate emails
+    const uniqueMembers = [...new Set(membersToSubmit)]; // Using Set to get unique values
+    if (uniqueMembers.length !== membersToSubmit.length) {
+      toast.error("Duplicate emails are not allowed");
+      return;
+    }
+
     console.log(membersToSubmit, remainingMembers);
     if (membersToSubmit.length !== remainingMembers.length) {
       console.log("INVALID EMAILS");
