@@ -20,7 +20,7 @@ const app = express();
 app.use(
   cors({
     //FRONTEND
-    origin: ["https://upes-project-portal.vercel.app"],
+    origin: ["https://upes-project-portal.vercel.app", "http://localhost:5173"],
     methods: ["POST", "GET", "DELETE", "PUT", "PATCH"],
     credentials: true,
   })

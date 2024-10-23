@@ -25,14 +25,23 @@ function ModalGroupInitiation({ setShowModal }) {
       return toast.error("Invalid email");
     }
 
-    initializeGroup({
-      group,
-      leader,
-    });
-
-    if (leader !== user?.user?.mail) {
-      updateMembers({ group, member1: user?.user?.mail });
-    }
+    initializeGroup(
+      {
+        group,
+        leader,
+      },
+      {
+        onSuccess: (team) => {
+          console.log("ONSUCESS");
+          toast.success("Group Initiated Successfully");
+          console.log(team);
+          if (leader !== user?.user?.mail) {
+            updateMembers({ group, member1: user?.user?.mail });
+          }
+          queryClient.invalidateQueries(["team"]);
+        },
+      }
+    );
 
     setShowModal("");
     setGroup("");
