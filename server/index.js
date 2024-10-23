@@ -40,4 +40,13 @@ app.use("/api/v1/projects", projectRoutes);
 app.use("/api/v1/events", eventRoutes);
 // Routes
 
+// Keep the server from inactivity using UPTIME-ROBOT PINGING
+app.get("/", (req, res) => {
+  res.status(200).send("Server is running");
+});
+
+app.head("/", (req, res) => {
+  res.status(200).end();
+});
+
 export default app;
