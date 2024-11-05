@@ -29,7 +29,7 @@ function NullPanelGroup({ group, setShowModal }) {
   function handleAssignPanel(e) {
     e.preventDefault();
     queryClient.setQueryData(["selected-group"], group);
-    queryClient.setQueryData(["updating-panels"], true);
+    queryClient.setQueryData(["updating-panels"], false);
     setShowModal("assign-panel-sm");
   }
 
