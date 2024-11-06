@@ -48,6 +48,8 @@ function SigninForm({ setShowModal, setResetPassword }) {
           if (user.data.role === "faculty") {
             console.log("ROLE OPENED");
             setShowModal("select-role");
+          } else {
+            console.log("ROLE is ", user.data.role);
           }
         },
         onError: () => {

@@ -4,6 +4,7 @@ import { useUser } from "../authentication/signin/useUser";
 import Request from "./Request";
 import useRequests from "./useRequests";
 import EmptyComponent from "../../ui/EmptyComponent";
+import Spinner from "../../ui/Spinner";
 
 function ModalImportStudents({ setShowModal }) {
   const { data: user, isFetching } = useUser();
@@ -22,7 +23,7 @@ function ModalImportStudents({ setShowModal }) {
 
   //IF isFetching
   console.log(isFetching || isFetching2);
-  if (isFetching || isFetching2) return <Loader />;
+  if (isFetching || isFetching2) return <Spinner />;
   return (
     <div className="add-students">
       <button
