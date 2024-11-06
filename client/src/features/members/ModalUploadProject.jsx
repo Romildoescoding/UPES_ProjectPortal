@@ -126,13 +126,13 @@ function ModalUploadProject({ setShowModal }) {
     isPendingProjectUpdate,
     isPendingProjectUpload
   );
-  if (
-    isFetching ||
-    isFetching2 ||
-    isPendingProjectUpdate ||
-    isPendingProjectUpload
-  )
-    return <Spinner />;
+  // if (
+  //   isFetching ||
+  //   isFetching2 ||
+  //   isPendingProjectUpdate ||
+  //   isPendingProjectUpload
+  // )
+  //   return <Spinner />;
 
   return (
     <div className="add-students">
