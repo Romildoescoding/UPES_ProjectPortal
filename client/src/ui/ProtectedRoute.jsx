@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../features/authentication/signin/useUser";
 import Loader from "./Loader";
-import Spinner from "./Spinner";
 
 function ProtectedRoute({ children }) {
   const navigate = useNavigate();
@@ -14,7 +13,7 @@ function ProtectedRoute({ children }) {
       navigate("/signin", { replace: true });
     }
   }, [isLoading, user, navigate]);
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Loader />;
 
   // If still loading, show the loader
 
