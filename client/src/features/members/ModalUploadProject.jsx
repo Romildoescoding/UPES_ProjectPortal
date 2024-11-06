@@ -1,9 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-// import emailjs from "@emailjs/browser";
-import useGroup from "./useGroup";
-import validateEmail from "../../helpers/emailValidate";
 import { useQueryClient } from "@tanstack/react-query";
-import useUpdateMembers from "./useMembers";
 import EmptyComponent from "../../ui/EmptyComponent";
 import useProject from "./useProject";
 import { useUser } from "../authentication/signin/useUser";
@@ -13,9 +9,12 @@ import { docServiceURL } from "../../helpers/backendApi";
 import useProjectUpdate from "./useProjectUpdate";
 import toast from "react-hot-toast";
 import Spinner from "../../ui/Spinner";
-import Loader from "../../ui/Loader";
+import useDisableRefetchOnFocusTemporarily from "../../hooks/useDisableRefetchOnFocusTemporarily";
 
 function ModalUploadProject({ setShowModal }) {
+  //Temporary disable refetch to fix the file upload glitch in this component mainly on chrome and ios browsers
+  useDisableRefetchOnFocusTemporarily();
+
   const queryClient = useQueryClient();
   const groupData = queryClient.getQueryData(["team"]);
   const { project, isFetching } = useProjectByGroup({
