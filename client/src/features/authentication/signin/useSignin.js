@@ -12,7 +12,7 @@ export default function useSignin() {
     },
     onSuccess: (user) => {
       console.log(user);
-      if (user.data.authenticated) {
+      if (user.user.authenticated) {
         console.log("USER AUTHENTICATED");
         // queryClient.setQueryData(["user"], user);
       } else {

@@ -35,7 +35,8 @@ export async function loginStudent(req, res) {
       res.status(200).json({
         status: "success",
         token,
-        data: { user: user[0], role: "student", authenticated: true },
+        user: { ...user[0], role: "student", authenticated: true },
+        // data: { user: user[0], role: "student", authenticated: true },
       });
     } else {
       res.status(401).json({
@@ -83,7 +84,7 @@ export async function loginFaculty(req, res) {
       res.status(200).json({
         status: "success",
         token,
-        data: { user: user[0], role: "faculty", authenticated: true },
+        user: { ...user[0], role: "faculty", authenticated: true },
       });
     } else {
       res.status(401).json({

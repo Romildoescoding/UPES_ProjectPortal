@@ -42,14 +42,14 @@ function SigninForm({ setShowModal, setResetPassword }) {
       {
         onSuccess: (user) => {
           toast.success("Login Successful");
-          if (user.data.role === "student") {
+          if (user.user.role === "student") {
             navigate("/student");
           }
-          if (user.data.role === "faculty") {
+          if (user.user.role === "faculty") {
             console.log("ROLE OPENED");
             setShowModal("select-role");
           } else {
-            console.log("ROLE is ", user.data.role);
+            console.log("ROLE is ", user.user.role);
           }
         },
         onError: () => {
