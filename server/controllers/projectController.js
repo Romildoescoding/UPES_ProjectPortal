@@ -10,7 +10,7 @@ export async function getProjects(req, res) {
     let query = supabase.from("projects").select("*");
 
     //PENDING
-    const { mentor, panel, isMentorAccepted, isPanelNull } = req.query;
+    const { mentor, panel, isMentorAccepted, isPanelNull, mail } = req.query;
     if (mentor) {
       query = query
         .eq("mentor", mentor)
@@ -27,9 +27,51 @@ export async function getProjects(req, res) {
     }
 
     let { data, error } = await query;
+    if (error)
+      return res
+        .status(400)
+        .json({ status: "fail", message: "Error while fetching projects" });
 
-    if (error) {
-      console.log(error);
+    //FOR ASSINING AND UPDATING PANELS, AC HAS ACCESS TO THE PROJECTS OF ONLY HIS SPECIALIZATIONS..
+    if (mail !== "undefined") {
+      //1. get all the projects ---> data
+      //2. get all the faculties mailes
+
+      //filter the projects based off of the faculty mailes
+
+      let { data: facultybranch, error } = await supabase
+        .from("facultybranch")
+        .select("*")
+        .eq("mail", mail);
+
+      if (error) {
+        console.log(error);
+        return res.status(400).json({
+          status: "fail",
+          message: "Error while fetching faculties branch details",
+        });
+      }
+
+      // facultyBranch = [{mail, type, branch},{mail, type, branch}]
+
+      // data or Null-projects = [{"title":"MONKEY_TYPER","group_name":"Romil Sherrrrrr","id":48,"created_at":"2024-10-24T06:10:03.346336+00:00","technologies":"Keyboard, And Typing ability of toddler","mentor":"Pankaj Badoni","panel_member1":null,"panel_member2":null,"is_mentor_accepted":true,"report":"https://gnhykmijuwsmnctkbfmy.supabase.co/storage/v1/object/public/reports/0.990737609728755-report.pptx","type":"Minor-I"}........];
+
+      const filteredProjects = data?.filter((project) =>
+        facultybranch?.some(
+          (branch) =>
+            branch.type === project.type && branch.branch === project.branch
+        )
+      );
+
+      console.log("--------------------");
+      console.log(facultybranch);
+      console.log(data);
+      console.log(filteredProjects);
+      console.log("--------------------");
+
+      return res
+        .status(200)
+        .json({ status: "success", data: filteredProjects });
     }
     res.status(200).json({ status: "success", data });
   } catch (err) {
@@ -42,14 +84,35 @@ export async function getAllProjects(req, res) {
   // const { page, pageSize } = req.query;
   console.log("GET-ALL-PROJECTS");
   try {
+    const { mail } = req.query;
     console.log(req.query);
     let query = supabase.from("projects").select("*");
-    let { data, error } = await query;
+    let { data, error: projectError } = await query;
+
+    if (projectError) {
+      console.log(projectError);
+    }
+
+    let { data: facultybranch, error } = await supabase
+      .from("facultybranch")
+      .select("*")
+      .eq("mail", mail);
 
     if (error) {
       console.log(error);
+      return res.status(400).json({
+        status: "fail",
+        message: "Error while fetching faculties branch details",
+      });
     }
-    res.status(200).json({ status: "success", data });
+
+    const filteredProjects = data?.filter((project) =>
+      facultybranch?.some(
+        (branch) =>
+          branch.type === project.type && branch.branch === project.branch
+      )
+    );
+    res.status(200).json({ status: "success", data: filteredProjects });
   } catch (err) {
     console.log(err);
     res.status(400).json({ status: "fail", message: err });
@@ -321,6 +384,7 @@ export async function createProject(req, res) {
       group_name,
       report,
       projectType,
+      branch,
       isUpdating,
       oldFilePath,
     } = req.body;
@@ -345,6 +409,7 @@ export async function createProject(req, res) {
             group_name,
             technologies,
             title,
+            // branch,
             // type: projectType,
             report: filePath,
           })
@@ -393,7 +458,7 @@ export async function createProject(req, res) {
 
         return res.status(200).json({ status: "success", data: updateData });
       } else {
-        // IF THE USER IS UPLOADING THE PROJECT DETAILS THE FIRST TIME AND IS NOT REQUIRED
+        // IF THE USER IS UPLOADING THE PROJECT DETAILS THE FIRST TIME AND IS REQUIRED
         // TO UPLOAD THE PROJECT REPORT BUT STILL UPLOADS THE PROJECT
         const { data, error } = await supabase
           .from("projects")
@@ -402,6 +467,7 @@ export async function createProject(req, res) {
               group_name,
               technologies,
               title,
+              branch,
               type: projectType,
               report: filePath,
             },
@@ -438,6 +504,7 @@ export async function createProject(req, res) {
             technologies,
             type: projectType,
             title,
+            branch,
           },
         ])
         .select()

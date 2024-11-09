@@ -40,3 +40,24 @@ export async function getFaculty(req, res) {
     console.log(err);
   }
 }
+
+export async function getFacultyBranch(req, res) {
+  try {
+    const { mail } = req.body;
+    let { data, error } = await supabase
+      .from("facultybranch")
+      .select("*")
+      .eq("mail", mail);
+
+    if (error)
+      res
+        .status(400)
+        .json({
+          status: "fail",
+          message: "Error while fetching branch details",
+        });
+    res.status(200).json({ status: "success", data });
+  } catch (err) {
+    console.log(err);
+  }
+}

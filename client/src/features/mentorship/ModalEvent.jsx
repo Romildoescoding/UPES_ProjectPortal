@@ -6,16 +6,12 @@ import { useQueryClient } from "@tanstack/react-query";
 function ModalEvent({ setShowModal, event }) {
   const queryClient = useQueryClient();
   const location = useLocation();
-  const { deleteEvent, isPending } = useDeleteEvent();
-  function handleDelete() {
-    deleteEvent({ eventId: event.id });
-  }
+
   function handleEdit(e) {
     queryClient.setQueryData(["editing-event"], true);
     setShowModal("edit-event");
   }
 
-  if (isPending) return <Loader />;
   return (
     <div className="add-students">
       <button
@@ -51,22 +47,30 @@ function ModalEvent({ setShowModal, event }) {
             </h4>
           </div>
           <div className="project-field">
+            <h1>BRANCH</h1>
+            <h4 className="project-field-h3">{event.branch}</h4>
+          </div>
+          <div className="project-field">
             <h1>EVENT TYPE</h1>
             <h4 className="project-field-h3">{event.type}</h4>
           </div>
           {location.pathname === "/activity-coordinator" && (
             <div className="logout-btns">
-              <button className="logout-cancel" onClick={handleEdit}>
-                Edit
+              <button
+                className="logout-cancel"
+                onClick={handleEdit}
+                style={{ background: "blueviolet", color: "white" }}
+              >
+                Edit Event
               </button>
               <button
                 className="logout-main"
+                style={{ background: "blueviolet", color: "white" }}
                 onClick={() => {
-                  handleDelete();
-                  setShowModal("");
+                  setShowModal("delete-event");
                 }}
               >
-                Delete
+                Delete Event
               </button>
             </div>
           )}

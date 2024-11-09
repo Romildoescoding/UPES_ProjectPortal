@@ -4,7 +4,7 @@ import { getAllProjects } from "../../services/apiMembers";
 export default function useAllProjects(faculty) {
   // const queryClient = useQueryClient();
   const { data, isFetching } = useQuery({
-    queryFn: getAllProjects,
+    queryFn: () => getAllProjects(faculty),
     queryKey: ["all-groups"],
   });
 

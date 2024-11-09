@@ -6,11 +6,14 @@ import NullPanelGroup from "../../ui/NullPanelGroup";
 import EmptyComponent from "../../ui/EmptyComponent";
 import Loader from "../../ui/Loader";
 import Spinner from "../../ui/Spinner";
+import { useUser } from "../authentication/signin/useUser";
 
 function ModalAssignPanels({ setShowModal }) {
+  const { data: user } = useUser();
   const [shouldConfirm, setShouldConfirm] = useState(true);
   const { data: groups, isFetching } = useNullPanelProjects({
     isPanelNull: true,
+    mail: user?.user?.mail,
   });
   const nullPanelGroups = groups?.data;
   console.log(nullPanelGroups);

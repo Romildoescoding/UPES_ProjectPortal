@@ -6,11 +6,33 @@ import Pill from "./Pill";
 import Spinner from "./Spinner";
 import { useEvents } from "../features/events/useEvents";
 import { useMemo } from "react";
+import EmptyComponent from "../ui/EmptyComponent";
 
 function Feedback() {
   const { data: user, isLoading } = useUser();
   const mail = user?.user?.mail;
-  const { data: variables, isFetching } = useRemoteVariables();
+  const branch = user?.user?.program;
+  const type = useMemo(() => {
+    switch (user?.user?.semester) {
+      case 5:
+        return "Minor-I";
+      case 6:
+        return "Minor-II";
+      case 7:
+        return "Major-I";
+      case 8:
+        return "Major-II";
+      default:
+        return "Unknown Project Type";
+    }
+  }, [user?.user?.semester]);
+  console.log(branch, type);
+
+  const { data: variables, isFetching } = useRemoteVariables({
+    branch,
+    type,
+  });
+
   const visibility = variables?.variables?.[0]?.["value"] || "false";
   console.log(visibility);
 
@@ -58,28 +80,34 @@ function Feedback() {
               <div className="column">Grade Received</div>
             </div>
 
-            <div className="table-body">
-              {gradesInformation?.map((grade, i) => (
-                <div key={i} className="feedback-row">
-                  <div className="column">{grade.respectiveEvent?.name}</div>
-                  <div className="column">
-                    {grade.respectiveEvent?.startDate}
+            {gradesInformation?.length > 0 ? (
+              <div className="table-body">
+                {gradesInformation?.map((grade, i) => (
+                  <div key={i} className="feedback-row">
+                    <div className="column">{grade.respectiveEvent?.name}</div>
+                    <div className="column">
+                      {grade.respectiveEvent?.startDate}
+                    </div>
+                    <div className="column">
+                      <Pill
+                        text={`${grade.grade?.grades} / 100`}
+                        type={
+                          grade.grade?.grades > 75
+                            ? "safe"
+                            : grade.grade?.grades > 50
+                            ? "normal"
+                            : "danger"
+                        }
+                      />
+                    </div>
                   </div>
-                  <div className="column">
-                    <Pill
-                      text={`${grade.grade?.grades} / 100`}
-                      type={
-                        grade.grade?.grades > 75
-                          ? "safe"
-                          : grade.grade?.grades > 50
-                          ? "normal"
-                          : "danger"
-                      }
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <span style={{ color: "black !important" }}>
+                <EmptyComponent msg={"No grades to show yet."} />
+              </span>
+            )}
           </div>
         </>
       ) : (

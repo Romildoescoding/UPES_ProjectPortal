@@ -1,29 +1,53 @@
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 
-function Error() {
+function Error({ isErrorComponent }) {
   const navigate = useNavigate();
 
   return createPortal(
     <div style={styles.outerContainer}>
-      <div style={styles.innerContainer}>
-        <h1 style={styles.heading}>Access Denied</h1>
-        <p style={styles.message}>You do not have access to this page.</p>
-        <div>
-          <button
-            style={styles.button}
-            onClick={() => navigate(-1, { replace: true })}
-          >
-            &larr; Go Back
-          </button>
-          <button
-            style={{ ...styles.button, marginLeft: "1rem" }}
-            onClick={() => navigate("/signin", { replace: true })}
-          >
-            Go to Sign In &rarr;
-          </button>
+      {!isErrorComponent ? (
+        <div style={styles.innerContainer}>
+          <h1 style={styles.heading}>Access Denied</h1>
+          <p style={styles.message}>You do not have access to this page.</p>
+          <div style={styles.buttonContainer}>
+            <button
+              style={styles.button}
+              onClick={() => navigate(-1, { replace: true })}
+            >
+              &larr; Go Back
+            </button>
+            <button
+              style={styles.button}
+              onClick={() => navigate("/signin", { replace: true })}
+            >
+              Go to Sign In &rarr;
+            </button>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div style={styles.innerContainer}>
+          <h1 style={styles.heading}>Oops! An Error Occurred</h1>
+          <p style={styles.message}>
+            Something went wrong! Make sure you have stabe internet connection.
+            We are sorry for the inconvenience.
+          </p>
+          <div style={styles.buttonContainer}>
+            <button
+              style={styles.button}
+              onClick={() => window.location.reload()}
+            >
+              Refresh page !
+            </button>
+            <button
+              style={styles.button}
+              onClick={() => navigate("/signin", { replace: true })}
+            >
+              Go to Sign In &rarr;
+            </button>
+          </div>
+        </div>
+      )}
     </div>,
     document.body
   );
@@ -61,6 +85,12 @@ const styles = {
     fontSize: "1.25rem",
     color: "#777",
     marginBottom: "1.5rem",
+  },
+  buttonContainer: {
+    display: "flex",
+    "flex-wrap": "wrap",
+    gap: "10px",
+    "justify-content": "center",
   },
   button: {
     padding: "0.75rem 1.5rem",

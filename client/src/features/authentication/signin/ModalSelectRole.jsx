@@ -26,7 +26,7 @@ function ModalSelectRole({ setShowModal }) {
             setShowModal("");
           }}
         >
-          As a Faculty
+          As a Faculty Mentor
         </p>
         {role === "ac" && (
           <p

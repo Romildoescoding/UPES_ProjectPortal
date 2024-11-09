@@ -8,10 +8,14 @@ import Loader from "../../ui/Loader";
 import Spinner from "../../ui/Spinner";
 import UpdatePanelGroup from "../../ui/UpdatePanelGroup";
 import useAllProjects from "./useAllProjects";
+import { useUser } from "../authentication/signin/useUser";
 
 function ModalUpdatePanels({ setShowModal }) {
+  const { data: user } = useUser();
   const [shouldConfirm, setShouldConfirm] = useState(true);
-  const { data: groups, isFetching } = useAllProjects();
+  const { data: groups, isFetching } = useAllProjects({
+    mail: user?.user?.mail,
+  });
   const allGroups = groups?.data;
   console.log(allGroups);
 

@@ -45,7 +45,7 @@ function ModalRequestMentorship({ setShowModal }) {
   console.log(
     !team?.data?.length,
     !project?.data?.length,
-    project?.data[0]?.mentor && project?.data[0]?.is_mentor_accepted
+    project?.data?.[0]?.mentor && project?.data?.[0]?.is_mentor_accepted
   );
   return (
     <div className="add-students">

@@ -17,7 +17,7 @@ function DashboardHeader() {
     : isPanelMember
     ? "Project Portal- Faculty Panel Members"
     : isFaculty
-    ? "Project Portal- Faculty"
+    ? "Project Portal- Faculty Mentor"
     : "Project Portal- Activity Co-Ordinator";
   return (
     <div className="header-wrapper">
@@ -30,7 +30,7 @@ function DashboardHeader() {
         <img src="/images/upes-logo.png" alt="logo" className="logo-image" />
         <span className="header-span-dashboard">{headerText}</span>
         <div className="switch-role-pill-div">
-          {!isStudent && (
+          {!isStudent && user?.user?.role !== "student" && (
             <div
               className="switch-role-header"
               onClick={() => setShowModal("select-role")}

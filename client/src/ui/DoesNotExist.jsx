@@ -25,19 +25,24 @@ function DoesNotExist() {
 
 const styles = {
   outerContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    zIndex: 999999,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     height: "100vh",
     width: "100vw",
-    backgroundColor: "transparent",
+    // backgroundColor: "red",
+    background: 'url("../../images/gradient.png")',
+    backgroundSize: "cover",
   },
   innerContainer: {
     padding: "10rem 2rem",
     backgroundColor: "#fff",
     borderRadius: "10px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    // maxWidth: "400px",
     width: "90%",
     textAlign: "center",
   },
@@ -50,6 +55,12 @@ const styles = {
     fontSize: "1.25rem",
     color: "#777",
     marginBottom: "1.5rem",
+  },
+  buttonContainer: {
+    display: "flex",
+    "flex-wrap": "wrap",
+    gap: "10px",
+    "justify-content": "center",
   },
   button: {
     padding: "0.75rem 1.5rem",

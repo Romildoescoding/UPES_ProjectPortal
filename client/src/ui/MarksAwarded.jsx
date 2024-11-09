@@ -16,7 +16,7 @@ function MarksAwarded() {
 
   let {
     data: mentorProjects,
-    isLoading2,
+    isLoading: isLoading2,
     isFetching,
   } = useProjects({
     name,
@@ -24,7 +24,7 @@ function MarksAwarded() {
     isMentorAccepted: "true",
   });
 
-  const [numResultsToDisplay, setNumResultsToDisplay] = useState(5);
+  const [numResultsToDisplay, setNumResultsToDisplay] = useState(3);
   const [projectsToDisplay, setProjectsToDisplay] = useState(
     mentorProjects?.data
   );

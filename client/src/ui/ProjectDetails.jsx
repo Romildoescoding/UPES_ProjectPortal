@@ -15,7 +15,7 @@ import EmptyComponent from "./EmptyComponent";
 function ProjectDetails() {
   const { data, isPending } = useUser();
   const user = data.user.mail;
-  const { project, isFetching } = useProjectByUser({
+  const { project, isFetching, isLoading } = useProjectByUser({
     name: user,
   });
   console.log(project);
@@ -28,7 +28,7 @@ function ProjectDetails() {
     is_mentor_accepted,
     report,
   } = project?.data?.[0] || {};
-  if (isFetching || isPending) return <Spinner />;
+  if (isLoading || isPending) return <Spinner />;
   return (
     <div className="stu-project">
       <p className="dashboard-heading">Project Details</p>

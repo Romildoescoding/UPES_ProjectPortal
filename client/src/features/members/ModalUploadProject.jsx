@@ -83,6 +83,7 @@ function ModalUploadProject({ setShowModal }) {
     formData.append("report", report);
     formData.append("group", groupData?.group?.group_name);
     formData.append("type", projectType);
+    formData.append("branch", user.program);
 
     // Call the uploadProject function with FormData
     uploadProject(formData);
@@ -108,6 +109,7 @@ function ModalUploadProject({ setShowModal }) {
     formData.append("report", report); // Append the file itself
     formData.append("group", groupData?.group?.group_name);
     formData.append("type", projectType);
+    formData.append("branch", user.program);
 
     // Call the uploadProject function with FormData
     console.log(title, technologies, groupData?.group?.group_name, report);
@@ -178,6 +180,7 @@ function ModalUploadProject({ setShowModal }) {
                 placeholder="PROJECT TYPE"
                 value={projectType || ""}
                 disabled={true}
+                style={{ cursor: "not-allowed" }}
               />
             </div>
             <div className="full-length-input ">
@@ -225,9 +228,9 @@ function ModalUploadProject({ setShowModal }) {
                   type="submit"
                   className="btn-colored"
                   onClick={handleUpdate}
-                  disabled={isPendingProjectUpdate || !project?.data.length}
+                  disabled={isPendingProjectUpdate || !project?.data?.length}
                   style={{
-                    cursor: !project?.data.length ? "not-allowed" : "pointer",
+                    cursor: !project?.data?.length ? "not-allowed" : "pointer",
                   }}
                 >
                   {isPendingProjectUpdate
@@ -239,9 +242,9 @@ function ModalUploadProject({ setShowModal }) {
                 type="submit"
                 className="btn-colored"
                 onClick={handleSubmit}
-                disabled={isPendingProjectUpload || project?.data.length}
+                disabled={isPendingProjectUpload || project?.data?.length}
                 style={{
-                  cursor: project?.data.length ? "not-allowed" : "pointer",
+                  cursor: project?.data?.length ? "not-allowed" : "pointer",
                 }}
               >
                 {isPendingProjectUpload

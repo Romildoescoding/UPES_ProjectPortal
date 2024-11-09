@@ -5,6 +5,7 @@ import Sidebar from "./Sidebar";
 import SidebarToggle from "../../public/svg/SidebarToggle";
 import { createContext, useEffect, useState } from "react";
 import useOutsideClick from "../hooks/useOutsideClick";
+import ErrorBoundary from "../pages/ErrorBoundary";
 
 // const ContextProvider = createContext();
 function AppLayout() {
@@ -21,31 +22,33 @@ function AppLayout() {
     }
   }, []);
   return (
-    <ProtectedRoute>
-      {/* <ContextProvider.Provider value={{confirm, setConfirm}}> */}
-      <main>
-        <Header />
-        <div className="main">
-          <div className="dashboard">
-            <div
-              // ref={ref}
-              className="sidebar-toggle"
-              onClick={() => setIsSidebarOpen((isOpen) => !isOpen)}
-            >
-              <SidebarToggle rotate={isSidebarOpen ? "90deg" : "0deg"} />
+    <ErrorBoundary>
+      <ProtectedRoute>
+        {/* <ContextProvider.Provider value={{confirm, setConfirm}}> */}
+        <main>
+          <Header />
+          <div className="main">
+            <div className="dashboard">
+              <div
+                // ref={ref}
+                className="sidebar-toggle"
+                onClick={() => setIsSidebarOpen((isOpen) => !isOpen)}
+              >
+                <SidebarToggle rotate={isSidebarOpen ? "90deg" : "0deg"} />
+              </div>
+              <div
+                className="sidebar-div"
+                style={{ display: isSidebarOpen ? "flex" : "none" }}
+              >
+                <Sidebar />
+              </div>
+              <Outlet />
             </div>
-            <div
-              className="sidebar-div"
-              style={{ display: isSidebarOpen ? "flex" : "none" }}
-            >
-              <Sidebar />
-            </div>
-            <Outlet />
           </div>
-        </div>
-      </main>
-      {/* </ContextProvider.Provider> */}
-    </ProtectedRoute>
+        </main>
+        {/* </ContextProvider.Provider> */}
+      </ProtectedRoute>
+    </ErrorBoundary>
   );
 }
 

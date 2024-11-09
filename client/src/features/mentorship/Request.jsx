@@ -16,19 +16,20 @@ function Request({ request }) {
   const { id, project, group_name, technologies, title } = request;
   const { handleRequest, isPending } = useHandleRequests();
 
-  const [isAccepting, setIsAccepting] = useState("placeholder");
+  const [isAccepting, setIsAccepting] = useState(false);
+  const [isDeclining, setIsDeclining] = useState(false);
 
   function handleAcceptRequest() {
     setIsAccepting(true);
     handleRequest({ group_name, isMentorAccepted: true });
-    setIsAccepting("placeholder");
+    setIsAccepting(false);
   }
 
   //DELETE (ASK FACULTY ABOUT IT)
   function handleDeclineRequest() {
-    setIsAccepting(false);
+    setIsDeclining(true);
     handleRequest({ group_name, isMentorAccepted: false });
-    setIsAccepting("placeholder");
+    setIsDeclining(false);
   }
 
   return (
@@ -58,7 +59,7 @@ function Request({ request }) {
         {isPending && isAccepting ? "ACCEPTING..." : "ACCEPT"}
       </button>
       <button className="view-report margin-div" onClick={handleDeclineRequest}>
-        {isPending && !isAccepting ? "DECLINING..." : "DECLINE"}
+        {isPending && isDeclining ? "DECLINING..." : "DECLINE"}
       </button>
     </div>
   );

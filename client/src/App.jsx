@@ -12,6 +12,7 @@ import toast, { Toaster } from "react-hot-toast";
 import PasswordReset from "./pages/PasswordReset";
 import Error from "./ui/Error";
 import DoesNotExist from "./ui/DoesNotExist";
+import ErrorBoundary from "./pages/ErrorBoundary.jsx";
 
 const queryClient = new QueryClient();
 

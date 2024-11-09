@@ -5,13 +5,20 @@ import useCreateEvent from "./useCreateEvent";
 import Spinner from "../../ui/Spinner";
 import useUpdateEvent from "./useUpdateEvent";
 import { useQueryClient } from "@tanstack/react-query";
+import { useUser } from "../authentication/signin/useUser";
+import useFacultyBranch from "./useFacultyBranch";
 
 function ModalScheduleEvents({ setShowModal, event = {} }) {
   // event -->  id, name , date, description, type
+  const { data: user } = useUser();
+  const mail = user?.user?.mail;
+  const { data: branchesData, isFetching } = useFacultyBranch({ mail });
+  const branches = branchesData?.data;
   console.log(event);
   const queryClient = useQueryClient();
   const isEditing = queryClient.getQueryData(["editing-event"]) || false;
-  const { name, startDate, endDate, description, type, id } = event;
+  //add the branch attribute toi the events table
+  const { name, startDate, endDate, description, branch, type, id } = event;
   const [filterType, setFilterType] = useState(
     name ? (name === "Mentor Grading" ? "mentor" : "panel") : ""
   );
@@ -19,7 +26,7 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
   const [eventStartDate, setEventStartDate] = useState(startDate || "");
   const [eventEndDate, setEventEndDate] = useState(endDate || "");
   const [eventDescription, setEventDescription] = useState(description || "");
-  const [eventType, setEventType] = useState(type || "Minor-I");
+  const [selectedBranch, setSelectedBranch] = useState({ branch, type } || {});
   const { createEvent, isPending } = useCreateEvent();
   const { updateEvent, isPending: isPending2 } = useUpdateEvent();
 
@@ -35,12 +42,21 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
 
   const handleSubmitEvent = (e) => {
     e.preventDefault();
+    console.log(
+      eventStartDate,
+      eventEndDate,
+      eventName,
+      eventDescription,
+      selectedBranch.type,
+      selectedBranch.branch
+    );
     if (
       !eventStartDate ||
       !eventEndDate ||
       !eventName ||
       !eventDescription ||
-      !eventType
+      !selectedBranch.type ||
+      !selectedBranch.branch
     )
       return toast.error("All Fields are required");
 
@@ -58,7 +74,8 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
       eventStartDate,
       eventEndDate,
       eventDescription,
-      eventType,
+      eventBranch: selectedBranch.branch,
+      eventType: selectedBranch.type,
     });
 
     setShowModal("");
@@ -71,7 +88,8 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
       !eventEndDate ||
       !eventName ||
       !eventDescription ||
-      !eventType
+      !selectedBranch.type ||
+      !selectedBranch.branch
     )
       return toast.error("All Fields are required");
 
@@ -85,7 +103,8 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
       eventStartDate,
       eventEndDate,
       eventDescription,
-      eventType,
+      eventBranch: selectedBranch.branch,
+      eventType: selectedBranch.type,
       eventId: id,
     });
 
@@ -100,7 +119,8 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
         className="btn-close"
         onClick={(e) => {
           e.preventDefault();
-          setShowModal("");
+          if (isEditing) setShowModal("show-event");
+          else setShowModal("");
         }}
       >
         &times;
@@ -199,19 +219,42 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
               />
             </div>
 
-            <div className="full-length-input">
-              <label htmlFor="event-type">Event Type:</label>
-              <select
-                id="event-type"
-                value={eventType}
-                onChange={(e) => setEventType(e.target.value)}
-                className="styled-select"
-              >
-                <option value="Minor-I">Minor-I</option>
-                <option value="Minor-II">Minor-II</option>
-                <option value="Major-I">Major-I</option>
-                <option value="Major-II">Major-II</option>
-              </select>
+            <div
+              className="full-length-input"
+              style={{ display: "flex", flexDirection: "row", gap: "10px" }}
+            >
+              <div className="full-length-input">
+                <label htmlFor="branch">Select Branch:</label>
+                <select
+                  id="branch"
+                  value={selectedBranch.branch || branch?.branch}
+                  onChange={(e) => {
+                    const selected = branches.find(
+                      (branch) => branch.branch === e.target.value
+                    );
+                    setSelectedBranch(selected);
+                  }}
+                  className="styled-select"
+                >
+                  {branches?.map((branch, i) => (
+                    <option key={i} value={branch.branch}>
+                      {branch.branch}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="full-length-input">
+                <label htmlFor="event-type">Event Type:</label>
+                <input
+                  className="styled-select"
+                  style={{ cursor: "not-allowed", height: "38px" }}
+                  type="text"
+                  id="event-type"
+                  value={selectedBranch?.type || branches?.[0]?.type}
+                  disabled={true}
+                />
+              </div>
             </div>
           </>
         )}

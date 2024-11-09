@@ -3,8 +3,12 @@ export async function getEvents(req, res) {
   console.log("GET EVENTS");
   try {
     let { data, error } = await supabase.from("events").select("*");
-    // console.log(data);
-    res.status(200).json({ status: "success", results: data.length, data });
+    console.log(data);
+    if (error)
+      res
+        .status(401)
+        .json({ status: "fail", message: "Failed to fetch the events" });
+    res.status(200).json({ status: "success", results: data?.length, data });
   } catch (err) {
     console.log(err);
   }
@@ -20,6 +24,7 @@ export async function createEvent(req, res) {
       eventEndDate,
       eventDescription,
       eventType,
+      eventBranch,
     } = req.body;
 
     const { data: newEvent, error } = await supabase
@@ -31,6 +36,7 @@ export async function createEvent(req, res) {
           endDate: eventEndDate,
           description: eventDescription,
           type: eventType,
+          branch: eventBranch,
         },
       ])
       .select("*");
@@ -87,6 +93,7 @@ export async function updateEvent(req, res) {
       eventEndDate,
       eventDescription,
       eventType,
+      eventBranch,
     } = req.body;
 
     // Perform the update operation
@@ -98,8 +105,9 @@ export async function updateEvent(req, res) {
         endDate: eventEndDate,
         description: eventDescription,
         type: eventType,
+        branch: eventBranch,
       })
-      .eq("id", eventId) // Match the event by its unique id
+      .eq("id", eventId)
       .select("*");
 
     if (error) {

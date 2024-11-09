@@ -11,11 +11,11 @@ import Spinner from "./Spinner";
 function ActivityCoMarksTable() {
   const [showModal, setShowModal] = useState("");
   const [projectForModal, setProjectForModal] = useState("");
-  const { data: user, isLoading } = useUser();
+  const { data: user } = useUser();
   const name = user?.user?.name;
-  let { data: mentorProjects, isFetching } = useProjects({ name });
+  let { data: mentorProjects, isFetching, isLoading } = useProjects({ name });
 
-  const [numResultsToDisplay, setNumResultsToDisplay] = useState(2);
+  const [numResultsToDisplay, setNumResultsToDisplay] = useState(1);
   const [requestsToDisplay, setRequestsToDisplay] = useState([]);
   const [calculating, setCalculating] = useState(true); // State to manage calculation
   const tableContainerRef = useRef(null);

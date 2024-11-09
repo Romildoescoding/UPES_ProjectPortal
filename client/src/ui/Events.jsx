@@ -1,22 +1,70 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Event from "./Event";
 import { useEvents } from "../features/events/useEvents";
 import Spinner from "./Spinner";
 import { useLocation } from "react-router-dom";
+import { useUser } from "../features/authentication/signin/useUser";
+import useFacultyBranch from "../features/events/useFacultyBranch";
 
-function Events({ selectedDate }) {
-  let { data: events, isLoading, isFetching, isError } = useEvents();
-  const isNotAC = useLocation().pathname !== "/activity-coordinator";
-  if (events && isNotAC)
-    events.data = events.data.filter(
-      (event) => event.name !== "Mentor Grading"
-    );
+export default function Events({ selectedDate }) {
+  const { data: user } = useUser();
+  const mail = user?.user.mail;
+  const { data: events, isLoading, isFetching, isError } = useEvents();
   const location = useLocation();
+  const pathName = location.pathname;
+  const { data: branchData } = useFacultyBranch({ mail });
+
+  // State to store filtered events
+  const [filteredEvents, setFilteredEvents] = useState([]);
+  const projectTypes = useMemo(() => {
+    return { 5: "Minor-I", 6: "Minor-II", 7: "Major-I", 8: "Major-II" };
+  }, []);
 
   useEffect(() => {
-    console.log(events);
-  }, [events, isFetching]);
+    if (!events) return;
 
+    let updatedEvents = events?.data ? [...events.data] : []; // Copy to avoid direct mutation
+
+    // STUDENT
+    if (pathName === "/student") {
+      updatedEvents = updatedEvents.filter(
+        //events.type === semester logic :)
+        (event) =>
+          event.branch === user.user.program &&
+          event.type === projectTypes[user.user.semester]
+      );
+    }
+
+    //FACULTY OR MENTOR
+    else if (pathName === "/faculty") {
+      updatedEvents = updatedEvents.filter(
+        (event) => event.name === "Mentor Grading"
+      );
+    }
+
+    //AC
+    else if (pathName === "/activity-coordinator") {
+      updatedEvents = updatedEvents.filter((event) => {
+        return branchData?.data?.some(
+          (facBranch) =>
+            facBranch.mail === user?.user?.mail &&
+            facBranch.branch === event.branch &&
+            facBranch.type === event.type
+        );
+      });
+    }
+
+    //PANEL
+    else if (pathName === "/panel-members") {
+      updatedEvents = updatedEvents.filter(
+        (event) => event.name !== "Mentor Grading"
+      );
+    }
+
+    setFilteredEvents(updatedEvents);
+  }, [branchData, branchData?.data, events, pathName, projectTypes, user]);
+
+  // Filtering by selected date
   const isToday = (date) => {
     const today = new Date();
     return (
@@ -26,7 +74,7 @@ function Events({ selectedDate }) {
     );
   };
 
-  const filteredEvents = events?.data?.filter((event) => {
+  const displayedEvents = filteredEvents.filter((event) => {
     if (isToday(selectedDate)) {
       return true; // Show all events if selectedDate is today
     }
@@ -39,7 +87,11 @@ function Events({ selectedDate }) {
   });
 
   if (isError) {
-    return <p>Something went wrong, please try again later.</p>;
+    return (
+      <p style={{ marginLft: "5px" }}>
+        Something went wrong, please try again later.
+      </p>
+    );
   }
 
   return (
@@ -55,7 +107,7 @@ function Events({ selectedDate }) {
           }}
         >
           <p className="events-heading">Upcoming events</p>
-          {!filteredEvents?.length ? (
+          {!displayedEvents.length ? (
             <div className="events-empty">
               <img
                 src="/images/party-popper.png"
@@ -65,12 +117,10 @@ function Events({ selectedDate }) {
               <p className="events-text-sm">No upcoming events</p>
             </div>
           ) : (
-            filteredEvents?.map((event, i) => <Event key={i} event={event} />)
+            displayedEvents.map((event, i) => <Event key={i} event={event} />)
           )}
         </ul>
       )}
     </div>
   );
 }
-
-export default Events;

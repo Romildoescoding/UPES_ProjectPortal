@@ -15,8 +15,9 @@
 }
 
 .pl11 {
-  justify-content: space-around;
   display: flex;
+  justify-content: space-around;
+  align-items: center;
   margin: 1.5em;
   width: 6em;
   height: 6em;
@@ -26,50 +27,36 @@
 .pl11__b,
 .pl11__c {
   border-radius: 50%;
-  width: 1em;
-  height: 1em;
-  transform-origin: 50% 100%;
-  animation: bounce1 1s linear infinite;
+  width: 0.8em;
+  height: 0.8em;
+  transform-origin: center;
+  animation: scalePulse 1s ease-in-out infinite;
 }
 
 .pl11__a {
   background-color: white;
-  /* background: linear-gradient(to left, plum, cornflowerblue); */
+}
+
+.pl11__b {
+  background-color: white;
+  animation-delay: 0.2s;
+}
+
+.pl11__c {
+  background-color: white;
+  animation-delay: 0.4s;
 }
 
 .black {
   background-color: black !important;
 }
 
-.pl11__b {
-  background-color: white;
-  /* background: linear-gradient(to left, pink, plum); */
-  animation-delay: 0.1s;
-}
-
-.pl11__c {
-  background-color: white;
-  /* background: linear-gradient(to left, white, pink); */
-  animation-delay: 0.2s;
-}
-
-/* Animations */
-@keyframes bounce1 {
-  from,
-  to {
-    transform: translateY(0) scale(1, 1);
-    animation-timing-function: ease-in;
-  }
-  45% {
-    transform: translateY(5em) scale(1, 1);
-    animation-timing-function: linear;
+@keyframes scalePulse {
+  0%,
+  100% {
+    transform: scale(1);
   }
   50% {
-    transform: translateY(5em) scale(1.5, 0.5);
-    animation-timing-function: linear;
-  }
-  55% {
-    transform: translateY(5em) scale(1, 1);
-    animation-timing-function: ease-out;
+    transform: scale(0);
   }
 }

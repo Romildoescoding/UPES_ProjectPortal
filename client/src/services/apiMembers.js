@@ -89,12 +89,15 @@ export async function getPanelGroups(panel) {
   }
 }
 
-export async function getAllProjects() {
+export async function getAllProjects({ mail }) {
   try {
-    const res = await fetch(`${serverPort}/api/v1/projects/group`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
+    const res = await fetch(
+      `${serverPort}/api/v1/projects/group?mail=${mail}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
     const data = res.json();
     return data;
   } catch (err) {
@@ -128,8 +131,7 @@ export async function updateMembers(group) {
     body: JSON.stringify(group),
   });
   const data = await res.json();
-  if (res.status !== 200)
-    throw new Error("Group Members already in another group");
+  if (res.status !== 200) throw new Error(data.message);
   console.log(data);
   return data;
   // } catch (err) {
@@ -175,6 +177,7 @@ export async function getRequests({
   isMentor,
   isMentorAccepted,
   isPanelNull,
+  mail,
 }) {
   try {
     console.log(name, isMentor, isMentorAccepted);
@@ -187,7 +190,7 @@ export async function getRequests({
     // }
     let apiEndPoint = `${serverPort}/api/v1/projects?${
       isMentor ? "mentor" : "panel"
-    }=${name}&isMentorAccepted=${isMentorAcceptedParam}&isPanelNull=${isPanelNull}`;
+    }=${name}&isMentorAccepted=${isMentorAcceptedParam}&isPanelNull=${isPanelNull}&mail=${mail}`;
     const res = await fetch(apiEndPoint, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -230,6 +233,7 @@ export async function uploadProject(formData) {
   const technologies = formData.get("tech");
   const group_name = formData.get("group");
   const projectType = formData.get("type");
+  const branch = formData.get("branch");
   const report = formData.get("report");
   // console.log({ title, technologies, group_name, report });
 
@@ -238,6 +242,7 @@ export async function uploadProject(formData) {
     technologies,
     group_name,
     projectType,
+    branch,
   };
 
   try {
@@ -250,7 +255,7 @@ export async function uploadProject(formData) {
         fileType !==
         "application/vnd.openxmlformats-officedocument.presentationml.presentation" // For .pptx
       ) {
-        throw new Error("Only .PPTX files are allowed");
+        throw new Error("Only PPTX files are allowed");
       }
 
       const reportBase64 = await convertFileToBase64(report);
@@ -260,6 +265,7 @@ export async function uploadProject(formData) {
         technologies,
         group_name,
         projectType,
+        branch,
         report: reportBase64, // Send the base64 encoded file
       };
 
@@ -299,7 +305,7 @@ export async function updateProject({ formData, oldFilePath }) {
       fileType !==
       "application/vnd.openxmlformats-officedocument.presentationml.presentation" // For .pptx
     ) {
-      throw new Error("Only .PPTX files are allowed");
+      throw new Error("Only PPTX files are allowed");
     }
     const reportBase64 = await convertFileToBase64(report);
 
@@ -412,8 +418,10 @@ export async function getEvents() {
 }
 
 //remote variables
-export async function getRemoteVariables() {
-  const res = await fetch(`${serverPort}/api/v1/auth/variables`);
+export async function getRemoteVariables({ branch, type, mail }) {
+  const res = await fetch(
+    `${serverPort}/api/v1/auth/variables?branch=${branch}&type=${type}&mail=${mail}`
+  );
   const data = await res.json();
 
   //THIS LINE IS NECESSARY FOR ONERROR
@@ -436,6 +444,19 @@ export async function toggleRemoteVariables(variable) {
 
 export async function getGrades(mail) {
   const res = await fetch(`${serverPort}/api/v1/students/grades`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(mail),
+  });
+  const data = await res.json();
+
+  //THIS LINE IS NECESSARY FOR ONERROR
+  console.log(data);
+  return data;
+}
+
+export async function getFacultyBranch(mail) {
+  const res = await fetch(`${serverPort}/api/v1/faculty`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(mail),

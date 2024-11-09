@@ -10,12 +10,19 @@ import Loader from "../ui/Loader";
 import Objectives from "../ui/Objectives";
 import CalenderEvents from "../ui/CalenderEvents";
 import ProjectDetails from "../ui/ProjectDetails";
+import { useState } from "react";
 
 function Dashboard() {
   const { data, isPending, isFetching, isLoading } = useUser();
 
   let user = data?.user;
   let role = user?.role;
+
+  //TEST FOR THE ERROR BOUNDARY COMPONENT
+  // const [hasError, setHasError] = useState(true);
+  // if (hasError) {
+  //   throw new Error("Simulated error in Dashboard!");
+  // }
 
   if (isPending || !role) return <Loader />;
   if (role !== "student") return <Error />;

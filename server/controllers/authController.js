@@ -300,14 +300,59 @@ export async function currentUser(req, res) {
 //REMOTE VARIABLES FOR THE APP
 export async function getRemoteVariables(req, res) {
   try {
-    let { data: variables, error } = await supabase
-      .from("variables")
-      .select("*");
+    const { branch, type, mail } = req.query;
 
-    if (error)
-      res.status(400).json({ status: "fail", message: "Error while fetching" });
+    if (mail !== "undefined") {
+      console.log("MAIL Run");
+      let { data: facultyData, error: facultyError } = await supabase
+        .from("facultybranch")
+        .select("*")
+        .eq("mail", mail);
 
-    res.status(200).json({ status: "success", variables });
+      if (facultyError) {
+        return res
+          .status(400)
+          .json({ status: "fail", message: "Error fetching faculty branches" });
+      }
+
+      // Fetch all entries from the `variables` table
+      const { data: variables, error: varError } = await supabase
+        .from("variables")
+        .select("*");
+
+      if (varError) {
+        console.log("Error fetching variables:", varError);
+        return res
+          .status(400)
+          .json({ status: "fail", message: "Error fetching variables" });
+      }
+
+      // Filter locally based on `facultyData`
+      const filteredVariables = variables.filter((variable) =>
+        facultyData.some(
+          (fac) => variable.branch === fac.branch && variable.type === fac.type
+        )
+      );
+
+      // Respond with the filtered variables
+      res.status(200).json({ status: "success", variables: filteredVariables });
+    } else {
+      let query = supabase.from("variables").select("*");
+      if (branch) query = query.eq("branch", branch);
+      if (type) query = query.eq("type", type);
+
+      const { data: variablesData, error: variablesError } = await query;
+
+      if (variablesError) {
+        return res
+          .status(400)
+          .json({ status: "fail", message: "Error fetching variables" });
+      }
+
+      res.status(200).json({ status: "success", variables: variablesData });
+    }
+
+    // Step 4: Return the joined data
   } catch (err) {
     console.error(err);
     res.status(500).json({
@@ -318,12 +363,16 @@ export async function getRemoteVariables(req, res) {
 }
 
 export async function updateRemoteVariables(req, res) {
+  // branch: variable.branch,
+  // type: variable.type,
+  // value: visibility === "true" ? "false" : "true",
   try {
-    const { variableName, value } = req.body;
+    const { branch, type, value } = req.body;
     const { data, error } = await supabase
       .from("variables")
       .update({ value })
-      .eq("variable-name", variableName)
+      .eq("branch", branch)
+      .eq("type", type)
       .select();
 
     if (error)

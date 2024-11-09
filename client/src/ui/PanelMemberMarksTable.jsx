@@ -7,6 +7,7 @@ import Modal from "./Modal";
 import useProjects from "../features/mentorship/useProjects";
 import ModalFacultyProjects from "../features/mentorship/ModalFacultyProjects";
 import PanelProject from "./PanelProject";
+import Spinner from "./Spinner";
 
 function PanelMemberMarksTable({ mentorshipRequests }) {
   const [showModal, setShowModal] = useState("");
@@ -15,7 +16,11 @@ function PanelMemberMarksTable({ mentorshipRequests }) {
   const { data: user, isLoading } = useUser();
   const name = user?.user?.name;
   console.log(name);
-  let { data: mentorProjects, isLoading2 } = useProjects({
+  let {
+    data: mentorProjects,
+    isLoading2,
+    isFetching,
+  } = useProjects({
     name,
   });
 
@@ -49,6 +54,7 @@ function PanelMemberMarksTable({ mentorshipRequests }) {
       window.removeEventListener("resize", calculateRowsToDisplay);
     };
   }, []);
+
   return (
     <div className="contents-bottom-faculty " ref={tableContainerRef}>
       {/* -----------------MODAL FOR THE SUBMITTED REPORT----------------- */}
@@ -70,34 +76,40 @@ function PanelMemberMarksTable({ mentorshipRequests }) {
           isCentered={true}
           isWithoutSvg={true}
         />
-        <div className="panel-members-table-container">
-          <table className="panel-members-table">
-            <thead>
-              <tr>
-                <th>Group Name</th>
-                <th>Title</th>
-                <th>XYZ Technologies</th>
-                <th>Project Report</th>
-              </tr>
-            </thead>
-            <tbody>
-              {projectsToDisplay?.map((project, index) => (
-                <PanelProject
-                  project={project}
-                  key={index}
-                  setShowModal={setShowModal}
-                  setProjectForModal={setProjectForModal}
-                />
-              ))}
-            </tbody>
-          </table>
-        </div>
+        {isFetching ? (
+          <Spinner />
+        ) : (
+          <>
+            <div className="panel-members-table-container">
+              <table className="panel-members-table">
+                <thead>
+                  <tr>
+                    <th>Group Name</th>
+                    <th>Title</th>
+                    <th>XYZ Technologies</th>
+                    <th>Project Report</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {projectsToDisplay?.map((project, index) => (
+                    <PanelProject
+                      project={project}
+                      key={index}
+                      setShowModal={setShowModal}
+                      setProjectForModal={setProjectForModal}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <Pagination
+              numResultsToDisplay={numResultsToDisplay}
+              projects={mentorProjects?.data}
+              setProjectsToDisplay={setProjectsToDisplay}
+            />
+          </>
+        )}
       </div>
-      <Pagination
-        numResultsToDisplay={numResultsToDisplay}
-        projects={mentorProjects?.data}
-        setProjectsToDisplay={setProjectsToDisplay}
-      />
     </div>
   );
 }

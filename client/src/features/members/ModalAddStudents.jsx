@@ -54,6 +54,13 @@ function ModalAddStudents({ setShowModal }) {
       return;
     }
 
+    const hasPreviousMembers = team?.data?.some((member) =>
+      membersToSubmit.includes(member.mail)
+    );
+
+    if (hasPreviousMembers)
+      return toast.error("Member(s) are already in your group");
+
     // Use reduce to create a single object from the members array
     membersToSubmit = membersToSubmit.reduce((acc, mail, i) => {
       acc[`member${4 - remainingMembers.length + i}`] = mail; // Create dynamic keys

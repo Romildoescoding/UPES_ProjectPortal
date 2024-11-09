@@ -2,6 +2,7 @@ import { useState } from "react";
 import ModalEvent from "../features/mentorship/ModalEvent";
 import Modal from "./Modal";
 import ModalScheduleEvents from "../features/events/ModalScheduleEvents";
+import ModalConfirmDelete from "../features/events/ModalConfirmDelete";
 
 function Event({ event }) {
   const [showModal, setShowModal] = useState("");
@@ -17,6 +18,12 @@ function Event({ event }) {
       {showModal === "show-event" && (
         <Modal setShowModal={setShowModal}>
           <ModalEvent setShowModal={setShowModal} event={event} />
+        </Modal>
+      )}
+
+      {showModal === "delete-event" && (
+        <Modal setShowModal={setShowModal}>
+          <ModalConfirmDelete setShowModal={setShowModal} event={event} />
         </Modal>
       )}
       <li className="event" onClick={() => setShowModal("show-event")}>

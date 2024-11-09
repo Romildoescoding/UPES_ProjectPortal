@@ -50,9 +50,23 @@ export async function createGroup(req, res) {
       .insert([{ group_name: group, leader: leader }])
       .select("*");
 
-    if (error) {
-      res.status(400).json({ status: "fail", message: error.message });
-      console.log(error);
+    // Update `in_group` to true for each member in the students table
+    const { error: updateError } = await supabase
+      .from("students")
+      .update({ in_group: true })
+      .eq("mail", leader);
+
+    if (updateError) {
+      console.log(updateError);
+      res.status(400).json({
+        status: "fail",
+        message: "Failed to update leader in_group status.",
+      });
+
+      if (error) {
+        res.status(400).json({ status: "fail", message: error.message });
+        console.log(error);
+      }
     } else res.status(200).json({ status: "success", newGroup });
   } catch (err) {
     console.log(err);
@@ -65,14 +79,12 @@ export async function updateMembers(req, res) {
   try {
     const { group, member1, member2, member3 } = req.body;
     console.log(req.body);
+
     // Build the update object dynamically
     const updateData = {};
     if (member1) updateData.member1 = member1;
     if (member2) updateData.member2 = member2;
     if (member3) updateData.member3 = member3;
-    // if (member4) updateData.member4 = member4;
-    // if (member5) updateData.member5 = member5;
-    console.log(updateData);
 
     // Only proceed with update if there's something to update
     if (Object.keys(updateData).length === 0) {
@@ -81,6 +93,31 @@ export async function updateMembers(req, res) {
         .json({ status: "fail", message: "No valid fields to update" });
     }
 
+    const allMembers = [member1, member2, member3].filter(Boolean); // Remove any undefined values
+
+    // Check if any member is already in a group
+    const { data: membersInGroup } = await supabase
+      .from("students")
+      .select("in_group")
+      .in("mail", allMembers);
+
+    console.log("---------------------");
+    console.log(membersInGroup);
+    console.log("----------------------");
+
+    const anyoneInGroupAlready = membersInGroup.reduce(
+      (acc, member) => acc || member.in_group,
+      false
+    );
+
+    if (anyoneInGroupAlready) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Group Members already in another group",
+      });
+    }
+
+    // Update group data
     const { data, error } = await supabase
       .from("groups")
       .update(updateData)
@@ -89,11 +126,25 @@ export async function updateMembers(req, res) {
 
     if (error) {
       console.log(error);
-      res.status(400).json({ status: "fail", data });
-    } else {
-      console.log(data);
-      res.status(200).json({ status: "success", data });
+      return res.status(400).json({ status: "fail", message: error.details });
     }
+
+    // Update in_group status for each member in students table
+    const { data: updateStudents, error: updateError } = await supabase
+      .from("students")
+      .update({ in_group: true })
+      .in("mail", allMembers);
+
+    if (updateError) {
+      console.log(updateError);
+      return res.status(400).json({
+        status: "fail",
+        message: "Failed to update students' in_group status.",
+      });
+    }
+
+    console.log(data);
+    res.status(200).json({ status: "success", data });
   } catch (err) {
     console.log(err);
     res.status(400).json({ status: "fail", message: err });

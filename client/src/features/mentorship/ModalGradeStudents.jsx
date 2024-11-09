@@ -84,7 +84,9 @@ function ModalGradeStudents({ setShowModal }) {
     setFilteredEvents((prevEvents) => ({
       ...prevEvents, // Spread the previous events object
       data: prevEvents.data.filter(
-        (e) => e.type === "Minor-I" || e.type === "Minor-II"
+        (e) =>
+          (e.type === "Minor-I" || e.type === "Minor-II") &&
+          e.name !== "Mentor Grading"
       ),
     }));
     setFilterType("Minor"); // Set the filter type to "Minor"
@@ -96,7 +98,9 @@ function ModalGradeStudents({ setShowModal }) {
     setFilteredEvents((prevEvents) => ({
       ...prevEvents, // Spread the previous events object
       data: prevEvents.data.filter(
-        (e) => e.type === "Major-I" || e.type === "Major-II"
+        (e) =>
+          (e.type === "Major-I" || e.type === "Major-II") &&
+          e.name !== "Mentor Grading"
       ),
     }));
     setFilterType("Major"); // Set the filter type to "Major"

@@ -8,13 +8,13 @@ import GroupMember from "./GroupMember";
 function GroupMembers() {
   const { data, isPending } = useUser();
   const user = data?.user;
-  const { data: team, isPending: isPending2 } = useTeamInformation({ user });
+  const { data: team, isLoading } = useTeamInformation({ user });
 
   return (
     <div className="members">
       <span className="dashboard-heading">Group Members</span>
       <div className="members-container">
-        {isPending || isPending2 ? (
+        {isLoading ? (
           <Spinner />
         ) : !team?.data?.length ? (
           <EmptyComponent msg={"❗No group data found❗"} isTable={false} />
