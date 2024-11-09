@@ -425,7 +425,7 @@ export async function passwordReset(req, res) {
       .eq("mail", mail)
       .single();
 
-    if (selectError || !user) {
+    if (selectError || !user.length) {
       return res
         .status(404)
         .json({ status: "fail", message: "Email does not exist" });
