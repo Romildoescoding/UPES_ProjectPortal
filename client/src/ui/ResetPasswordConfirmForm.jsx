@@ -23,7 +23,7 @@ function ResetPasswordConfirmForm({ setShowModal, setResetPassword }) {
     if (!email) {
       return toast.error("Email must not be empty");
     }
-    resetPasswordConfirm({ mail: email });
+    resetPasswordConfirm({ mail: email.toLowerCase() });
   }
 
   return (

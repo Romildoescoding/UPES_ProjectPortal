@@ -29,7 +29,7 @@ function SigninForm({ setShowModal, setResetPassword }) {
 
     // Store email and password in localStorage if "Remember me" is checked
     if (rememberMe) {
-      localStorage.setItem("email", email);
+      localStorage.setItem("email", email.toLowerCase());
       localStorage.setItem("password", password);
     } else {
       // Clear localStorage if "Remember me" is unchecked
@@ -38,7 +38,7 @@ function SigninForm({ setShowModal, setResetPassword }) {
     }
 
     signin(
-      { email, password },
+      { email: email.toLowerCase(), password },
       {
         onSuccess: (user) => {
           toast.success("Login Successful");
