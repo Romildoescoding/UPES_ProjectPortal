@@ -229,7 +229,7 @@ async function sendMentorshipRequestMail({ groupName, facultyEmail }) {
       <p>Dear Professor,</p>
       <p>You have received a mentorship request from the project group <strong>${groupName}</strong>.</p>
       <p>Please access the project portal to accept or reject the mentorship request:</p>
-      <a href="${process.env.PROJECT_URL}" style="background-color: #4CAF50; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Go to the Project Portal</a>
+      <a href="${process.env.PROJECT_URL}/faculty" style="background-color: #4CAF50; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Go to the Project Portal</a>
       <p>Thank you for your time and consideration.</p>
       <p>Best regards,<br>UPES Project Portal</p>
     `,
