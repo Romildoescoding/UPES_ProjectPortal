@@ -13,6 +13,7 @@ function ModalGradeStudents({ setShowModal }) {
   const { data: groups, isFetching } = usePanelGroups({
     panel: user.name,
   });
+
   console.log("MODAL-GRADE-STUDENTS");
   let {
     data: events,
@@ -29,6 +30,7 @@ function ModalGradeStudents({ setShowModal }) {
 
   const filterType1 = filterOptions?.filterType || "";
   const event1 = filterOptions?.event || "";
+  console.log(filterType1, event1);
   const [filteredEvents, setFilteredEvents] = useState(events);
   const [event, setEvent] = useState(event1);
 
@@ -105,6 +107,15 @@ function ModalGradeStudents({ setShowModal }) {
     }));
     setFilterType("Major"); // Set the filter type to "Major"
   }
+
+  useEffect(() => {
+    setFilteredEvents((prevEvents) => ({
+      ...prevEvents,
+      data: prevEvents?.data?.filter(
+        (e) => e.name !== "Mentor Grading" && e.type.slice(0, 5) === filterType
+      ),
+    }));
+  }, [filterType, setFilteredEvents]);
 
   function handleBackNavigation() {
     if (!event && filterType) setFilterType("");
@@ -220,6 +231,7 @@ function ModalGradeStudents({ setShowModal }) {
                         filterType,
                         event,
                       });
+
                       setShowModal("grade-students-sm");
                     }}
                   >
