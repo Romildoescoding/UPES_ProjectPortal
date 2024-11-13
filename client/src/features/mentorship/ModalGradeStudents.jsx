@@ -140,6 +140,7 @@ function ModalGradeStudents({ setShowModal }) {
           className="btn-close"
           onClick={(e) => {
             e.preventDefault();
+            queryClient.setQueryData(["filter-options"], {});
             setShowModal(false);
           }}
         >
