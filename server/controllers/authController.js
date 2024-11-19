@@ -413,19 +413,24 @@ const sendResetEmail = async (mail, token) => {
 
 export async function passwordReset(req, res) {
   const { mail } = req.body;
+  console.log(mail);
 
   // Determine user type
   const userType = mail.includes("@stu") ? "students" : "faculty";
+  console.log(userType);
 
   try {
     // Check if the email exists in the corresponding table
     const { data: user, error: selectError } = await supabase
       .from(userType)
       .select("mail")
-      .eq("mail", mail)
-      .single();
+      .eq("mail", mail);
+    // .single();
+
+    console.log(user);
 
     if (selectError || !user.length) {
+      console.log("EMAIL doesn't exist");
       return res
         .status(404)
         .json({ status: "fail", message: "Email does not exist" });

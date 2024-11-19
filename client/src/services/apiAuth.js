@@ -78,11 +78,12 @@ export async function resetPasswordConfirm({ mail }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ mail }),
     });
-    if (!res.ok) throw new Error("Error while reqeusting password reset");
+    if (!res.ok) throw new Error("Error while requesting password reset");
     const data = await res.json();
     console.log(data);
     return data;
   } catch (err) {
     console.log(err.message);
+    throw new Error(err.message);
   }
 }

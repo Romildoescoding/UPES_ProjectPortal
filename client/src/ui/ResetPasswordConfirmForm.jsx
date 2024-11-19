@@ -23,6 +23,7 @@ function ResetPasswordConfirmForm({ setShowModal, setResetPassword }) {
     if (!email) {
       return toast.error("Email must not be empty");
     }
+    console.log("Requested to:-->" + email);
     resetPasswordConfirm({ mail: email.toLowerCase() });
   }
 

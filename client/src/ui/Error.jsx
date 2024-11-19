@@ -88,9 +88,9 @@ const styles = {
   },
   buttonContainer: {
     display: "flex",
-    "flex-wrap": "wrap",
+    flexWrap: "wrap",
     gap: "10px",
-    "justify-content": "center",
+    justifyContent: "center",
   },
   button: {
     padding: "0.75rem 1.5rem",
