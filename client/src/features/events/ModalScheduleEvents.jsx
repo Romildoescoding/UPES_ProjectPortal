@@ -14,6 +14,12 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
   const mail = user?.user?.mail;
   const { data: branchesData, isFetching } = useFacultyBranch({ mail });
   const branches = branchesData?.data;
+  const defaultBranch = branches[0];
+  // {
+  //   branch: branches[0]?.branch,
+  //   type: branches[0]?.type,
+  // };
+  console.log(defaultBranch);
   console.log(event);
   const queryClient = useQueryClient();
   const isEditing = queryClient.getQueryData(["editing-event"]) || false;
@@ -26,13 +32,20 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
   const [eventStartDate, setEventStartDate] = useState(startDate || "");
   const [eventEndDate, setEventEndDate] = useState(endDate || "");
   const [eventDescription, setEventDescription] = useState(description || "");
-  const [selectedBranch, setSelectedBranch] = useState({ branch, type } || {});
+  const [selectedBranch, setSelectedBranch] = useState(
+    branch ? { branch, type } : defaultBranch
+  );
   const { createEvent, isPending } = useCreateEvent();
   const { updateEvent, isPending: isPending2 } = useUpdateEvent();
 
   const isValidDateRange = (start, end) => {
     return new Date(start) < new Date(end);
   };
+
+  //BUG TEST-1
+  useEffect(() => {
+    console.log(selectedBranch);
+  }, [selectedBranch]);
 
   useEffect(() => {
     if (filterType === "mentor" && !eventName) {
@@ -232,6 +245,7 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
                     const selected = branches.find(
                       (branch) => branch.branch === e.target.value
                     );
+                    console.log(selected);
                     setSelectedBranch(selected);
                   }}
                   className="styled-select"
