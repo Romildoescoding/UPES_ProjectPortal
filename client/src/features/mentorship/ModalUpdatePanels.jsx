@@ -15,6 +15,7 @@ function ModalUpdatePanels({ setShowModal }) {
   const [shouldConfirm, setShouldConfirm] = useState(true);
   const { data: groups, isFetching } = useAllProjects({
     mail: user?.user?.mail,
+    isPanelNotNull: true,
   });
   const allGroups = groups?.data;
   console.log(allGroups);

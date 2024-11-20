@@ -78,9 +78,9 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
       return toast.error("Start date must be earlier than End");
     }
 
-    // if (new Date(eventStartDate) < new Date(Date.now())) {
-    // return toast.error("You cannot schedule events in the past");
-    // }
+    if (new Date(eventStartDate) < new Date(Date.now())) {
+      return toast.error("You cannot schedule events in the past");
+    }
 
     createEvent({
       eventName,

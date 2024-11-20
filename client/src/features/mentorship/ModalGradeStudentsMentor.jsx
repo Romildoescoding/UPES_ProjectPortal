@@ -17,7 +17,7 @@ function ModalGradeStudentsMentor({ setShowModal }) {
 
   const { data: events, isFetching: isFetching2 } = useEvents();
   const mentorEventId = events?.data.filter(
-    (event) => event.name !== "Mentor Grading"
+    (event) => event.name === "Mentor Grading"
   );
 
   const [mail, setMail] = useState("");

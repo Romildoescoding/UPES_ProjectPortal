@@ -7,13 +7,19 @@ import useProjects from "../features/mentorship/useProjects";
 import Modal from "./Modal";
 import ModalFacultyProjects from "../features/mentorship/ModalFacultyProjects";
 import Spinner from "./Spinner";
+import useAllProjects from "../features/mentorship/useAllProjects";
+import EmptyComponent from "./EmptyComponent";
 
 function ActivityCoMarksTable() {
   const [showModal, setShowModal] = useState("");
   const [projectForModal, setProjectForModal] = useState("");
   const { data: user } = useUser();
   const name = user?.user?.name;
-  let { data: mentorProjects, isFetching, isLoading } = useProjects({ name });
+  // let { data: mentorProjects, isFetching, isLoading } = useProjects({ name });
+
+  const { data: mentorProjects, isFetching } = useAllProjects({
+    mail: user?.user?.mail,
+  });
 
   const [numResultsToDisplay, setNumResultsToDisplay] = useState(1);
   const [requestsToDisplay, setRequestsToDisplay] = useState([]);
@@ -64,7 +70,7 @@ function ActivityCoMarksTable() {
   return (
     <div className="contents-bottom-faculty" ref={tableContainerRef}>
       <TextPill
-        text={<span className="dashboard-heading">Assigned Groups</span>}
+        text={<span className="dashboard-heading">All Groups</span>}
         width={"100%"}
         height={35}
         isHeading={true}
@@ -94,6 +100,14 @@ function ActivityCoMarksTable() {
                 setShowModal={setShowModal}
               />
             ))}
+            {requestsToDisplay?.length <= 0 && (
+              <EmptyComponent
+                msg={"❗No projects yet❗"}
+                isAbsolute={true}
+                isTable={false}
+                isMarks={true}
+              />
+            )}
           </div>
 
           <Pagination

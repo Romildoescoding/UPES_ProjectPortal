@@ -76,7 +76,7 @@ function Feedback() {
           <div className="feedback-container">
             <div className="feedback-row header-row">
               <div className="column">Event Name</div>
-              <div className="column">Date</div>
+              <div className="column">Project Type</div>
               <div className="column">Grade Received</div>
             </div>
 
@@ -85,9 +85,7 @@ function Feedback() {
                 {gradesInformation?.map((grade, i) => (
                   <div key={i} className="feedback-row">
                     <div className="column">{grade.respectiveEvent?.name}</div>
-                    <div className="column">
-                      {grade.respectiveEvent?.startDate}
-                    </div>
+                    <div className="column">{grade.respectiveEvent?.type}</div>
                     <div className="column">
                       <Pill
                         text={`${grade.grade?.grades} / 100`}

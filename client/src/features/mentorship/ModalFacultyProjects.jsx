@@ -47,6 +47,29 @@ function ModalFacultyProjects({ setShowModal, projectForModal }) {
         </div>
 
         <div className="project-field">
+          <h1>MENTOR</h1>
+          <h4 className="project-field-h3 text-none">
+            {projectForModal?.is_mentor_accepted
+              ? projectForModal?.mentor
+              : "N/A"}
+          </h4>
+        </div>
+
+        <div className="project-field">
+          <h1>PANELIST 1</h1>
+          <h4 className="project-field-h3 text-none">
+            {projectForModal?.panel_member1 || "N/A"}
+          </h4>
+        </div>
+
+        <div className="project-field">
+          <h1>PANELIST 2</h1>
+          <h4 className="project-field-h3 text-none">
+            {projectForModal?.panel_member2 || "N/A"}
+          </h4>
+        </div>
+
+        <div className="project-field">
           <h1>REPORT</h1>
           {projectForModal?.report ? (
             <span

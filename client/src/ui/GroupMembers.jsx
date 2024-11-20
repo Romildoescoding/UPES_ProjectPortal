@@ -22,7 +22,7 @@ function GroupMembers() {
           <div className="members-list">
             <div className="members-header">
               <div className="member-column">Name</div>
-              <div className="member-column">Contact</div>
+              <div className="member-column">SAP ID</div>
               <div className="member-column">Position</div>
             </div>
             {team?.data?.map((member, i) => (

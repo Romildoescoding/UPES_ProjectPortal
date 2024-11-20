@@ -8,6 +8,7 @@ import useProjects from "../features/mentorship/useProjects";
 import ModalFacultyProjects from "../features/mentorship/ModalFacultyProjects";
 import PanelProject from "./PanelProject";
 import Spinner from "./Spinner";
+import EmptyComponent from "./EmptyComponent";
 
 function PanelMemberMarksTable({ mentorshipRequests }) {
   const [showModal, setShowModal] = useState("");
@@ -86,7 +87,7 @@ function PanelMemberMarksTable({ mentorshipRequests }) {
                   <tr>
                     <th>Group Name</th>
                     <th>Title</th>
-                    <th>XYZ Technologies</th>
+                    <th>Technologies</th>
                     <th>Project Report</th>
                   </tr>
                 </thead>
@@ -101,6 +102,14 @@ function PanelMemberMarksTable({ mentorshipRequests }) {
                   ))}
                 </tbody>
               </table>
+              {projectsToDisplay?.length <= 0 && (
+                <EmptyComponent
+                  msg={"❗No projects yet❗"}
+                  isAbsolute={true}
+                  isTable={false}
+                  isMarks={true}
+                />
+              )}
             </div>
             <Pagination
               numResultsToDisplay={numResultsToDisplay}

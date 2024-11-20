@@ -84,10 +84,16 @@ export async function getAllProjects(req, res) {
   // const { page, pageSize } = req.query;
   console.log("GET-ALL-PROJECTS");
   try {
-    const { mail } = req.query;
+    const { mail, isPanelNotNull } = req.query;
     console.log(req.query);
     let query = supabase.from("projects").select("*");
     let { data, error: projectError } = await query;
+
+    if (isPanelNotNull === "true") {
+      data = data.filter(
+        (project) => project.panel_member1 && project.panel_member2
+      );
+    }
 
     if (projectError) {
       console.log(projectError);
@@ -272,7 +278,7 @@ export async function setMentor(req, res) {
       .eq("mail", faculty);
 
     if (!faculties.length)
-      res
+      return res
         .status(404)
         .json({ status: "fail", message: "Faculty does not exist" });
 
@@ -607,6 +613,9 @@ export async function getPanelStudents(req, res) {
 
 export async function updateMarks(req, res) {
   const { mail, grades, type, eventId } = req.body;
+
+  console.log("Update marks ------>");
+  console.log(req.body);
 
   try {
     // Check if a record already exists

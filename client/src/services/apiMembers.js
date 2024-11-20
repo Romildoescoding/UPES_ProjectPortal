@@ -30,9 +30,11 @@ export async function requestMentorship(faculty) {
       body: JSON.stringify(faculty),
     });
     const data = await res.json();
+    if (res.status !== 200) throw new Error(data.message);
     return data;
   } catch (err) {
     console.log(err);
+    throw new Error(err.message);
   }
 }
 
@@ -89,10 +91,10 @@ export async function getPanelGroups(panel) {
   }
 }
 
-export async function getAllProjects({ mail }) {
+export async function getAllProjects({ mail, isPanelNotNull = false }) {
   try {
     const res = await fetch(
-      `${serverPort}/api/v1/projects/group?mail=${mail}`,
+      `${serverPort}/api/v1/projects/group?mail=${mail}&isPanelNotNull=${isPanelNotNull}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },

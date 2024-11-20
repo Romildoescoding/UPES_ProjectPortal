@@ -7,6 +7,7 @@ import MentorProjects from "./MentorProjects";
 import Modal from "./Modal";
 import ModalFacultyProjects from "../features/mentorship/ModalFacultyProjects";
 import Spinner from "./Spinner";
+import EmptyComponent from "./EmptyComponent";
 
 function MarksAwarded() {
   const [showModal, setShowModal] = useState("");
@@ -88,6 +89,14 @@ function MarksAwarded() {
               ))}
             </tbody>
           </table>
+          {projectsToDisplay?.length <= 0 && (
+            <EmptyComponent
+              msg={"❗No projects yet❗"}
+              isAbsolute={true}
+              isTable={false}
+              isMarks={true}
+            />
+          )}
           <Pagination
             numResultsToDisplay={numResultsToDisplay}
             projects={mentorProjects?.data}

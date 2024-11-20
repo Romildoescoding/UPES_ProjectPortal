@@ -11,7 +11,10 @@ export default function useRequestMembership() {
   const { mutate: requestMentorship, isPending } = useMutation({
     mutationFn: requestMentorshipApi,
     onError: (err) => {
-      toast.error("Failed to send Request");
+      toast.error("Request Failed");
+      if (err.message === "Faculty does not exist") {
+        toast("❗Incorrect Email Address❗");
+      }
       console.log(err);
     },
     onSuccess: (project) => {

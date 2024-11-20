@@ -1,4 +1,4 @@
-export function getFormattedDate() {
+export function getFormattedDate(date) {
   const months = [
     "January",
     "February",
@@ -14,7 +14,7 @@ export function getFormattedDate() {
     "December",
   ];
 
-  const currentDate = new Date();
+  const currentDate = date ? new Date(date) : new Date();
   const month = months[currentDate.getMonth()];
   const day = currentDate.getDate();
   const year = currentDate.getFullYear();

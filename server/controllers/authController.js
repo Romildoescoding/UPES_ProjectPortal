@@ -8,15 +8,25 @@ export async function loginStudent(req, res) {
   try {
     let { mail, password } = req.body;
     // const { email, password } = req.body;
+    console.log(mail, password);
     let { data: user, error } = await supabase
       .from("students")
       .select("*")
       .eq("mail", mail);
 
-    if (error) throw new Error("Error while fetching in supabase");
+    console.log(user);
+
+    if (error) {
+      console.log(error);
+      return res.status(401).json({
+        status: "fail",
+        message: "Error while fetching in supabase",
+        authenticated: false,
+      });
+    }
 
     if (!user.length)
-      res.status(404).json({
+      return res.status(404).json({
         status: "fail",
         message: "Invalid username or password",
         authenticated: false,
@@ -64,7 +74,16 @@ export async function loginFaculty(req, res) {
       .select("*")
       .eq("mail", mail);
 
-    if (error) throw new Error("Error while fetching in supabase");
+    console.log(user);
+
+    if (error) {
+      console.log(error);
+      return res.status(401).json({
+        status: "fail",
+        message: "Error while fetching in supabase",
+        authenticated: false,
+      });
+    }
 
     if (!user.length)
       res.status(404).json({
@@ -109,7 +128,7 @@ export async function setPasswords(req, res) {
   try {
     // Retrieve all students
     let { data: faculties, error } = await supabase
-      .from("faculty")
+      .from("students")
       .select("mail");
 
     if (error) {
@@ -131,13 +150,15 @@ export async function setPasswords(req, res) {
         alphas.slice(i % alphas.length, (i + 3) % alphas.length) +
         nums.slice(i % nums.length, i + (3 % nums.length));
 
+      console.log(faculty.mail, newPassword);
+
       // Hash the new password
       const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
 
       // Update the student's password in the database
       const { error: updateError } = await supabase
-        .from("faculty")
+        .from("students")
         .update({ password: hashedPassword })
         .eq("mail", faculty.mail);
 
@@ -511,5 +532,89 @@ export async function setPassword(req, res) {
   } catch (err) {
     console.error(err);
     res.status(500).json({ status: "error", message: "An error occurred" });
+  }
+}
+
+// Utility function to generate random passwords
+const generateRandomPassword = (length = 8) => {
+  const chars =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
+  let password = "";
+  for (let i = 0; i < length; i++) {
+    password += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return password;
+};
+
+// Function to send emails
+const sendPasswordEmail = async (mail, password) => {
+  const transporter = nodemailer.createTransport({
+    service: "gmail", // Use your email service
+    auth: {
+      user: process.env.EMAIL_USER, // Your email address
+      pass: process.env.EMAIL_PASS, // Your email password
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: mail,
+    subject: "Your Login Credentails",
+    html: `<p>You should reset your password.</p>
+          <p>But for now, Please use the password below to log in:</p>
+           <p><strong>${password}</strong></p>
+           <a href="${process.env.PROJECT_URL}/signin" style="background:#43fa75; padding:5px; color:white">Access the Project Portal</a>`,
+  };
+
+  await transporter.sendMail(mailOptions);
+};
+
+// Main function to send password reset emails
+export async function sendPassWordMail(req, res) {
+  try {
+    const { table } = req.params; // Either "student" or "faculty"
+
+    if (!["student", "faculty"].includes(table)) {
+      return res.status(400).json({ error: "Invalid user type" });
+    }
+
+    // Fetch all users from the specified table
+    const { data: users, error: fetchError } = await supabase
+      .from(table)
+      .select("id, mail");
+
+    if (fetchError) {
+      console.error(fetchError);
+      return res.status(500).json({ error: "Error fetching user data" });
+    }
+
+    // Process each user
+    for (const user of users) {
+      const randomPassword = generateRandomPassword(); // Generate a random password
+      const hashedPassword = await bcrypt.hash(randomPassword, 10); // Hash the password
+
+      // Update the user's password in Supabase
+      const { error: updateError } = await supabase
+        .from(table)
+        .update({ password: hashedPassword })
+        .eq("id", user.id);
+
+      if (updateError) {
+        console.error(`Error updating password for ${user.mail}:`, updateError);
+        continue;
+      }
+
+      // Send the password via email
+      await sendPasswordEmail(user.mail, randomPassword);
+    }
+
+    res
+      .status(200)
+      .json({ message: "Passwords updated and emails sent successfully" });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "An error occurred while processing the request" });
   }
 }

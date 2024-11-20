@@ -14,7 +14,8 @@ export default function useUpdateMembers() {
       //   const email = emailMatch ? emailMatch[2] : "the specified email";
       //   toast.error(`No record of ${email} exists.`);
       // }
-      else toast.error("Error while adding students");
+      else
+        toast.error("Error while adding students. Do check the mails entered.");
 
       console.log(err);
     },

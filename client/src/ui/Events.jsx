@@ -78,11 +78,18 @@ export default function Events({ selectedDate }) {
     if (isToday(selectedDate)) {
       return true; // Show all events if selectedDate is today
     }
-    const eventDate = new Date(event?.date);
+    // Normalize dates to exclude time components
+    const normalizeDate = (date) =>
+      new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+    const normalizedSelectedDate = normalizeDate(selectedDate);
+    const normalizedStartDate = normalizeDate(new Date(event?.startDate));
+    const normalizedEndDate = normalizeDate(new Date(event?.endDate));
+
+    // Check if the normalized selected date lies within the range of startDate and endDate
     return (
-      eventDate?.getDate() === selectedDate?.getDate() &&
-      eventDate?.getMonth() === selectedDate?.getMonth() &&
-      eventDate?.getFullYear() === selectedDate?.getFullYear()
+      normalizedSelectedDate >= normalizedStartDate &&
+      normalizedSelectedDate <= normalizedEndDate
     );
   });
 

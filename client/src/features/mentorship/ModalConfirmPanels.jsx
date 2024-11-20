@@ -82,7 +82,11 @@ function ModalConfirmPanels({ setShowModal }) {
         >
           Cancel
         </button>
-        <button className="logout-main" onClick={handleAssignRandomPanels}>
+        <button
+          className="logout-main"
+          onClick={handleAssignRandomPanels}
+          style={{ backgroundColor: "blueviolet" }}
+        >
           Confirm
         </button>
       </div>

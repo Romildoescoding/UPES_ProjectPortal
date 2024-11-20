@@ -102,9 +102,9 @@ function UpdatePanelGroup({ group, setShowModal, showModal }) {
       <button className="view-report mt" onClick={handleAssignRandomPanels}>
         Assign Random Panels
       </button>
-      <button className="view-report mt" onClick={handleAssignRandomPanels}>
+      {/* <button className="view-report mt" onClick={handleAssignRandomPanels}>
         Assign Previous Panels
-      </button>
+      </button> */}
     </div>
   );
 }

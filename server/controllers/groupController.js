@@ -199,7 +199,7 @@ export async function getMembersInfo(req, res) {
       members.map(async (member) => {
         const { data: studentData, error } = await supabase
           .from("students")
-          .select("name, mail, contact")
+          .select("name, mail, sap_id")
           .eq("mail", member)
           .single(); // Fetch single student data
 

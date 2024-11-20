@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import useDeleteEvent from "../events/useDeleteEvent";
 import Loader from "../../ui/Loader";
 import { useQueryClient } from "@tanstack/react-query";
+import { getFormattedDate } from "../../helpers/formatDate";
 
 function ModalEvent({ setShowModal, event }) {
   const queryClient = useQueryClient();
@@ -31,11 +32,15 @@ function ModalEvent({ setShowModal, event }) {
           </div>
           <div className="project-field">
             <h1>START DATE</h1>
-            <h4 className="project-field-h3">{event.startDate}</h4>
+            <h4 className="project-field-h3">
+              {getFormattedDate(event.startDate)}
+            </h4>
           </div>
           <div className="project-field">
             <h1>END DATE</h1>
-            <h4 className="project-field-h3">{event.endDate}</h4>
+            <h4 className="project-field-h3">
+              {getFormattedDate(event.endDate)}
+            </h4>
           </div>
           <div className="project-field">
             <h1>DESCRIPTION</h1>

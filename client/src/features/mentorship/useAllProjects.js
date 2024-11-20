@@ -5,7 +5,7 @@ export default function useAllProjects(faculty) {
   // const queryClient = useQueryClient();
   const { data, isFetching } = useQuery({
     queryFn: () => getAllProjects(faculty),
-    queryKey: ["all-groups"],
+    queryKey: faculty.isPanelNotNull ? ["all-groups-not-null"] : ["all-groups"],
   });
 
   console.log(data);

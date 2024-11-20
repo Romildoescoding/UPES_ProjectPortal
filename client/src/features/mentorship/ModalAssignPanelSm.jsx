@@ -14,10 +14,8 @@ function ModalAssignPanelSm({ setShowModal }) {
   const group = queryClient.getQueryData(["selected-group"]);
   const isUpdating = queryClient.getQueryData(["updating-panels"]);
   const { data, isFetching } = useProjectMembers({
-    group_name: group.group_name,
+    group_name: group?.group_name,
   });
-
-  // {group:{id:65,created_at:"2024-10-02T11:11:38.523672+00:00",group_name:"Pythons",leader:"500091913@stu.upes.ac.in",member1:"500091598@stu.upes.ac.in",member2:null,member3:null},data:[{name:"Muchukota Shiva",mail:"500091913@stu.upes.ac.in",contact:9953492776,position:"leader"},{name:"Vansh Bhardwaj",mail:"500091598@stu.upes.ac.in",contact:6284867815,position:"member"}]}}
 
   const groupDetails = data?.data;
   const members = data?.data;
@@ -103,11 +101,15 @@ function ModalAssignPanelSm({ setShowModal }) {
       >
         &times;
       </button>
-      <div className="import-students-div">
+      <div className="import-students-div" style={{ minHeight: "fit-content" }}>
         <h3>
           {group.title.length > 100 ? group.title.slice(0, 100) : group.title}
         </h3>
-        <div className="requests-div assign-panels-div">
+        <div
+          className="requests-div assign-panels-div"
+          style={{ minHeight: "fit-content" }}
+          // style={{ overflowY: "scroll" }}
+        >
           {/* <div className="modal-header"> */}
           <div className="project-field">
             <h1>Group name</h1>

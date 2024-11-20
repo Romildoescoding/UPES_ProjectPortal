@@ -27,6 +27,7 @@ function ModalAddStudents({ setShowModal }) {
     let remainingLen = 4 - group?.data?.length;
     console.log(remainingLen, 4 - remainingMembers.length);
     setRemainingMembers(Array.from({ length: remainingLen }, () => 0));
+    console.log(remainingLen);
   }, [group?.data?.length, remainingMembers.length]);
 
   // New useEffect hook to handle modal closing after submission is done
@@ -39,6 +40,7 @@ function ModalAddStudents({ setShowModal }) {
   function handleSubmit(e) {
     e.preventDefault();
 
+    console.log(members, remainingMembers);
     let membersToSubmit = members.filter((member) => member);
     // Check for duplicate emails
     const uniqueMembers = [...new Set(membersToSubmit)]; // Using Set to get unique values
@@ -102,6 +104,7 @@ function ModalAddStudents({ setShowModal }) {
                 placeholder="TEAM NAME"
                 value={group?.group?.group_name}
                 disabled={true}
+                style={{ cursor: "not-allowed" }}
               />
             </div>
             {remainingMembers.map((_, i) => (
@@ -114,7 +117,7 @@ function ModalAddStudents({ setShowModal }) {
               />
             ))}
             <button type="submit" className="view-report" disabled={isPending}>
-              {isPending ? "SENDING..." : "SEND"}
+              {isPending ? "ADDING..." : "ADD"}
             </button>
           </>
         )}

@@ -38,6 +38,8 @@ function ProjectDetails() {
             <EmptyComponent
               msg={"❗No project data. Upload Project Details❗"}
               isTable={false}
+              isAbsolute={true}
+              isMarks={true}
             />
           </span>
         ) : (

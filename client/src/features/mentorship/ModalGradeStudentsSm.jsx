@@ -25,9 +25,16 @@ function ModalGradeStudentsSm({ setShowModal }) {
 
   function handleUpdateMarks(e) {
     e.preventDefault();
+    console.log({
+      mail,
+      type,
+      grades,
+      eventId: mentorEvent,
+      eventId2: event.id,
+    });
     if (!grades) return toast.error("Grades must not be empty!");
     if (isMentorGrading)
-      updateGrades({ mail, type, grades, eventId: mentorEvent });
+      updateGrades({ mail, type, grades, eventId: mentorEvent.id });
     else updateGrades({ mail, type, grades, eventId: event.id });
     setGrades(0);
     setShowModal(isMentorGrading ? "grade-students-mentor" : "grade-students");
