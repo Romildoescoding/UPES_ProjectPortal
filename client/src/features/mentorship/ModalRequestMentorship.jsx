@@ -37,7 +37,7 @@ function ModalRequestMentorship({ setShowModal }) {
     }
 
     console.log(facultyMail, group);
-    requestMentorship({ faculty: facultyMail, group });
+    requestMentorship({ faculty: facultyMail.toLowerCase(), group });
     setFacultyMail("");
     setIsSubmitted(true);
   }

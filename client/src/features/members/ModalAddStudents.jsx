@@ -56,6 +56,8 @@ function ModalAddStudents({ setShowModal }) {
       return;
     }
 
+    membersToSubmit = membersToSubmit.map((mail) => mail.toLowerCase());
+
     const hasPreviousMembers = team?.data?.some((member) =>
       membersToSubmit.includes(member.mail)
     );

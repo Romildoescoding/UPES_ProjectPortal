@@ -25,12 +25,14 @@ function ModalGroupInitiation({ setShowModal }) {
       return toast.error("Invalid email");
     }
 
+    const lowercaseLeader = leader.toLowerCase();
+
     initializeGroup({
       group,
-      leader,
+      leader: lowercaseLeader,
     });
 
-    if (leader !== user?.user?.mail) {
+    if (lowercaseLeader !== user?.user?.mail) {
       console.log("LEADER IS NOT EQUAL TO THE USER");
       updateMembers({ group, member1: user?.user?.mail });
     }
