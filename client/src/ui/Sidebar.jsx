@@ -33,10 +33,6 @@ function Sidebar() {
   const isPanelMember = location.pathname === "/panel-members";
   const [showModal, setShowModal] = useState("");
 
-  // function handleAddMembers(id) {
-  //   setShowModal(id);
-  // }
-
   const { data: session, isLoading } = useUser();
   let role = session?.user?.role;
 
@@ -50,12 +46,6 @@ function Sidebar() {
     return;
 
   return (
-    // <ModalProvider.Provider
-    //   value={{
-    //     showModal,
-    //     setShowModal,
-    //   }}
-    // >
     <div className="sidebar">
       {/*---------MODAL WINDOW--------- */}
       {showModal === "add-students" && (

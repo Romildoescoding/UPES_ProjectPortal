@@ -10,7 +10,7 @@ export default function usePanelists() {
     onSuccess: (res) => {
       queryClient.refetchQueries(["null-panel-groups"]);
       toast.success("Successfully Set the Panel Members");
-      console.log(res);
+      // console.log(res);
     },
     onError: () => {
       toast.error("Error while Setting Panelists");

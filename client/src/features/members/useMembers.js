@@ -17,7 +17,7 @@ export default function useUpdateMembers() {
       else
         toast.error("Error while adding students. Do check the mails entered.");
 
-      console.log(err);
+      // console.log(err);
     },
     onSuccess: () => {
       toast.success("Member(s) added sucessfully");

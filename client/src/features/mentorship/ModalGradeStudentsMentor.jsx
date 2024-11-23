@@ -24,9 +24,6 @@ function ModalGradeStudentsMentor({ setShowModal }) {
   const [filteredGroups, setFilteredGroups] = useState([]);
   const [filterType, setFilterType] = useState(""); // New state for filtering type
 
-  console.log(mentorEventId);
-  console.log(filteredGroups);
-
   // Memoized panel groups to avoid recalculation on each render
   const panelGroups = useMemo(() => {
     if (!groups?.data) return [];

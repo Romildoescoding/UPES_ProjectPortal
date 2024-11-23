@@ -14,13 +14,13 @@ export default function useGroup() {
   const { mutate: initializeGroup, isPending } = useMutation({
     mutationFn: initializeGroupApi,
     onError: (err) => {
-      console.log(err);
+      // console.log(err);
       toast.error("Group Initiation Failed");
     },
     onSuccess: (team) => {
-      console.log("ONSUCESS");
+      // console.log("ONSUCESS");
       toast.success("Group Initiated Successfully");
-      console.log(team);
+      // console.log(team);
       // if (team.newGroup.leader !== user?.user?.mail) {
       //   updateMembers({
       //     group: team?.newGroup?.group_name,

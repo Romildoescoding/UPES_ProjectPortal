@@ -8,6 +8,6 @@ export default function usePanelGroups(panel) {
     queryKey: ["panel-groups"],
   });
 
-  console.log(data);
+  // console.log(data);
   return { data, isFetching };
 }

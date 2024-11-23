@@ -7,7 +7,7 @@ export default function useLogout() {
     mutationFn: logoutApi,
     onError: (err) => console.log(err),
     onSuccess: async () => {
-      console.log("LOGOUT SUCCESSFUL");
+      // console.log("LOGOUT SUCCESSFUL");
       localStorage.removeItem("token");
       queryClient.setQueryData(["user"], null);
       // setTimeout(() => queryClient.removeQueries(), 1000);

@@ -8,6 +8,6 @@ export default function useAllProjects(faculty) {
     queryKey: faculty.isPanelNotNull ? ["all-groups-not-null"] : ["all-groups"],
   });
 
-  console.log(data);
+  // console.log(data);
   return { data, isFetching };
 }

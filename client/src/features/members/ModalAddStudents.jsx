@@ -9,26 +9,35 @@ import useTeamInformation from "./useTeamInformation";
 import toast from "react-hot-toast";
 import Loader from "../../ui/Loader";
 import Spinner from "../../ui/Spinner";
+import useDisableRefetchOnFocusTemporarily from "../../hooks/useDisableRefetchOnFocusTemporarily";
 
 function ModalAddStudents({ setShowModal }) {
+  //Temporary disable refetch to fix the file upload glitch in this component mainly on chrome and ios browsers
+  useDisableRefetchOnFocusTemporarily();
   const queryClient = useQueryClient();
-  const [remainingMembers, setRemainingMembers] = useState([]);
+  const group = queryClient.getQueryData(["team"]);
+  const [remainingMembers, setRemainingMembers] = useState(
+    Array.from({ length: 4 - group?.data?.length }, () => 0)
+  );
   const [members, setMembers] = useState([]);
   const { updateMembers, isPending } = useMembers();
-  const group = queryClient.getQueryData(["team"]);
 
-  const { data, isFetching } = useUser();
+  const { data, isFetching, isLoading } = useUser();
   const user = data?.user;
 
-  const { data: team, isFetching: isFetching2 } = useTeamInformation({ user });
+  const {
+    data: team,
+    isFetching: isFetching2,
+    isLoading: isLoading2,
+  } = useTeamInformation({ user });
   const [isSubmitted, setIsSubmitted] = useState(false); // New state to track form submission
 
-  useEffect(() => {
-    let remainingLen = 4 - group?.data?.length;
-    console.log(remainingLen, 4 - remainingMembers.length);
-    setRemainingMembers(Array.from({ length: remainingLen }, () => 0));
-    console.log(remainingLen);
-  }, [group?.data?.length, remainingMembers.length]);
+  // useEffect(() => {
+  //   let remainingLen = 4 - group?.data?.length;
+  //   console.log(remainingLen, 4 - remainingMembers.length);
+  //   setRemainingMembers(Array.from({ length: remainingLen }, () => 0));
+  //   console.log(remainingLen);
+  // }, [group?.data?.length, remainingMembers.length]);
 
   // New useEffect hook to handle modal closing after submission is done
   useEffect(() => {
@@ -76,7 +85,7 @@ function ModalAddStudents({ setShowModal }) {
     setIsSubmitted(true);
   }
 
-  if (isFetching || isFetching2) return <Spinner />;
+  if (isLoading || isLoading2) return <Spinner />;
 
   return (
     <div className="add-students">
@@ -92,7 +101,7 @@ function ModalAddStudents({ setShowModal }) {
       <form className="add-students-form" onSubmit={handleSubmit}>
         {!team?.data?.length ? (
           <EmptyComponent msg={"❗Initiate a Group First❗"} size={30} />
-        ) : !remainingMembers.length ? (
+        ) : remainingMembers.length === 0 ? (
           <EmptyComponent msg={"❗Group is full❗"} size={30} />
         ) : (
           <>

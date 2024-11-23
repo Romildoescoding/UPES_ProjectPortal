@@ -33,10 +33,8 @@ function ModalGroupInitiation({ setShowModal }) {
     });
 
     if (lowercaseLeader !== user?.user?.mail) {
-      console.log("LEADER IS NOT EQUAL TO THE USER");
       updateMembers({ group, member1: user?.user?.mail });
     }
-    console.log("LEADER IS EQUAL TO THE USER");
 
     setShowModal("");
     setGroup("");

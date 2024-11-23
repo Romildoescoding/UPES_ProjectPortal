@@ -11,7 +11,7 @@ export default function useProject() {
   const { mutate: uploadProject, isPending } = useMutation({
     mutationFn: uploadProjectApi,
     onError: (err) => {
-      console.log(err.message);
+      // console.log(err.message);
       toast.error(err.message);
     },
     onSuccess: (team) => {

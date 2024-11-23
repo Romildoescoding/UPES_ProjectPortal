@@ -18,7 +18,6 @@ function ProjectDetails() {
   const { project, isFetching, isLoading } = useProjectByUser({
     name: user,
   });
-  console.log(project);
   const {
     title,
     group_name,
@@ -36,10 +35,16 @@ function ProjectDetails() {
         {!title ? (
           <span style={{ color: "black !important" }}>
             <EmptyComponent
-              msg={"❗No project data. Upload Project Details❗"}
+              msg={
+                <>
+                  <span>❗No project data.</span>
+                  <span>Upload Project Details❗</span>
+                </>
+              }
               isTable={false}
               isAbsolute={true}
               isMarks={true}
+              isNotWrap={true}
             />
           </span>
         ) : (

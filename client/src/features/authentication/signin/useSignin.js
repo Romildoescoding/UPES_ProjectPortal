@@ -8,15 +8,15 @@ export default function useSignin() {
   const { mutate: signin, isPending } = useMutation({
     mutationFn: signInApi,
     onError: (err) => {
-      console.log("Error during Signin :==== ", err.message);
+      // console.log("Error during Signin :==== ", err.message);
     },
     onSuccess: (user) => {
       console.log(user);
       if (user.user.authenticated) {
-        console.log("USER AUTHENTICATED");
+        // console.log("USER AUTHENTICATED");
         queryClient.setQueryData(["user"], user);
       } else {
-        console.log("ACCESS DENIED!");
+        // console.log("ACCESS DENIED!");
       }
     },
   });

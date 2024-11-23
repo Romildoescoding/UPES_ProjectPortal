@@ -10,7 +10,6 @@ import ErrorBoundary from "../pages/ErrorBoundary";
 // const ContextProvider = createContext();
 function AppLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  // const [confirm, setConfirm] = useState(true);
 
   useEffect(() => {
     const bodyWidth = document.body.getBoundingClientRect().width;

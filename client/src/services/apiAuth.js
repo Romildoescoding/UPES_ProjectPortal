@@ -23,7 +23,7 @@ export async function signIn({ email, password }) {
     }
     return data;
   } catch (err) {
-    console.log(err.message);
+    // console.log(err.message);
   }
 }
 
@@ -37,7 +37,7 @@ export async function getUser() {
     },
   });
   const data = await res.json();
-  console.log(data);
+  // console.log(data);
   return data;
 }
 
@@ -47,7 +47,7 @@ export async function logout() {
     credentials: "include",
   });
   const data = await res.json();
-  console.log(data);
+  // console.log(data);
   return data;
 }
 
@@ -65,7 +65,7 @@ export async function resetPassword({ email, password, token }) {
     const data = await res.json();
     return data;
   } catch (err) {
-    console.log(err.message);
+    // console.log(err.message);
     throw new Error(err.message);
   }
 }
@@ -80,10 +80,10 @@ export async function resetPasswordConfirm({ mail }) {
     });
     if (!res.ok) throw new Error("Error while requesting password reset");
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (err) {
-    console.log(err.message);
+    // console.log(err.message);
     throw new Error(err.message);
   }
 }

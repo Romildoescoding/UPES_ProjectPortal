@@ -6,7 +6,6 @@ import { useQueryClient } from "@tanstack/react-query";
 function ResetPasswordConfirmForm({ setShowModal, setResetPassword }) {
   const queryClient = useQueryClient();
   const [email, setEmail] = useState("");
-  //   const navigate = useNavigate();
   const { resetPasswordConfirm, isPending } = useResetPasswordConfirm();
   const mailRequested = queryClient.getQueryData(["mail-requested"]) || false;
 
@@ -23,7 +22,6 @@ function ResetPasswordConfirmForm({ setShowModal, setResetPassword }) {
     if (!email) {
       return toast.error("Email must not be empty");
     }
-    console.log("Requested to:-->" + email);
     resetPasswordConfirm({ mail: email.toLowerCase() });
   }
 
@@ -35,6 +33,8 @@ function ResetPasswordConfirmForm({ setShowModal, setResetPassword }) {
           style={{ left: "-15px", top: "-50px" }}
           onClick={(e) => {
             e.preventDefault();
+            //If it is required to actually, reset the password sent everytime here,
+            // set mailRequested to false
             setResetPassword("");
           }}
         >

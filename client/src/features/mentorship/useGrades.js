@@ -8,6 +8,6 @@ export default function useGrades(mail) {
     queryKey: ["grades"],
   });
 
-  console.log(data);
+  // console.log(data);
   return { data, isFetching };
 }

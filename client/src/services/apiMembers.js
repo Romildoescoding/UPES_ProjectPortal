@@ -22,7 +22,7 @@ export async function initializeGroup(group) {
 
 //Request Mentorship from the faculty
 export async function requestMentorship(faculty) {
-  console.log(faculty);
+  // console.log(faculty);
   try {
     const res = await fetch(`${serverPort}/api/v1/projects`, {
       method: "PATCH",
@@ -33,7 +33,7 @@ export async function requestMentorship(faculty) {
     if (res.status !== 200) throw new Error(data.message);
     return data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     throw new Error(err.message);
   }
 }
@@ -58,7 +58,7 @@ export async function getTeam({ user, group_name }) {
     // console.log(data);
     return data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 }
 
@@ -72,12 +72,12 @@ export async function getGroupDetails(group) {
     // console.log(data);
     return data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 }
 
 export async function getPanelGroups(panel) {
-  console.log(panel);
+  // console.log(panel);
   try {
     const res = await fetch(`${serverPort}/api/v1/projects/group`, {
       method: "PUT",
@@ -87,7 +87,7 @@ export async function getPanelGroups(panel) {
     const data = res.json();
     return data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 }
 
@@ -103,13 +103,13 @@ export async function getAllProjects({ mail, isPanelNotNull = false }) {
     const data = res.json();
     return data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 }
 
 export async function updateGrades(updateData) {
   //DATA HAS TO BE LIKE mail, grades, eventId and type
-  console.log(updateData);
+  // console.log(updateData);
   try {
     const res = await fetch(`${serverPort}/api/v1/projects/group`, {
       method: "PATCH",
@@ -119,13 +119,14 @@ export async function updateGrades(updateData) {
     const data = res.json();
     return data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    throw new Error(err);
   }
 }
 
 //UPDATING...
 export async function updateMembers(group) {
-  console.log(group);
+  // console.log(group);
   // try {
   const res = await fetch(`${serverPort}/api/v1/groups`, {
     method: "PATCH",
@@ -134,7 +135,7 @@ export async function updateMembers(group) {
   });
   const data = await res.json();
   if (res.status !== 200) throw new Error(data.message);
-  console.log(data);
+  // console.log(data);
   return data;
   // } catch (err) {
   // console.log(err);
@@ -143,7 +144,6 @@ export async function updateMembers(group) {
 }
 
 export async function getProjectByGroup(group_name) {
-  console.log(group_name);
   try {
     const res = await fetch(`${serverPort}/api/v1/projects/group`, {
       method: "POST",
@@ -153,12 +153,12 @@ export async function getProjectByGroup(group_name) {
     const data = res.json();
     return data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 }
 
 export async function getProjectByUser(user) {
-  console.log(user);
+  // console.log(user);
   // name: user,
   try {
     const res = await fetch(
@@ -170,7 +170,7 @@ export async function getProjectByUser(user) {
     const data = res.json();
     return data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 }
 
@@ -182,10 +182,10 @@ export async function getRequests({
   mail,
 }) {
   try {
-    console.log(name, isMentor, isMentorAccepted);
+    // console.log(name, isMentor, isMentorAccepted);
     const isMentorAcceptedParam = isMentorAccepted === "true" ? true : false;
 
-    console.log(isMentorAcceptedParam);
+    // console.log(isMentorAcceptedParam);
     // let apiEndPoint;
     // if(isMentor){
     //   apiEndPoint = `${serverPort}/api/v1/projects?`
@@ -200,7 +200,7 @@ export async function getRequests({
     const data = await res.json();
     return data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 }
 
@@ -215,7 +215,8 @@ export async function handleRequests(request) {
     const data = await res.json();
     return data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    throw new Error(err);
   }
 }
 
@@ -271,7 +272,7 @@ export async function uploadProject(formData) {
         report: reportBase64, // Send the base64 encoded file
       };
 
-      console.log(payload);
+      // console.log(payload);
     }
 
     const res = await fetch(`${serverPort}/api/v1/projects`, {
@@ -297,12 +298,12 @@ export async function updateProject({ formData, oldFilePath }) {
   const projectType = formData.get("type");
   const report = formData.get("report");
   const fileType = report.type;
-  console.log(fileType);
-  console.log({ title, technologies, projectType, group_name, report });
+  // console.log(fileType);
+  // console.log({ title, technologies, projectType, group_name, report });
 
   try {
     const fileType = report?.type;
-    console.log(fileType);
+    // console.log(fileType);
     if (
       fileType !==
       "application/vnd.openxmlformats-officedocument.presentationml.presentation" // For .pptx
@@ -321,7 +322,7 @@ export async function updateProject({ formData, oldFilePath }) {
       report: reportBase64, // Send the base64 encoded file
     };
 
-    console.log(payload);
+    // console.log(payload);
 
     const res = await fetch(`${serverPort}/api/v1/projects`, {
       method: "POST",
@@ -334,7 +335,7 @@ export async function updateProject({ formData, oldFilePath }) {
     const data = await res.json();
     return data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     throw new Error(err);
   }
 }
@@ -349,7 +350,8 @@ export async function getAllFaculties() {
     // console.log(data);
     return data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    throw new Error(err);
   }
 }
 
@@ -364,7 +366,8 @@ export async function setPanelMembers(updatedData) {
     const data = await res.json();
     return data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
+    throw new Error(err);
   }
 }
 
@@ -415,7 +418,7 @@ export async function getEvents() {
 
   //THIS LINE IS NECESSARY FOR ONERROR
   if (res.status !== 200) throw new Error(data.message);
-  console.log(data);
+  // console.log(data);
   return data;
 }
 
@@ -427,7 +430,7 @@ export async function getRemoteVariables({ branch, type, mail }) {
   const data = await res.json();
 
   //THIS LINE IS NECESSARY FOR ONERROR
-  console.log(data);
+  // console.log(data);
   return data;
 }
 
@@ -453,7 +456,7 @@ export async function getGrades(mail) {
   const data = await res.json();
 
   //THIS LINE IS NECESSARY FOR ONERROR
-  console.log(data);
+  // console.log(data);
   return data;
 }
 
@@ -466,6 +469,6 @@ export async function getFacultyBranch(mail) {
   const data = await res.json();
 
   //THIS LINE IS NECESSARY FOR ONERROR
-  console.log(data);
+  // console.log(data);
   return data;
 }

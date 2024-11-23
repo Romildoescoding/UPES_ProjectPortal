@@ -14,7 +14,6 @@ function ModalGradeStudents({ setShowModal }) {
     panel: user.name,
   });
 
-  console.log("MODAL-GRADE-STUDENTS");
   let {
     data: events,
     isLoading,
@@ -22,15 +21,11 @@ function ModalGradeStudents({ setShowModal }) {
     isError,
   } = useEvents();
 
-  // events.data = events.data.filter((event) => event.name === "Mentor Grading");
-
-  // console.log(panelEvents);
-
   const filterOptions = queryClient.getQueryData(["filter-options"]);
 
   const filterType1 = filterOptions?.filterType || "";
   const event1 = filterOptions?.event || "";
-  console.log(filterType1, event1);
+
   const [filteredEvents, setFilteredEvents] = useState(events);
   const [event, setEvent] = useState(event1);
 
@@ -53,7 +48,7 @@ function ModalGradeStudents({ setShowModal }) {
       // Filter out any null entries (in case any members are null)
       return members.filter((member) => member !== null);
     });
-  }, [groups?.data]); // Only recalculate when groups.data changes
+  }, [groups?.data]);
 
   // Update filteredGroups based on mail input and project type filter
   useEffect(() => {
@@ -123,10 +118,8 @@ function ModalGradeStudents({ setShowModal }) {
   }
 
   useEffect(() => {
-    console.log(filterType, events.data.length);
     if (filterType === "")
       setFilteredEvents(() => {
-        console.log(events);
         return events;
       });
   }, [events, filterType]);
@@ -185,7 +178,7 @@ function ModalGradeStudents({ setShowModal }) {
               <h4>CHOOSE EVENT TO GRADE FOR</h4>
             ) : (
               <h4>
-                NO EVENTS SCHEDUELED FOR {filterType.toUpperCase()} PROJECTS
+                NO EVENTS SCHEDULED FOR {filterType.toUpperCase()} PROJECTS
               </h4>
             )}
             {filteredEvents?.data?.map((ev, i) => (

@@ -29,6 +29,7 @@ function ProtectedRoute({ children }) {
   }, [isLoading, user, location, navigate, queryClient]);
 
   if (isLoading) return <Loader />;
+  //Or maybe do navigate("/signin") directly i guess..
   if (location.pathname === "/") return <DoesNotExist />;
 
   return <>{children}</>;

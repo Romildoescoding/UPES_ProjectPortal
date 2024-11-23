@@ -15,14 +15,7 @@ function ModalImportStudents({ setShowModal }) {
     isMentorAccepted: "false",
   });
 
-  console.log({
-    name,
-    isMentor: true,
-    isMentorAccepted: "false",
-  });
-
   //IF isFetching
-  console.log(isFetching || isFetching2);
   if (isFetching || isFetching2) return <Spinner />;
   return (
     <div className="add-students">

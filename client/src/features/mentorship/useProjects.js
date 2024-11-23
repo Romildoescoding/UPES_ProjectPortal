@@ -8,6 +8,6 @@ export default function useProjects(faculty) {
     queryKey: ["projects"],
   });
 
-  console.log(data);
+  // console.log(data);
   return { data, isLoading, isFetching };
 }

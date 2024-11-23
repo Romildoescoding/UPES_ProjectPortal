@@ -16,7 +16,6 @@ function ModalAssignPanels({ setShowModal }) {
     mail: user?.user?.mail,
   });
   const nullPanelGroups = groups?.data;
-  console.log(nullPanelGroups);
 
   if (isFetching) return <Spinner />;
   return (

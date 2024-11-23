@@ -5,11 +5,13 @@ function EmptyComponent({
   isTable,
   isAbsolute,
   isMarks = false,
+  isNotWrap = false,
 }) {
   return isTable ? (
     <tr
       className="empty-comp"
       style={{
+        color: "#333",
         backgroundColor: color || "transparent",
         fontSize: size || 16,
       }}
@@ -20,6 +22,9 @@ function EmptyComponent({
     <div
       className="empty-comp"
       style={{
+        textWrap: isNotWrap ? "wrap" : "nowrap",
+        width: isNotWrap ? "100%" : "unset",
+        color: "#555",
         backgroundColor: color || "transparent",
         fontSize: size || 16,
         position: isAbsolute ? "absolute" : "static",
@@ -28,7 +33,7 @@ function EmptyComponent({
         transform: isMarks ? "translate(-50%,-50%)" : "unset",
       }}
     >
-      <span>{msg}</span>
+      {isNotWrap ? <>{msg}</> : <span>{msg}</span>}
     </div>
   );
 }

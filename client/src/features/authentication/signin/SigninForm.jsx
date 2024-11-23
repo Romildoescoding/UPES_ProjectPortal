@@ -46,10 +46,7 @@ function SigninForm({ setShowModal, setResetPassword }) {
             navigate("/student");
           }
           if (user.user.role === "faculty") {
-            console.log("ROLE OPENED");
             setShowModal("select-role");
-          } else {
-            console.log("ROLE is ", user.user.role);
           }
         },
         onError: () => {

@@ -8,6 +8,6 @@ export default function useRequests(faculty) {
     queryKey: ["requests"],
   });
 
-  console.log(data);
+  // console.log(data);
   return { data, isFetching };
 }

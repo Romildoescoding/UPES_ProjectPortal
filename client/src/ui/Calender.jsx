@@ -14,8 +14,6 @@ function Calender({ selectedDate, setSelectedDate }) {
     [setSelectedDate]
   );
 
-  useEffect(() => console.log(selectedDate), [selectedDate]);
-
   return (
     <div className="calender">
       <header>

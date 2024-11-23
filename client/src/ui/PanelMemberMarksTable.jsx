@@ -12,11 +12,11 @@ import EmptyComponent from "./EmptyComponent";
 
 function PanelMemberMarksTable({ mentorshipRequests }) {
   const [showModal, setShowModal] = useState("");
-  console.log(showModal);
+
   const [projectForModal, setProjectForModal] = useState("");
   const { data: user, isLoading } = useUser();
   const name = user?.user?.name;
-  console.log(name);
+
   let {
     data: mentorProjects,
     isLoading2,
@@ -24,8 +24,6 @@ function PanelMemberMarksTable({ mentorshipRequests }) {
   } = useProjects({
     name,
   });
-
-  console.log(mentorProjects, name);
 
   const [numResultsToDisplay, setNumResultsToDisplay] = useState(5);
   const [projectsToDisplay, setProjectsToDisplay] = useState(

@@ -18,7 +18,6 @@ function ModalUpdatePanels({ setShowModal }) {
     isPanelNotNull: true,
   });
   const allGroups = groups?.data;
-  console.log(allGroups);
 
   if (isFetching) return <Spinner />;
   return (

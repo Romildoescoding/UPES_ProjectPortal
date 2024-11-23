@@ -10,8 +10,6 @@ function PasswordReset() {
   const [showModal, setShowModal] = useState("");
   //   http://${process.env.PROJECT_URL}/reset-password/${token}`;
   const { token } = useParams();
-  console.log(token);
-
   return (
     <main>
       <Header />

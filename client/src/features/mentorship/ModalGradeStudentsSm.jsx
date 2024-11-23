@@ -17,7 +17,6 @@ function ModalGradeStudentsSm({ setShowModal }) {
   const mentorEvent = events?.data.find(
     (event) => event?.name === "Mentor Grading" && event?.type === type
   );
-  console.log(mentorEvent);
 
   //THE OPTION TO SET THE MENTOR GRADING PRCOCESS IS BY SCHEUDLING GIVE AC THE OPTION TO SCHEUDLE EVENT OF MENOTR GRADING
   const isMentorGrading = queryClient.getQueryData(["is-mentor-grading"]);
@@ -25,13 +24,7 @@ function ModalGradeStudentsSm({ setShowModal }) {
 
   function handleUpdateMarks(e) {
     e.preventDefault();
-    console.log({
-      mail,
-      type,
-      grades,
-      eventId: mentorEvent,
-      eventId2: event.id,
-    });
+
     if (!grades) return toast.error("Grades must not be empty!");
     if (isMentorGrading)
       updateGrades({ mail, type, grades, eventId: mentorEvent.id });

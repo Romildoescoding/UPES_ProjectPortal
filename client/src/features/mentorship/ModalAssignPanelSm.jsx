@@ -20,7 +20,6 @@ function ModalAssignPanelSm({ setShowModal }) {
   const groupDetails = data?.data;
   const members = data?.data;
 
-  console.log(data?.data?.[0]);
   const { data: facultiesData, isFetching: isFetching2 } = useAllFaculties();
 
   // Memoize the faculties list to avoid unnecessary recalculations
@@ -57,8 +56,6 @@ function ModalAssignPanelSm({ setShowModal }) {
     }
     const mail1 = faculties.find((faculty) => faculty.name === panel1)?.mail;
     const mail2 = faculties.find((faculty) => faculty.name === panel2)?.mail;
-
-    console.log(mail1, mail2, group.group_name);
 
     setPanelMembers({
       panelists: [mail1, mail2],

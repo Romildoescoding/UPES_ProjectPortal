@@ -8,6 +8,6 @@ export default function useAllFaculties() {
     queryKey: ["faculties"],
   });
 
-  console.log(data);
+  // console.log(data);
   return { data, isFetching };
 }

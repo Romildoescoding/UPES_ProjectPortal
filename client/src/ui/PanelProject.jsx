@@ -1,7 +1,6 @@
 import PdfLogo from "../../public/svg/PdfLogo";
 
 function PanelProject({ setShowModal, setProjectForModal, project }) {
-  console.log(project);
   const { group_name, title, technologies } = project;
   return (
     <tr

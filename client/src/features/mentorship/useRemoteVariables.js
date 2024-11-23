@@ -7,6 +7,6 @@ export default function useRemoteVariables(dataObj) {
     queryKey: ["remote-variables"],
   });
 
-  console.log(data);
+  // console.log(data);
   return { data, isFetching };
 }

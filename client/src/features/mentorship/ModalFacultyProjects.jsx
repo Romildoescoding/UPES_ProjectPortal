@@ -10,7 +10,6 @@ function ModalFacultyProjects({ setShowModal, projectForModal }) {
     group_name: projectForModal.group_name,
   });
   const group = data?.data;
-  console.log(group);
   return (
     <div className="add-students">
       <button

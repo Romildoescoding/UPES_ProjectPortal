@@ -10,7 +10,7 @@ function ModalConfirmToggleMarks({ setShowModal }) {
   const [variable, setVariable] = useState("");
   const { data: variables, isFetching } = useRemoteVariables({ mail });
   const { toggleRemoteVariables, isPending } = useToggleRemoteVariables();
-  console.log(variables?.variables?.[0]?.["variable-name"]);
+
   const visibility = variables?.variables?.[0]?.["value"] || "false";
   const variableName = variables?.variables?.[0]?.["variable-name"] || "";
 

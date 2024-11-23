@@ -8,6 +8,6 @@ export default function useNullPanelProjects(faculty) {
     queryKey: ["null-panel-groups"],
   });
 
-  console.log(data);
+  // console.log(data);
   return { data, isFetching };
 }

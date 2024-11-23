@@ -10,11 +10,11 @@ export default function useUpdateGrades() {
     onSuccess: (res) => {
       toast.success("Successfully updated the grades");
       queryClient.refetchQueries(["panel-groups"]);
-      console.log(res);
+      // console.log(res);
     },
     onError: (err) => {
       toast.error("Error while updating the grades");
-      console.log(err);
+      // console.log(err);
     },
   });
 

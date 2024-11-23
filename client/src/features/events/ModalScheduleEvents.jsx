@@ -19,8 +19,7 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
   //   branch: branches[0]?.branch,
   //   type: branches[0]?.type,
   // };
-  console.log(defaultBranch);
-  console.log(event);
+
   const queryClient = useQueryClient();
   const isEditing = queryClient.getQueryData(["editing-event"]) || false;
   //add the branch attribute toi the events table
@@ -43,9 +42,9 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
   };
 
   //BUG TEST-1
-  useEffect(() => {
-    console.log(selectedBranch);
-  }, [selectedBranch]);
+  // useEffect(() => {
+  //   console.log(selectedBranch);
+  // }, [selectedBranch]);
 
   useEffect(() => {
     if (filterType === "mentor" && !eventName) {
@@ -55,14 +54,6 @@ function ModalScheduleEvents({ setShowModal, event = {} }) {
 
   const handleSubmitEvent = (e) => {
     e.preventDefault();
-    console.log(
-      eventStartDate,
-      eventEndDate,
-      eventName,
-      eventDescription,
-      selectedBranch.type,
-      selectedBranch.branch
-    );
     if (
       !eventStartDate ||
       !eventEndDate ||

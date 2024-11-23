@@ -36,17 +36,11 @@ function ModalRequestMentorship({ setShowModal }) {
       return toast.error("Invalid Mail");
     }
 
-    console.log(facultyMail, group);
     requestMentorship({ faculty: facultyMail.toLowerCase(), group });
     setFacultyMail("");
     setIsSubmitted(true);
   }
 
-  console.log(
-    !team?.data?.length,
-    !project?.data?.length,
-    project?.data?.[0]?.mentor && project?.data?.[0]?.is_mentor_accepted
-  );
   return (
     <div className="add-students">
       <button
@@ -72,7 +66,14 @@ function ModalRequestMentorship({ setShowModal }) {
               msg="❗Upload Project Details First❗"
               size={24}
             />
-            <div className="full-length-input safe-note">
+            <div
+              className="full-length-input safe-note"
+              style={{
+                color: "white",
+                background: "blueviolet",
+                border: "none",
+              }}
+            >
               You can always change them later
             </div>
           </>

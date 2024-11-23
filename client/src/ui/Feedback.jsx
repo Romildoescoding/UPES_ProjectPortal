@@ -26,7 +26,6 @@ function Feedback() {
         return "Unknown Project Type";
     }
   }, [user?.user?.semester]);
-  console.log(branch, type);
 
   const { data: variables, isFetching } = useRemoteVariables({
     branch,
@@ -34,7 +33,6 @@ function Feedback() {
   });
 
   const visibility = variables?.variables?.[0]?.["value"] || "false";
-  console.log(visibility);
 
   const { data: grades, isFetching: isFetching2 } = useGrades({
     mail,
@@ -62,7 +60,6 @@ function Feedback() {
     });
   }, [grades?.data, events?.data]);
 
-  console.log(gradesInformation);
   if (isFetching || isFetching2) return <Spinner />;
   return (
     <div className="feedback">

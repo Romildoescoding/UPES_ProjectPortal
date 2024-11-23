@@ -76,6 +76,16 @@ function ModalUploadProject({ setShowModal }) {
     // if (project?.data?.length && !report)
     //   return toast.error("Report is required");
 
+    if (report) {
+      const fileType = report?.type;
+      if (
+        fileType !==
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation" // For .pptx
+      ) {
+        return toast.error("Only PPTX files are allowed");
+      }
+    }
+
     // Create FormData object to hold the file and other form data
     const formData = new FormData();
     formData.append("title", title);
@@ -102,6 +112,14 @@ function ModalUploadProject({ setShowModal }) {
       return;
     }
 
+    const fileType = report?.type;
+    if (
+      fileType !==
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation" // For .pptx
+    ) {
+      return toast.error("Only PPTX files are allowed");
+    }
+
     // Create FormData object to hold the file and other form data
     const formData = new FormData();
     formData.append("title", title);
@@ -112,7 +130,6 @@ function ModalUploadProject({ setShowModal }) {
     formData.append("branch", user.program);
 
     // Call the uploadProject function with FormData
-    console.log(title, technologies, groupData?.group?.group_name, report);
     updateProject({ formData, oldFilePath: project?.data?.[0]?.report });
 
     // setShowModal("");
@@ -122,12 +139,6 @@ function ModalUploadProject({ setShowModal }) {
     setReport(null);
   }
 
-  console.log(
-    isFetching,
-    isFetching2,
-    isPendingProjectUpdate,
-    isPendingProjectUpload
-  );
   if (isPendingProjectUpdate || isPendingProjectUpload) return <Spinner />;
 
   return (
@@ -196,11 +207,36 @@ function ModalUploadProject({ setShowModal }) {
                 SELECT REPORT
               </label>
               {report && (
-                <div className="selected-report-name">{report.name}</div>
+                <div className="selected-report-name" style={{ padding: 0 }}>
+                  <div
+                    className="selected-report-name"
+                    style={{
+                      display: "block",
+                      width: "unset",
+                      border: "none",
+                      marginTop: 0,
+                    }}
+                  >
+                    {report.name}
+                  </div>
+                </div>
               )}
               {!project?.data?.length && (
-                <div className="selected-report-name">
-                  Report is optional when first uploading the project details
+                <div className="selected-report-name" style={{ padding: 0 }}>
+                  <div
+                    className="selected-report-name"
+                    style={{
+                      display: "block",
+                      width: "unset",
+                      border: "none",
+                      marginTop: 0,
+                      whiteSpace: "wrap",
+                      textOverflow: "unset",
+                      textAlign: "center",
+                    }}
+                  >
+                    Report is optional when first uploading the project details
+                  </div>
                 </div>
               )}
             </div>

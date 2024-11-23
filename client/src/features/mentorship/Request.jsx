@@ -2,17 +2,6 @@ import { useState } from "react";
 import useHandleRequests from "./useHandleRequests";
 
 function Request({ request }) {
-  //   {
-  //     "title": "Uptimer: Your Web Monitor",
-  //     "group_name": "Alphaites",
-  //     "id": 4,
-  //     "created_at": "2024-09-07T06:02:05.971323+00:00",
-  //     "technologies": "HTML, CSS, JS, JAVA, React, Tailwind CSS, Node.js, Express.js, MongoDB",
-  //     "mentor": "Pankaj Badoni",
-  //     "panel_member1": "Keshav Kaushik",
-  //     "panel_member2": "Pankaj Badoni",
-  //     "is_mentor_accepted": false
-  // }
   const { id, project, group_name, technologies, title } = request;
   const { handleRequest, isPending } = useHandleRequests();
 

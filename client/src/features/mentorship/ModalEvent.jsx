@@ -28,24 +28,24 @@ function ModalEvent({ setShowModal, event }) {
         <div className="requests-div assign-panels-div events-modal">
           <div className="project-field">
             <h1>EVENT</h1>
-            <h4 className="project-field-h3">{event.name}</h4>
+            <h4 className="project-field-h3 text-none">{event.name}</h4>
           </div>
           <div className="project-field">
             <h1>START DATE</h1>
-            <h4 className="project-field-h3">
+            <h4 className="project-field-h3 text-none">
               {getFormattedDate(event.startDate)}
             </h4>
           </div>
           <div className="project-field">
             <h1>END DATE</h1>
-            <h4 className="project-field-h3">
+            <h4 className="project-field-h3 text-none">
               {getFormattedDate(event.endDate)}
             </h4>
           </div>
           <div className="project-field">
             <h1>DESCRIPTION</h1>
             <h4
-              className="project-field-h3"
+              className="project-field-h3 text-none"
               style={{ minWidth: "unset !important" }}
             >
               {event.description}
@@ -53,11 +53,11 @@ function ModalEvent({ setShowModal, event }) {
           </div>
           <div className="project-field">
             <h1>BRANCH</h1>
-            <h4 className="project-field-h3">{event.branch}</h4>
+            <h4 className="project-field-h3 text-none">{event.branch}</h4>
           </div>
           <div className="project-field">
             <h1>EVENT TYPE</h1>
-            <h4 className="project-field-h3">{event.type}</h4>
+            <h4 className="project-field-h3 text-none">{event.type}</h4>
           </div>
           {location.pathname === "/activity-coordinator" && (
             <div className="logout-btns">
