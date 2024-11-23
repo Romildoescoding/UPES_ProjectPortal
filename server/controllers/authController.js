@@ -68,6 +68,7 @@ export async function loginStudent(req, res) {
 export async function loginFaculty(req, res) {
   try {
     let { mail, password } = req.body;
+    console.log(req.body);
     // const { email, password } = req.body;
     let { data: user, error } = await supabase
       .from("faculty")
@@ -86,7 +87,7 @@ export async function loginFaculty(req, res) {
     }
 
     if (!user.length)
-      res.status(404).json({
+      return res.status(404).json({
         status: "fail",
         message: "Invalid username or password",
         authenticated: false,
