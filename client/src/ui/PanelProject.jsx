@@ -1,12 +1,18 @@
 import PdfLogo from "../../public/svg/PdfLogo";
 
-function PanelProject({ setShowModal, setProjectForModal, project }) {
+function PanelProject({
+  setShowModal,
+  setNavigateBack,
+  setProjectForModal,
+  project,
+}) {
   const { group_name, title, technologies } = project;
   return (
     <tr
       onClick={() => {
         setProjectForModal(project);
-        setShowModal(true);
+        setNavigateBack(false);
+        setShowModal("faculty-project-details");
       }}
     >
       <td>

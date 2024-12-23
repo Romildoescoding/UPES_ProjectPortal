@@ -8,10 +8,12 @@ import Modal from "./Modal";
 import ModalFacultyProjects from "../features/mentorship/ModalFacultyProjects";
 import Spinner from "./Spinner";
 import EmptyComponent from "./EmptyComponent";
+import ModalExpandProjects from "../features/mentorship/ModalExpandProjects";
 
 function MarksAwarded() {
   const [showModal, setShowModal] = useState("");
   const [projectForModal, setProjectForModal] = useState("");
+  const [navigateBack, setNavigateBack] = useState(false);
   const { data: user, isLoading } = useUser();
   const name = user?.user?.name;
 
@@ -64,6 +66,11 @@ function MarksAwarded() {
         height={35}
         isHeading={true}
         isCentered={true}
+        isExpandOption={true}
+        handleClick={() => {
+          setNavigateBack(true);
+          setShowModal("stu-projects-modal");
+        }}
       />
       {isFetching ? (
         <Spinner />
@@ -75,12 +82,12 @@ function MarksAwarded() {
                 <th>Group Name</th>
                 <th>Title</th>
                 <th>Technologies Used</th>
-                {/* <th>Marks awarded</th> */}
               </tr>
             </thead>
             <tbody>
               {projectsToDisplay?.map((project, index) => (
                 <MentorProjects
+                  setNavigateBack={setNavigateBack}
                   key={index}
                   project={project}
                   setShowModal={setShowModal}
@@ -107,8 +114,20 @@ function MarksAwarded() {
       {showModal === "faculty-project-details" && (
         <Modal setShowModal={setShowModal}>
           <ModalFacultyProjects
+            navigateBack={navigateBack}
+            showModal={showModal}
             setShowModal={setShowModal}
             projectForModal={projectForModal}
+          />
+        </Modal>
+      )}
+      {showModal === "stu-projects-modal" && (
+        <Modal setShowModal={setShowModal}>
+          <ModalExpandProjects
+            setNavigateBack={setNavigateBack}
+            mentorProjects={mentorProjects}
+            setShowModal={setShowModal}
+            setProjectForModal={setProjectForModal}
           />
         </Modal>
       )}

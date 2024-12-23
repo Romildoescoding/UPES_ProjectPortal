@@ -5,7 +5,12 @@ import Member from "../../ui/Member";
 import Spinner from "../../ui/Spinner";
 import useProjectMembers from "./useProjectMembers";
 
-function ModalFacultyProjects({ setShowModal, projectForModal }) {
+function ModalFacultyProjects({
+  showModal,
+  setShowModal,
+  projectForModal,
+  navigateBack,
+}) {
   const { data, isFetching } = useProjectMembers({
     group_name: projectForModal.group_name,
   });
@@ -16,7 +21,8 @@ function ModalFacultyProjects({ setShowModal, projectForModal }) {
         className="btn-close"
         onClick={(e) => {
           e.preventDefault();
-          setShowModal("");
+          console.log(showModal);
+          setShowModal(navigateBack ? "stu-projects-modal" : "");
         }}
       >
         &times;

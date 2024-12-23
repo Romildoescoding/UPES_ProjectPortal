@@ -6,7 +6,12 @@ import { useEffect, useMemo, useState } from "react";
 import useAllFaculties from "../features/mentorship/useAllFaculties";
 import usePanelists from "../features/mentorship/usePanelists";
 
-function NullPanelGroup({ group, setShowModal }) {
+function NullPanelGroup({
+  group,
+  setShowModal,
+  isExpandProject = false,
+  setProjectForModal,
+}) {
   const queryClient = useQueryClient();
   // const { data, isFetching } = useProjectMembers({
   //   group_name: group?.group_name,
@@ -87,12 +92,59 @@ function NullPanelGroup({ group, setShowModal }) {
             : group.group_name}
         </div>
       </div>
-      <button className="view-report green mt" onClick={handleAssignPanel}>
-        Assign Panels Manually
-      </button>
-      <button className="view-report mt" onClick={handleAssignRandomPanels}>
-        Assign Random Panels
-      </button>
+      {isExpandProject && (
+        <>
+          <div className="request-area">
+            <span>MENTOR</span>
+            <div className="request-text">
+              {!group.mentor
+                ? "N/A"
+                : group.mentor.length > 30
+                ? group.mentor.slice(0, 30) + "..."
+                : group.mentor}
+            </div>
+          </div>
+          <div className="request-area">
+            <span>PANELIST1</span>
+            <div className="request-text">
+              {!group.panel_member1
+                ? "N/A"
+                : group.panel_member1.length > 30
+                ? group.panel_member1.slice(0, 30) + "..."
+                : group.panel_member1}
+            </div>
+          </div>
+          <div className="request-area">
+            <span>PANELIST2</span>
+            <div className="request-text">
+              {!group.panel_member2
+                ? "N/A"
+                : group.panel_member2.length > 30
+                ? group.panel_member2.slice(0, 30) + "..."
+                : group.panel_member2}
+            </div>
+          </div>
+          <button
+            className="view-report mt"
+            onClick={() => {
+              setProjectForModal(group);
+              setShowModal("faculty-project-details");
+            }}
+          >
+            View Project
+          </button>
+        </>
+      )}
+      {!isExpandProject && (
+        <>
+          <button className="view-report green mt" onClick={handleAssignPanel}>
+            Assign Panels Manually
+          </button>
+          <button className="view-report mt" onClick={handleAssignRandomPanels}>
+            Assign Random Panels
+          </button>
+        </>
+      )}
     </div>
   );
 }

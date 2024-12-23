@@ -9,17 +9,21 @@ import ModalFacultyProjects from "../features/mentorship/ModalFacultyProjects";
 import Spinner from "./Spinner";
 import useAllProjects from "../features/mentorship/useAllProjects";
 import EmptyComponent from "./EmptyComponent";
+import ModalExpandProjects from "../features/mentorship/ModalExpandProjects";
 
 function ActivityCoMarksTable() {
   const [showModal, setShowModal] = useState("");
   const [projectForModal, setProjectForModal] = useState("");
   const { data: user } = useUser();
+  const [navigateBack, setNavigateBack] = useState(false);
   const name = user?.user?.name;
   // let { data: mentorProjects, isFetching, isLoading } = useProjects({ name });
 
   const { data: mentorProjects, isFetching } = useAllProjects({
     mail: user?.user?.mail,
   });
+
+  console.log(mentorProjects);
 
   const [numResultsToDisplay, setNumResultsToDisplay] = useState(1);
   const [requestsToDisplay, setRequestsToDisplay] = useState([]);
@@ -75,13 +79,30 @@ function ActivityCoMarksTable() {
         height={35}
         isHeading={true}
         isCentered={true}
+        isExpandOption={true}
+        handleClick={() => {
+          setNavigateBack(true);
+          setShowModal("stu-projects-modal");
+        }}
       />
 
       {showModal === "faculty-project-details" && (
         <Modal setShowModal={setShowModal}>
           <ModalFacultyProjects
-            projectForModal={projectForModal}
+            navigateBack={navigateBack}
+            showModal={showModal}
             setShowModal={setShowModal}
+            projectForModal={projectForModal}
+          />
+        </Modal>
+      )}
+      {showModal === "stu-projects-modal" && (
+        <Modal setShowModal={setShowModal}>
+          <ModalExpandProjects
+            setNavigateBack={setNavigateBack}
+            mentorProjects={mentorProjects}
+            setShowModal={setShowModal}
+            setProjectForModal={setProjectForModal}
           />
         </Modal>
       )}
@@ -117,6 +138,7 @@ function ActivityCoMarksTable() {
           />
         </>
       )}
+      {}
     </div>
   );
 }

@@ -188,7 +188,7 @@ export async function setPassword1(req, res) {
 
     // Query the student by email
     let { data: student, error: selectError } = await supabase
-      .from("students") // Ensure the table name is correct
+      .from("faculty") // Ensure the table name is correct
       .select("mail")
       .eq("mail", mail)
       .single(); // Use .single() to get a single record
@@ -208,7 +208,7 @@ export async function setPassword1(req, res) {
 
     // Update the student's password in the database
     const { data, error: updateError } = await supabase
-      .from("students") // Ensure the table name is correct
+      .from("faculty") // Ensure the table name is correct
       .update({ password: hashedPassword })
       .eq("mail", mail);
 
@@ -220,7 +220,7 @@ export async function setPassword1(req, res) {
     }
     console.log(data);
 
-    res.status(200).json({ status: "success", data: [] });
+    res.status(200).json({ status: "success", data });
   } catch (err) {
     console.log(err);
     res.status(500).json({ status: "error", message: "An error occurred" });
@@ -573,9 +573,9 @@ const sendPasswordEmail = async (mail, password) => {
 // Main function to send password reset emails
 export async function sendPassWordMail(req, res) {
   try {
-    const { table } = req.params; // Either "student" or "faculty"
+    const { table } = req.params; // Either "students" or "faculty"
 
-    if (!["student", "faculty"].includes(table)) {
+    if (!["students", "faculty"].includes(table)) {
       return res.status(400).json({ error: "Invalid user type" });
     }
 
@@ -604,6 +604,8 @@ export async function sendPassWordMail(req, res) {
         console.error(`Error updating password for ${user.mail}:`, updateError);
         continue;
       }
+
+      console.log(user.mail, randomPassword);
 
       // Send the password via email
       await sendPasswordEmail(user.mail, randomPassword);

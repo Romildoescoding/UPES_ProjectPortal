@@ -9,10 +9,11 @@ import ModalFacultyProjects from "../features/mentorship/ModalFacultyProjects";
 import PanelProject from "./PanelProject";
 import Spinner from "./Spinner";
 import EmptyComponent from "./EmptyComponent";
+import ModalExpandProjects from "../features/mentorship/ModalExpandProjects";
 
 function PanelMemberMarksTable({ mentorshipRequests }) {
   const [showModal, setShowModal] = useState("");
-
+  const [navigateBack, setNavigateBack] = useState(false);
   const [projectForModal, setProjectForModal] = useState("");
   const { data: user, isLoading } = useUser();
   const name = user?.user?.name;
@@ -57,11 +58,23 @@ function PanelMemberMarksTable({ mentorshipRequests }) {
   return (
     <div className="contents-bottom-faculty " ref={tableContainerRef}>
       {/* -----------------MODAL FOR THE SUBMITTED REPORT----------------- */}
-      {showModal && (
+      {showModal === "faculty-project-details" && (
         <Modal setShowModal={setShowModal}>
           <ModalFacultyProjects
-            projectForModal={projectForModal}
+            navigateBack={navigateBack}
+            showModal={showModal}
             setShowModal={setShowModal}
+            projectForModal={projectForModal}
+          />
+        </Modal>
+      )}
+      {showModal === "stu-projects-modal" && (
+        <Modal setShowModal={setShowModal}>
+          <ModalExpandProjects
+            setNavigateBack={setNavigateBack}
+            mentorProjects={mentorProjects}
+            setShowModal={setShowModal}
+            setProjectForModal={setProjectForModal}
           />
         </Modal>
       )}
@@ -73,7 +86,11 @@ function PanelMemberMarksTable({ mentorshipRequests }) {
           height={35}
           isHeading={true}
           isCentered={true}
-          isWithoutSvg={true}
+          isExpandOption={true}
+          handleClick={() => {
+            setNavigateBack(true);
+            setShowModal("stu-projects-modal");
+          }}
         />
         {isFetching ? (
           <Spinner />
@@ -92,6 +109,7 @@ function PanelMemberMarksTable({ mentorshipRequests }) {
                 <tbody>
                   {projectsToDisplay?.map((project, index) => (
                     <PanelProject
+                      setNavigateBack={setNavigateBack}
                       project={project}
                       key={index}
                       setShowModal={setShowModal}

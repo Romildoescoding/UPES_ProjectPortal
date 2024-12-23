@@ -5,6 +5,8 @@ function TextPill({
   isHeading,
   isCentered,
   isWithoutSvg,
+  isExpandOption = false,
+  handleClick,
 }) {
   return (
     <div
@@ -13,6 +15,7 @@ function TextPill({
         width: width,
         height: height,
         justifyContent: isCentered ? "center" : "",
+        position: "relative",
       }}
     >
       {isHeading ? (
@@ -27,6 +30,24 @@ function TextPill({
               className="text-pill-checkbox"
               style={{ width: height - 10, height: height - 10 }}
             ></div>
+            {isExpandOption && (
+              <button
+                onClick={handleClick}
+                style={{
+                  cursor: "pointer",
+                  borderRadius: "50px",
+                  padding: "5px 15px",
+                  background: "blueviolet",
+                  border: "none",
+                  color: "white",
+                  position: "absolute",
+                  top: "4px",
+                  right: "5px",
+                }}
+              >
+                Expand
+              </button>
+            )}
           </>
         )
       ) : (
