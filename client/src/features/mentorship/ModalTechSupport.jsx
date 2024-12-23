@@ -64,6 +64,11 @@ function ModalTechSupport({ setShowModal }) {
                 who have been assigned to you as a mentor. You can keep track of
                 their progress and manage further communications.
               </div>
+              <div className="full-length-input">
+                <b>4. Filter Mentee Groups</b>: View and filter all the groups
+                or students who have been assigned to you as a mentor via the
+                Expand button.
+              </div>
             </>
           )}
           {urlLocation === "/activity-coordinator" && (
@@ -104,7 +109,8 @@ function ModalTechSupport({ setShowModal }) {
                 <b>1. View Assigned Groups</b>: Panel members can access all the
                 groups assigned to them for evaluation purposes. This ensures
                 that panel members are fully aware of their responsibilities and
-                the groups under their supervision.
+                the groups under their supervision. You can also access the
+                filtering feature via the Expand button.
               </div>
               <div className="full-length-input">
                 <b>2. Grade Students</b>: Panel members can assign grades to
