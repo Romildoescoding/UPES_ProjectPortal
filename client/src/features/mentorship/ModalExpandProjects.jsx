@@ -21,13 +21,22 @@ function ModalExpandProjects({
     } else {
       setFilteredGroups(
         nullPanelGroups?.filter((group) => {
-          const { title, group_name, technologies, mentor } = group;
+          const {
+            title,
+            group_name,
+            technologies,
+            panel_member1,
+            panel_member2,
+            mentor,
+          } = group;
           const searchValue = filterValue.toLowerCase();
           return (
             title.toLowerCase().includes(searchValue) ||
             group_name.toLowerCase().includes(searchValue) ||
             // technologies?.toLowerCase().includes(searchValue) ||
-            mentor?.toLowerCase().includes(searchValue)
+            mentor?.toLowerCase().includes(searchValue) ||
+            panel_member1?.toLowerCase().includes(searchValue) ||
+            panel_member2?.toLowerCase().includes(searchValue)
           );
         })
       );
@@ -61,8 +70,8 @@ function ModalExpandProjects({
                 value={filterValue}
                 onChange={(e) => setFilterValue(e.target.value)}
                 className="full-length-input"
-                style={{ margin: "0px 20px" }}
-                placeholder="Filter by project title, group name or mentor."
+                style={{ margin: "0px 20px", maxWidth: "720px" }}
+                placeholder="Filter by project title, group name, mentor or panel members."
               />
               {filteredGroups?.length > 0
                 ? filteredGroups.map((group, i) => (
