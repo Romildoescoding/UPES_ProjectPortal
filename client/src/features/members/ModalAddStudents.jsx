@@ -59,11 +59,11 @@ function ModalAddStudents({ setShowModal }) {
     }
 
     console.log(membersToSubmit, remainingMembers);
-    if (membersToSubmit.length !== remainingMembers.length) {
-      console.log("INVALID EMAILS");
-      toast.error("All fields must not be empty");
-      return;
-    }
+    // if (membersToSubmit.length !== remainingMembers.length) {
+    //   console.log("INVALID EMAILS");
+    //   toast.error("All fields must not be empty");
+    //   return;
+    // }
 
     membersToSubmit = membersToSubmit.map((mail) => mail.toLowerCase());
 
