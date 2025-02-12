@@ -29,6 +29,19 @@ function Pagination({ numResultsToDisplay, projects, setProjectsToDisplay }) {
       )
     );
   }
+
+  // **Pagination Display Logic**
+  let startPage = Math.max(1, selectedPage - 2);
+  let endPage = Math.min(maxPage, selectedPage + 2);
+
+  if (selectedPage <= 2) {
+    endPage = Math.min(5, maxPage);
+  } else if (selectedPage >= maxPage - 1) {
+    startPage = Math.max(1, maxPage - 4);
+  }
+
+  const visiblePages = pageArr.slice(startPage - 1, endPage);
+
   return (
     <div
       className="pagination-div"
@@ -46,7 +59,7 @@ function Pagination({ numResultsToDisplay, projects, setProjectsToDisplay }) {
         >
           <BackwardArrows />
         </button>
-        {pageArr.map((page) => (
+        {visiblePages.map((page) => (
           <button
             className={`${
               selectedPage === page ? "selectedPage" : "pageNum"
