@@ -57,10 +57,7 @@ function ModalExpandProjects({
 
       <div className="import-students-div">
         {!nullPanelGroups?.length ? (
-          <EmptyComponent
-            msg={"❗No groups with unset Panel Members❗"}
-            size={32}
-          />
+          <EmptyComponent msg={"❗No groups added yet.❗"} size={22} />
         ) : (
           <>
             <h3>Assigned Groups</h3>
